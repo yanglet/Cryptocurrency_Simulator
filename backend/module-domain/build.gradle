@@ -1,0 +1,47 @@
+plugins{
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("io.jsonwebtoken:jjwt:${jwtVersion}")
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    testImplementation 'org.springframework.security:spring-security-test'
+    runtimeOnly 'mysql:mysql-connector-java'
+    // Querydsl 추가
+    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+    implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+}
+
+test {
+    useJUnitPlatform()
+}
+
+bootJar { enabled = false }
+jar { enabled = true }
+
+//Querydsl 추가
+def querydslDir = "$buildDir/generated/querydsl"
+
+querydsl {
+    jpa = true
+    querydslSourcesDir = querydslDir
+}
+sourceSets {
+    main.java.srcDir querydslDir
+}
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    querydsl.extendsFrom compileClasspath
+}
+compileQuerydsl{
+    options.annotationProcessorPath = configurations.querydsl
+}
+//Querydsl 추가 끝
