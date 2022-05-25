@@ -1,5 +1,6 @@
 package com.project.cs.member.entity;
 
+import com.project.cs.common.entity.BaseEntity;
 import com.project.cs.ranking.entity.Ranking;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Member {
+public class Member extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
