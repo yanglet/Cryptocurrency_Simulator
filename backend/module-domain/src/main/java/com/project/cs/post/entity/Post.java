@@ -1,6 +1,7 @@
 package com.project.cs.post.entity;
 
 import com.project.cs.comment.entity.Comment;
+import com.project.cs.common.entity.BaseEntity;
 import com.project.cs.member.entity.Member;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -13,7 +14,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Post {
+public class Post extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_id")
     private Long id;

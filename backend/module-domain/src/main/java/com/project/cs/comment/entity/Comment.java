@@ -1,5 +1,6 @@
 package com.project.cs.comment.entity;
 
+import com.project.cs.common.entity.BaseEntity;
 import com.project.cs.member.entity.Member;
 import com.project.cs.post.entity.Post;
 import lombok.AccessLevel;
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Comment {
+public class Comment extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
     private Long id;

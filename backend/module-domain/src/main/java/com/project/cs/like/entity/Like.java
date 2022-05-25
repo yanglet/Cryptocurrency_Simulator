@@ -1,5 +1,6 @@
 package com.project.cs.like.entity;
 
+import com.project.cs.common.entity.BaseEntity;
 import com.project.cs.member.entity.Member;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @Table(name = "likes")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Like {
+public class Like extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "like_id")
     private Long id;

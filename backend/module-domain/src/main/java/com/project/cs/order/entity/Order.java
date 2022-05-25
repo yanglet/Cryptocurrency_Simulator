@@ -1,5 +1,6 @@
 package com.project.cs.order.entity;
 
+import com.project.cs.common.entity.BaseEntity;
 import com.project.cs.member.entity.Member;
 import com.project.cs.orderitem.entity.OrderItem;
 import lombok.AccessLevel;
@@ -14,7 +15,7 @@ import javax.persistence.*;
 @Table(name = "orders")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Order {
+public class Order extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
     private Long id;
