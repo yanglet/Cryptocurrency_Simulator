@@ -14,7 +14,6 @@ import java.util.List;
 public interface UpbitFeignClient {
     @RequestMapping(method = RequestMethod.GET, value = "/market/all")
     List<MarketDto> getMarkets();
-
     @GetMapping("/ticker")
     List<CryptocurrencyDto> getCryptocurrencies(@RequestParam("markets") String markets);
 }

@@ -29,6 +29,4 @@ public class CryptocurrencyRepository {
 
         return cryptocurrencies;
     }
-
-
 }
