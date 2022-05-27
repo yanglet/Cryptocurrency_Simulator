@@ -29,11 +29,11 @@ function Holding(props) {
   if (!data) return <div>loading...</div>;
 
     return (
-       <table className="table-fixed">
+       <table className="table-fixed w-full">
       <thead className="bg-slate-300">
         <tr>
-        {secondList.map((list) => (
-              <th className="text-lg justify w-28">{list.title}</th>
+        {secondList.map((list, idx) => (
+              <th key={idx} className="text-lg justify">{list.title}</th>
         ))}
         </tr>
       </thead>

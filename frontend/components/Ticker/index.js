@@ -7,7 +7,7 @@ function Ticker(props) {
   return (
     <div className="border">
       {/* 전체 종목 | 보유 | 관심 */}
-      <div className="flex">
+      <div className="flex justify-between">
         {["main", "holding", "interest"].map((category, index) => {
           return (
             <TickerCategory

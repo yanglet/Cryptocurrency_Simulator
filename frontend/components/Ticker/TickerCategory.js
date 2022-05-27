@@ -12,7 +12,7 @@ function TickerCategory({ categoryName, setCategoryName }) {
   return (
     <div>
       <button onClick={() => setCategoryName(categoryName)}
-      className="py-2 px-10 hover:border-b-4 hover:border-b-blue-900">{letter}</button>
+      className="px-10 py-3 hover:border-b-4 hover:border-b-blue-900">{letter}</button>
     </div>
   );
 }

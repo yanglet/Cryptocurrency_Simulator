@@ -30,11 +30,11 @@ function Main(props) {
   if (!data) return <div>loading...</div>;
 
   return (
-    <table className="table-fixed">
+    <table className="table-auto w-full">
       <thead className="bg-slate-300">
         <tr>
-        {fisrtList.map((list) => (
-              <th className="text-lg justify w-28">{list.title}</th>
+        {fisrtList.map((list, idx) => (
+              <th key={idx} className="text-lg">{list.title}</th>
         ))}
         </tr>
       </thead>

@@ -30,11 +30,11 @@ function Interest(props) {
   if (!data) return <div>loading...</div>;
 
   return (
-    <table className="table-fixed">
-      <thead className="bg-slate-300">
+    <table className="table-fixed w-full">
+      <thead className="bg-slate-300 ">
         <tr>
-        {fisrtList.map((list) => (
-              <th className="text-lg w-28">{list.title}</th>
+        {fisrtList.map((list, idx) => (
+              <th key={idx} className="text-lg">{list.title}</th>
         ))}
         </tr>
       </thead>
