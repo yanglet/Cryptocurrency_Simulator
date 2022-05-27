@@ -131,7 +131,7 @@ public enum Market {
         String result = "";
 
         for(Market m : Market.values()){
-            result += String.valueOf(m.getMarketCode()) + ",";
+            result += m.getMarketCode() + ",";
         }
 
         return result.substring(0, result.length() - 1);

@@ -2,6 +2,8 @@ package com.project.cs.cryptocurrency.dto;
 
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -9,17 +11,17 @@ public class CryptocurrencyDto {
     private String market; // 마켓코드
     private String korean_name; // 한글명
     private String english_name; // 영어명
-    private Double trade_price; // 현재가
-    private Double high_price; // 고가
-    private Double low_price; // 저가
+    private BigDecimal trade_price; // 현재가
+    private BigDecimal high_price; // 고가
+    private BigDecimal low_price; // 저가
     private String change; // 변화상태 ( EVEN, RISE, FALL )
-    private Double acc_trade_price_24h; // 거래대금
-    private Double acc_trade_volume_24h; // 거래량
-    private Double signed_change_rate; // 부호가 있는 변화율 ( 전일대비 )
-    private Double signed_change_price; // 부호가 있는 변화금액 ( 전일대비 )
+    private BigDecimal acc_trade_price_24h; // 거래대금
+    private BigDecimal acc_trade_volume_24h; // 거래량
+    private BigDecimal signed_change_rate; // 부호가 있는 변화율 ( 전일대비 )
+    private BigDecimal signed_change_price; // 부호가 있는 변화금액 ( 전일대비 )
 
     @Builder
-    public CryptocurrencyDto(String market, String korean_name, String english_name, Double trade_price, Double high_price, Double low_price, String change, Double acc_trade_price_24h, Double acc_trade_volume_24h, Double signed_change_rate, Double signed_change_price) {
+    public CryptocurrencyDto(String market, String korean_name, String english_name, BigDecimal trade_price, BigDecimal high_price, BigDecimal low_price, String change, BigDecimal acc_trade_price_24h, BigDecimal acc_trade_volume_24h, BigDecimal signed_change_rate, BigDecimal signed_change_price) {
         this.market = market;
         this.korean_name = korean_name;
         this.english_name = english_name;
