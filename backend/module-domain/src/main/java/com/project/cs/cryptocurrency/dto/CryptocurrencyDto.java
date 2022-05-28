@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 public class CryptocurrencyDto {
+    private Long id;
     private String market; // 마켓코드
     private String korean_name; // 한글명
     private String english_name; // 영어명
