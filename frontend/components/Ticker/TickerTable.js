@@ -1,8 +1,7 @@
 import React from "react";
-import useSWR from 'swr';
-import Holding from "./Holding";
-import Interest from "./Interest";
 import Main from "./Main";
+import Holding from "./Holding";
+import Interest from "../dd/Interest";
 
 function TickerTable({ categoryName }) {
   if (categoryName === "main") {

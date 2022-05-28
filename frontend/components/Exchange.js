@@ -1,5 +1,6 @@
 import React from 'react';
-import Ticker from './Ticker'
+import Ticker from './dd'
+import CandleChart from './CandleChart';
 function Exchange(props) {
     return (
         <div className="flex my-10">
@@ -8,12 +9,12 @@ function Exchange(props) {
             <Ticker />
         </div>
         <div className='w-3/5 mx-10'>
-        <div className='border bg-rose-200 h-32'>
-            {/* <Chart /> */}
-        </div>
-        <div className='border mt-10 bg-yellow-100 h-32'>
-           {/* <BuySell /> */}
-        </div>
+            <div className='border bg-rose-200 h-32'>
+                <CandleChart />
+            </div>
+            <div className='border mt-10 bg-yellow-100 h-32'>
+            {/* <BuySell /> */}
+            </div>
         </div>
     </div>
     );
