@@ -25,6 +25,7 @@ public class CryptocurrencyRepository {
 
         for(int i=0; i<markets.size(); i++){
             cryptocurrencies.get(i).setName(markets.get(i));
+            cryptocurrencies.get(i).setId((Long.valueOf(i + 1)));
         }
 
         return cryptocurrencies;
