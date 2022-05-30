@@ -10,7 +10,6 @@ function CandleChart({tickerName}) {
   return (
     <div>
       <p className='text-lg font-bold border-b'>{tickerName}</p>
-     
     </div>
   );
 }
