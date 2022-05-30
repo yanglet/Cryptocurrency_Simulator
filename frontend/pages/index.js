@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import AppLayout from '../components/AppLayout'
-import LoginForm from '../components/LoginForm'
-import UserProfile from '../components/UserProfile';
+import LoginForm from '../components/User/LoginForm'
+import UserProfile from '../components/User/UserProfile';
 import {useState} from 'react';
 
 export default function Home() {
