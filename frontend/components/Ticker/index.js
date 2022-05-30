@@ -25,9 +25,6 @@ function Ticker(props) {
       <TickerTable 
         categoryName={categoryName}         
       />
-      
-   
-    
     </div>
   );
 }
