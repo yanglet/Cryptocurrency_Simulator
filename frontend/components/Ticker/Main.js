@@ -71,7 +71,7 @@ function Main(props) {
                         String(item.acc_trade_price_24h.toFixed()).slice(0, -6)
                       ).toLocaleString()}
                     </button>
-                    <p className="text-xs text-gray-400 tecxt-center">백만</p>
+                    <p className="text-xs my-auto text-gray-400 tecxt-center">백만</p>
                   </td>
                 </tr>
               ))}
