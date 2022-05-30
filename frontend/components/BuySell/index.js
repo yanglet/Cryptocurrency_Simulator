@@ -1,7 +1,12 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import useSWR from "swr";
 import BuyFormCategory from './BuyFormCategory';
 import BuyFormTable from './BuyFormTable';
-function BuySell(props) {
+
+const fetcher = (...args) => fetch(...args).then((res) => res.json());
+
+
+function BuySell({tickerId}) {
     const [categoryName, setCategoryName] = useState("buy");
 
     return (
@@ -21,7 +26,9 @@ function BuySell(props) {
                 </div>
             </div>
             <BuyFormTable 
-                categoryName={categoryName} />
+                categoryName={categoryName} 
+                tickerId={tickerId} 
+                />
         </div>
     );
 }

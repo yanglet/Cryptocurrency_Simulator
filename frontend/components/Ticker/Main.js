@@ -84,7 +84,7 @@ function Main(props) {
           <CandleChart tickerId={tickerId} />
         </div>
         <div className="border mt-10">
-          <BuySell />
+          <BuySell tickerId={tickerId} />
         </div>
       </div>
     </div>

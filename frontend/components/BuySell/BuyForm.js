@@ -1,6 +1,7 @@
 import React from 'react';
 
-function BuyForm(props) {
+
+function BuyForm({price}) {
     return (
         <div className='mx-11 my-11'>
             <form>
@@ -18,7 +19,7 @@ function BuyForm(props) {
                 </div>
                 <div className='flex justify-between mt-6'>
                     <label className='my-auto'>매수가격</label>
-                    <input className='border rounded-lg w-1/2 h-9'/>
+                    <input className='border rounded-lg w-1/2 h-9 text-right' value={price}/>
                 </div>
                 <div className='flex justify-between mt-6'>
                     <label className='my-auto'>주문수량</label>
@@ -29,7 +30,7 @@ function BuyForm(props) {
                     <input className='border rounded-lg w-1/2 h-9'/>
                 </div>
                 <div className=''>
-                    <button className='mx-14 my-11 px-11 py-3 bg-slate-300  '>초기화</button>
+                    <button className='mx-14 my-11 px-11 py-3 bg-slate-300'>초기화</button>
                     <button className='px-32 py-3 bg-red-600 text-white'>매수</button>
                 </div>
                 <div></div>

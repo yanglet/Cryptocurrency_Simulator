@@ -1,9 +1,11 @@
 import React from 'react';
 import BuyForm from './BuyForm';
-function BuyFormTable({categoryName}) {
+import BuyPrice from './BuyPrice';
+
+function BuyFormTable({categoryName, tickerId}) {
     if(categoryName === "buy"){
         return(
-            <BuyForm />
+            <BuyPrice tickerId={tickerId}  />
         )
     } else if (categoryName === "sell"){
         return(

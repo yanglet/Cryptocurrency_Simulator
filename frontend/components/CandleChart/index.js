@@ -6,7 +6,6 @@ const fetcher = (...args) => fetch(...args).then((res) => res.json());
 function CandleChart({tickerId}) {
   const id = `${tickerId}` - 1;
 
- 
   let url = "http://localhost:9090/v1/api/cryptocurrencies";
 
   const { data, error } = useSWR(url, fetcher);
@@ -40,7 +39,7 @@ function CandleChart({tickerId}) {
       </div>
   
       <ChartCode tickerId={tickerId} />
-    
+      
     </div>
   );
 }
