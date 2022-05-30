@@ -1,7 +1,6 @@
 import React from "react";
 import Main from "./Main";
 import Holding from "./Holding";
-import Interest from "../dd/Interest";
 
 function TickerTable({ categoryName }) {
   if (categoryName === "main") {
@@ -13,9 +12,9 @@ function TickerTable({ categoryName }) {
       <Holding />
     )
   } else if(categoryName === "interest") {
-    return (
-      <Interest />
-    );
+    // return (
+    //   // <Interest />
+    // );
   }
   return null;
 }
