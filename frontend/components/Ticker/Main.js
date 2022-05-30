@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import useSWR from "swr";
+import BuySell from "../BuySell";
 import CandleChart from "../CandleChart";
 
 const fisrtList = [
@@ -81,6 +82,9 @@ function Main(props) {
       <div className="w-3/5 mx-10">
         <div className="border h-32">
           <CandleChart tickerName={tickerName} />
+        </div>
+        <div className="border mt-10 h-32">
+          <BuySell />
         </div>
       </div>
     </div>
