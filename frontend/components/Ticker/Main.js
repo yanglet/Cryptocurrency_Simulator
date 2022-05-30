@@ -26,7 +26,7 @@ const fetcher = (...args) => fetch(...args).then((res) => res.json());
 function Main(props) {
   let url = "http://localhost:9090/v1/api/cryptocurrencies";
   const { data, error } = useSWR(url, fetcher);
-  const [tickerName, setTickerName] = useState("비트코인");
+  const [tickerId, setTickerId] = useState("1");
 
   // if (error) return <div>failed to load</div>;
   // if (!data) return <div>loading...</div>;
@@ -51,23 +51,23 @@ function Main(props) {
                 <tr key={item.id}>
                   <td className="border text-center">
                     <button onClick={() => 
-                        setTickerName(item.korean_name)
+                        setTickerId(item.id)
                        }>
                       {item.korean_name}
                     </button>
                   </td>
                   <td className="border text-right">
-                    <button onClick={() => setTickerName(item.korean_name)}>
+                    <button onClick={() => setTickerId(item.id)}>
                       {item.trade_price.toLocaleString()}
                     </button>
                   </td>
                   <td className="border text-right">
-                    <button onClick={() => setTickerName(item.korean_name)}>
+                    <button onClick={() => setTickerId(item.id)}>
                       {(item.signed_change_rate * 100).toFixed(2)}
                     </button>
                   </td>
                   <td className="border flex justify-center">
-                    <button onClick={() => setTickerName(item.korean_name)}>
+                    <button onClick={() => setTickerId(item.id)}>
                       {Number(
                         String(item.acc_trade_price_24h.toFixed()).slice(0, -6)
                       ).toLocaleString()}
@@ -80,10 +80,10 @@ function Main(props) {
         </table>
       </div>
       <div className="w-3/5 mx-10">
-        <div className="border h-32">
-          <CandleChart tickerName={tickerName} />
+        <div className="border">
+          <CandleChart tickerId={tickerId} />
         </div>
-        <div className="border mt-10 h-32">
+        <div className="border mt-10">
           <BuySell />
         </div>
       </div>
