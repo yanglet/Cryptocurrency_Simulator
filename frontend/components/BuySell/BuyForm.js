@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 function BuyForm({price}) {
     return (
         <div className='mx-11 my-11'>

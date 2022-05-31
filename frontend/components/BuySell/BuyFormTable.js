@@ -1,6 +1,6 @@
 import React from 'react';
-import BuyForm from './BuyForm';
 import BuyPrice from './BuyPrice';
+import SellPrice from './SellPrice';
 
 function BuyFormTable({categoryName, tickerId}) {
     if(categoryName === "buy"){
@@ -9,7 +9,7 @@ function BuyFormTable({categoryName, tickerId}) {
         )
     } else if (categoryName === "sell"){
         return(
-            <div>매수</div>
+            <SellPrice tickerId={tickerId} />
         )
     } else if(categoryName === "order"){
         return(

@@ -25,7 +25,7 @@ const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 function Main(props) {
   let url = "http://localhost:9090/v1/api/cryptocurrencies";
-  const { data, error } = useSWR(url, fetcher);
+  const { data, error } = useSWR(url, fetcher, {refreshInterval:1000});
   const [tickerId, setTickerId] = useState("1");
 
   // if (error) return <div>failed to load</div>;
