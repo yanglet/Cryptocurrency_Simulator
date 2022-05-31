@@ -17,6 +17,7 @@ export default function Home() {
         <p className='text-5xl mb-16'>모의투자 사이트</p>
         {isLoggedIn ? <UserProfile setIsLoggedIn={setIsLoggedIn} /> : <LoginForm setIsLoggedIn={setIsLoggedIn}/>}
        </div>
+      
       </div>
   )
 }
