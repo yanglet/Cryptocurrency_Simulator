@@ -20,16 +20,18 @@ public class Member extends BaseEntity {
     private String password;
     private String name;
     private Double balance; // 주문가능 금액 (보유 금액)
+    private String role;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ranking_id")
     private Ranking ranking;
 
     @Builder
-    public Member(String email, String password, String name, Double balance, Ranking ranking) {
+    public Member(String email, String password, String name, Double balance, Ranking ranking, String role) {
         this.email = email;
         this.password = password;
         this.name = name;
         this.balance = balance;
         this.ranking = ranking;
+        this.role = role;
     }
 }
