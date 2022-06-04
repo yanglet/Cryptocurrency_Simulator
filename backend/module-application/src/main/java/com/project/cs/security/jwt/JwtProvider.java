@@ -1,5 +1,6 @@
 package com.project.cs.security.jwt;
 
+import com.project.cs.member.entity.Member;
 import com.project.cs.security.auth.PrincipalDetails;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
@@ -25,13 +26,12 @@ public class JwtProvider {
         SECRET_KEY = Base64.getEncoder().encodeToString(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String generateAccessToken(Authentication authentication){
-        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+    public String generateAccessToken(Member member){
         Date now = new Date();
         Date expireDate = new Date(now.getTime() + JWT_ACCESS_TOKEN_VALIDITY);
 
         return Jwts.builder()
-                .setSubject(principalDetails.getUsername())
+                .setSubject(member.getEmail())
                 .setIssuedAt(now)
                 .setExpiration(expireDate)
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
