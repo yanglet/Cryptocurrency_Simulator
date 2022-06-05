@@ -21,7 +21,7 @@ public class Member extends BaseEntity {
     private String name;
     private Double balance; // 주문가능 금액 (보유 금액)
     private String role;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER) // 즉시로딩 명시
     @JoinColumn(name = "ranking_id")
     private Ranking ranking;
 
