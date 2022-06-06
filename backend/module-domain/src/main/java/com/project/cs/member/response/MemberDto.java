@@ -1,11 +1,14 @@
 package com.project.cs.member.response;
 
 import com.project.cs.member.entity.Member;
+import com.project.cs.ranking.dto.RankingDto;
 import com.project.cs.ranking.entity.Ranking;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -15,17 +18,17 @@ public class MemberDto {
     private String email;
     private String password;
     private String name;
-    private Double balance;
+    private BigDecimal balance;
     private String role;
-    private Ranking ranking;
+    private RankingDto ranking;
 
     public MemberDto(Member member) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
-        this.name = name;
-        this.balance = balance;
-        this.role = role;
-        this.ranking = ranking;
+        this.id = member.getId();
+        this.email = member.getEmail();
+        this.password = member.getPassword();
+        this.name = member.getName();
+        this.balance = member.getBalance();
+        this.role = member.getRole();
+        this.ranking = new RankingDto(member.getRanking());
     }
 }

@@ -3,7 +3,7 @@ buildscript {
 		queryDslVersion = "5.0.0"
 		swaggerVersion = "3.0.0"
 		jwtVersion = "0.9.1"
-		set('springCloudVersion', "2021.0.3-SNAPSHOT")
+		set('springCloudVersion', '2021.0.1')
 	}
 }
 

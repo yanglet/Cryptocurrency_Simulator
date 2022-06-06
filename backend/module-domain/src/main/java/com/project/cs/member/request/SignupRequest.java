@@ -9,6 +9,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -24,5 +25,5 @@ public class SignupRequest {
     private String name;
     @NotNull
     @Min(value = 10000)
-    private Double balance;
+    private BigDecimal balance;
 }
