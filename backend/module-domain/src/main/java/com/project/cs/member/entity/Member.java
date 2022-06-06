@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -19,17 +20,23 @@ public class Member extends BaseEntity {
     private String email;
     private String password;
     private String name;
-    private Double balance; // 주문가능 금액 (보유 금액)
-    @OneToOne(fetch = FetchType.LAZY)
+    private BigDecimal balance; // 주문가능 금액 (보유 금액)
+    private String role;
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ranking_id")
     private Ranking ranking;
 
     @Builder
-    public Member(String email, String password, String name, Double balance, Ranking ranking) {
+    public Member(String email, String password, String name, BigDecimal balance, Ranking ranking, String role) {
         this.email = email;
         this.password = password;
         this.name = name;
         this.balance = balance;
         this.ranking = ranking;
+        this.role = role;
+    }
+
+    public static Member createNullMember(){
+        return new Member();
     }
 }

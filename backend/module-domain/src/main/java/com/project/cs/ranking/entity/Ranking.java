@@ -15,6 +15,7 @@ public class Ranking extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ranking_id")
     private Long id;
+    @Column(unique = true)
     private Integer ranking; // rank 라는 변수명은 에러가 남,,
     private Double profit;
 
