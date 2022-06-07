@@ -1,11 +1,9 @@
 package com.project.cs.security.jwt;
 
 import com.project.cs.member.entity.Member;
-import com.project.cs.security.auth.PrincipalDetails;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
