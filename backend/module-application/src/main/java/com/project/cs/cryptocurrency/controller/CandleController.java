@@ -5,6 +5,8 @@ import com.project.cs.cryptocurrency.dto.candle.MinuteCandleDto;
 import com.project.cs.cryptocurrency.dto.candle.MonthCandleDto;
 import com.project.cs.cryptocurrency.dto.candle.WeekCandleDto;
 import com.project.cs.cryptocurrency.repository.CandleRepository;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,11 @@ public class CandleController {
 
     @ApiOperation("시세 캔들 조회, 분 단위 ( Minute )")
     @GetMapping("/minutes/{unit}")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "unit", value = "분 단위"),
+            @ApiImplicitParam(name = "market", value = "마켓 코드"),
+            @ApiImplicitParam(name = "count", value = "캔들 개수")
+    })
     public ResponseEntity<List<MinuteCandleDto>> getMinuteCandles(@PathVariable("unit") Integer unit,
                                                                   @RequestParam("market") String market,
                                                                   @RequestParam("count") int count){
@@ -28,6 +35,10 @@ public class CandleController {
 
     @ApiOperation("시세 캔들 조회, 일 단위 ( Day )")
     @GetMapping("/days")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "market", value = "마켓 코드"),
+            @ApiImplicitParam(name = "count", value = "캔들 개수")
+    })
     public ResponseEntity<List<DayCandleDto>> getDayCandles(@RequestParam("market") String market,
                                                             @RequestParam("count") int count){
         return ResponseEntity.ok(candleRepository.findAllDayCandles(market, count));
@@ -35,6 +46,10 @@ public class CandleController {
 
     @ApiOperation("시세 캔들 조회, 주 단위 ( Week )")
     @GetMapping("/weeks")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "market", value = "마켓 코드"),
+            @ApiImplicitParam(name = "count", value = "캔들 개수")
+    })
     public ResponseEntity<List<WeekCandleDto>> getWeekCandles(@RequestParam("market") String market,
                                                               @RequestParam("count") int count){
         return ResponseEntity.ok(candleRepository.findAllWeekCandles(market, count));
@@ -42,6 +57,10 @@ public class CandleController {
 
     @ApiOperation("시세 캔들 조회, 월 단위 ( Month )")
     @GetMapping("/months")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "market", value = "마켓 코드"),
+            @ApiImplicitParam(name = "count", value = "캔들 개수")
+    })
     public ResponseEntity<List<MonthCandleDto>> getMonthCandles(@RequestParam("market") String market,
                                                                 @RequestParam("count") int count){
         return ResponseEntity.ok(candleRepository.findAllMonthCandles(market, count));

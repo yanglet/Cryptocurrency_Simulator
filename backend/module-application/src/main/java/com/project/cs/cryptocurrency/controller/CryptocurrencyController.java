@@ -1,7 +1,6 @@
 package com.project.cs.cryptocurrency.controller;
 
 import com.project.cs.cryptocurrency.dto.CryptocurrencyDto;
-import com.project.cs.cryptocurrency.dto.candle.MinuteCandleDto;
 import com.project.cs.cryptocurrency.repository.CryptocurrencyRepository;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

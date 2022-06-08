@@ -4,6 +4,8 @@ import com.project.cs.member.entity.Member;
 import com.project.cs.member.repository.MemberRepository;
 import com.project.cs.member.response.MemberDto;
 import com.project.cs.security.annotation.LoginMember;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +33,9 @@ public class MemberController {
 
     @ApiOperation("회원 상세 정보 조회")
     @GetMapping("/me")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "사용자 인증을 위한 accessToken", paramType = "header", required = true)
+    })
     public ResponseEntity<MemberDto> getMember(@LoginMember Member member){
         return ResponseEntity.ok(new MemberDto(member));
     }
