@@ -20,6 +20,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,10 +32,11 @@ public class PostController {
 
     @ApiOperation("게시글 목록 조회")
     @GetMapping
-    public ResponseEntity<Page<SimplePostDto>> getPosts(Pageable pageable){
-        Page<SimplePostDto> dtoPages = postRepository.findAllOrderById(pageable)
-                .map(p -> new SimplePostDto(p));
-        return ResponseEntity.ok(dtoPages);
+    public ResponseEntity<List<SimplePostDto>> getPosts(){;
+        return ResponseEntity.ok(postRepository.findAllFetch()
+                .stream()
+                .map(p -> new SimplePostDto(p))
+                .collect(Collectors.toList()));
     }
 
     @ApiOperation("게시글 작성")
@@ -54,7 +57,7 @@ public class PostController {
             @ApiImplicitParam(name = "Authorization", value = "사용자 인증을 위한 accessToken", paramType = "header", required = true)
     })
     public ResponseEntity<PostDto> getPost(@PathVariable("post_id") Long id){
-        return ResponseEntity.ok(new PostDto(postRepository.findById(id).orElseThrow()));
+        return ResponseEntity.ok(new PostDto(postRepository.findByIdFetch(id)));
     }
 
     @ApiOperation("게시글 수정")
@@ -65,7 +68,7 @@ public class PostController {
     public ResponseEntity<PostResponse> update(@PathVariable("post_id") Long id,
                                                @Validated @RequestBody PostRequest postRequest,
                                                @LoginMember Member member) throws IOException {
-        postService.update(id, postRequest);
+        postService.update(id, postRequest, member);
         return ResponseEntity.ok(new PostResponse(id));
     }
 
@@ -75,7 +78,8 @@ public class PostController {
             @ApiImplicitParam(name = "Authorization", value = "사용자 인증을 위한 accessToken", paramType = "header", required = true)
     })
     @ResponseStatus(HttpStatus.NON_AUTHORITATIVE_INFORMATION)
-    public void delete(@PathVariable("post_id") Long id){
-        postRepository.deleteById(id);
+    public void delete(@PathVariable("post_id") Long id,
+                       @LoginMember Member member){
+        postService.delete(id, member);
     }
 }

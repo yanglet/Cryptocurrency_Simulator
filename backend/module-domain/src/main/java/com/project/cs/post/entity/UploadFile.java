@@ -8,7 +8,7 @@ import javax.persistence.Embeddable;
 
 @Getter
 @Embeddable
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class UploadFile {
     private String originalFileName;
     private String savedFileName;

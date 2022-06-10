@@ -1,12 +1,7 @@
 package com.project.cs.post.repository;
 
 import com.project.cs.post.entity.Post;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
-public interface PostRepository extends JpaRepository<Post, Long> {
-    @Query("select p from Post p order by p.id desc")
-    Page<Post> findAllOrderById(Pageable pageable);
+public interface PostRepository extends JpaRepository<Post, Long>, PostRepositoryCustom {
 }

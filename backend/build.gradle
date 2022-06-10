@@ -11,6 +11,11 @@ plugins {
 	id 'org.springframework.boot' version '2.6.7'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+}
+
+repositories {
+	mavenCentral()
 }
 
 allprojects {
@@ -18,10 +23,9 @@ allprojects {
 	version = '0.0.1-SNAPSHOT'
 }
 
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+jar {
+	baseName = 'youtugo-application'
+	version = '0.0.1'
 }
 
 def javaProjects = [
@@ -31,10 +35,21 @@ def javaProjects = [
 ]
 
 configure(javaProjects){
+	group = 'com.project.cs'
+	version = '0.0.1-SNAPSHOT'
+	sourceCompatibility = '11'
+
 	apply plugin: 'java'
 	apply plugin: 'java-library'
 	apply plugin: 'org.springframework.boot'
 	apply plugin: 'io.spring.dependency-management'
+	apply plugin: 'com.ewerk.gradle.plugins.querydsl'
+
+	configurations {
+		compileOnly {
+			extendsFrom annotationProcessor
+		}
+	}
 
 	repositories {
 		mavenCentral()
@@ -57,6 +72,10 @@ configure(javaProjects){
 		testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
 		testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 		implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
+		// Querydsl 추가
+		implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+		implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
 	}
 
 	dependencyManagement {
@@ -64,6 +83,24 @@ configure(javaProjects){
 			mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
 		}
 	}
+
+	//Querydsl 추가
+	def querydslDir = "$buildDir/generated/querydsl"
+
+	querydsl {
+		jpa = true
+		querydslSourcesDir = querydslDir
+	}
+	sourceSets {
+		main.java.srcDir querydslDir
+	}
+	configurations {
+		querydsl.extendsFrom compileClasspath
+	}
+	compileQuerydsl{
+		options.annotationProcessorPath = configurations.querydsl
+	}
+	//Querydsl 추가 끝
 }
 
 tasks.named('test') {

@@ -31,7 +31,7 @@ public class UploadFileUtils {
     }
 
     public UploadFile createUploadFile(MultipartFile multipartFile) throws IOException {
-        if(multipartFile.isEmpty()){
+        if(multipartFile == null){
             return null;
         }
 
