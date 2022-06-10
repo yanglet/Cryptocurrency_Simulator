@@ -2,8 +2,6 @@ package com.project.cs.member.response;
 
 import com.project.cs.member.entity.Member;
 import com.project.cs.ranking.dto.RankingDto;
-import com.project.cs.ranking.entity.Ranking;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
