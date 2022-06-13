@@ -36,7 +36,7 @@ public class PostService {
             throw new AccessDeniedException("access denied");
         }
 
-        if( post.getUploadFile().getOriginalFileName() != postRequest.getMultipartFile().getOriginalFilename() ){
+        if( post.getUploadFile() != null && ( post.getUploadFile().getOriginalFileName() != postRequest.getMultipartFile().getOriginalFilename()) ){
             post.change(postRequest.getTitle(), postRequest.getContent(), uploadFileUtils.createUploadFile(postRequest.getMultipartFile()));
         }else{
             post.change(postRequest.getTitle(), postRequest.getContent(), post.getUploadFile());

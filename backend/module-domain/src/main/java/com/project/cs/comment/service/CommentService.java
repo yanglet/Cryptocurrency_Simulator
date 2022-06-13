@@ -17,6 +17,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
 
+    @Transactional
     public Long comment(Long postId,
                         CommentRequest commentRequest,
                         Member member){
