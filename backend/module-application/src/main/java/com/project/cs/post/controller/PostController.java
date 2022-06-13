@@ -12,8 +12,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -65,11 +63,11 @@ public class PostController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "사용자 인증을 위한 accessToken", paramType = "header", required = true)
     })
-    public ResponseEntity<PostResponse> update(@PathVariable("post_id") Long id,
+    public ResponseEntity<PostResponse> update(@PathVariable("post_id") Long postId,
                                                @Validated @RequestBody PostRequest postRequest,
                                                @LoginMember Member member) throws IOException {
-        postService.update(id, postRequest, member);
-        return ResponseEntity.ok(new PostResponse(id));
+        postService.update(postId, postRequest, member);
+        return ResponseEntity.ok(new PostResponse(postId));
     }
 
     @ApiOperation("게시글 삭제")
@@ -78,8 +76,8 @@ public class PostController {
             @ApiImplicitParam(name = "Authorization", value = "사용자 인증을 위한 accessToken", paramType = "header", required = true)
     })
     @ResponseStatus(HttpStatus.NON_AUTHORITATIVE_INFORMATION)
-    public void delete(@PathVariable("post_id") Long id,
+    public void delete(@PathVariable("post_id") Long postId,
                        @LoginMember Member member){
-        postService.delete(id, member);
+        postService.delete(postId, member);
     }
 }
