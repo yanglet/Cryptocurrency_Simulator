@@ -15,13 +15,13 @@ public class Ranking extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ranking_id")
     private Long id;
-    @Column(unique = true)
-    private Integer ranking; // rank 라는 변수명은 에러가 남,,
+    @Column(unique = true, name = "ranking")
+    private Integer rank;
     private Double profit;
 
     @Builder
-    public Ranking(Integer ranking, Double profit) {
-        this.ranking = ranking;
+    public Ranking(Integer rank, Double profit) {
+        this.rank = rank;
         this.profit = profit;
     }
 }
