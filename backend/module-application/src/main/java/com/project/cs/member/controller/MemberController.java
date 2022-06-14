@@ -25,7 +25,7 @@ public class MemberController {
     @ApiOperation("모든 회원 정보 조회")
     @GetMapping
     public ResponseEntity<List<MemberDto>> getMembers(){
-        return ResponseEntity.ok(memberRepository.findAll()
+        return ResponseEntity.ok(memberRepository.findAllFetch()
                 .stream()
                 .map(MemberDto::new)
                 .collect(Collectors.toList()));
