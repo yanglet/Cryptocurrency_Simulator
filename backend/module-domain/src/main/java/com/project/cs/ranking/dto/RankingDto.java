@@ -13,7 +13,7 @@ public class RankingDto {
     private Double profit;
 
     public RankingDto(Ranking ranking) {
-        this.ranking = ranking.getRanking();
+        this.ranking = ranking.getRank();
         this.profit = ranking.getProfit();
     }
 }

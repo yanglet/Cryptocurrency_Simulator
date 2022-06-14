@@ -22,7 +22,7 @@ public class Member extends BaseEntity {
     private String name;
     private BigDecimal balance; // 주문가능 금액 (보유 금액)
     private String role;
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ranking_id")
     private Ranking ranking;
 
