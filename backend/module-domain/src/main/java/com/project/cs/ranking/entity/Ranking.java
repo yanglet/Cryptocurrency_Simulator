@@ -20,8 +20,8 @@ public class Ranking extends BaseEntity {
     private Double profit;
 
     @Builder
-    public Ranking(Integer ranking, Double profit) {
-        this.rank = ranking;
+    public Ranking(Integer rank, Double profit) {
+        this.rank = rank;
         this.profit = profit;
     }
 }

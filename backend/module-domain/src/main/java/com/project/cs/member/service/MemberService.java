@@ -22,7 +22,7 @@ public class MemberService {
             throw new MemberDuplicateException();
         }
         Ranking ranking = Ranking.builder()
-                .ranking((int) memberRepository.count() + 1)
+                .rank((int) memberRepository.count() + 1)
                 .profit(0.0)
                 .build();
 
