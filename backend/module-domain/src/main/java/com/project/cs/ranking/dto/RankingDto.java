@@ -9,11 +9,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class RankingDto {
-    private Integer ranking;
+    private Integer rank;
     private Double profit;
 
     public RankingDto(Ranking ranking) {
-        this.ranking = ranking.getRank();
+        this.rank = ranking.getRank();
         this.profit = ranking.getProfit();
     }
 }
