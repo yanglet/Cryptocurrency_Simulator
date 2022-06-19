@@ -4,6 +4,7 @@ import com.project.cs.comment.entity.QComment;
 import com.project.cs.member.entity.QMember;
 import com.project.cs.post.entity.Post;
 import com.project.cs.post.entity.QPost;
+import com.project.cs.ranking.entity.QRanking;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
@@ -12,6 +13,7 @@ import java.util.List;
 import static com.project.cs.comment.entity.QComment.*;
 import static com.project.cs.member.entity.QMember.*;
 import static com.project.cs.post.entity.QPost.*;
+import static com.project.cs.ranking.entity.QRanking.*;
 
 @RequiredArgsConstructor
 public class PostRepositoryImpl implements PostRepositoryCustom{
@@ -28,6 +30,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom{
     public List<Post> findAllFetch() {
         return queryFactory.selectFrom(post)
                 .leftJoin(post.member, member).fetchJoin()
+                .leftJoin(member.ranking, ranking).fetchJoin()
                 .orderBy(post.id.desc())
                 .fetch();
     }

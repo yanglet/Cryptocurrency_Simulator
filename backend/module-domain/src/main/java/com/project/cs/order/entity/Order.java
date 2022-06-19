@@ -27,7 +27,8 @@ public class Order extends BaseEntity {
     private Member member;
 
     @Builder
-    public Order(OrderItem orderItem) {
+    public Order(OrderItem orderItem, Member member) {
         this.orderItem = orderItem;
+        this.member = member;
     }
 }
