@@ -8,7 +8,6 @@ public enum Market {
     이더리움("Ethereum", "KRW-ETH"),
     네오("NEO", "KRW-NEO"),
     메탈("Metal", "KRW-MTL"),
-    라이트코인("Litecoin", "KRW-LTC"),
     리플("Ripple", "KRW-XRP"),
     이더리움클래식("Ethereum Classic", "KRW-ETC"),
     오미세고("OmiseGo", "KRW-OMG"),
