@@ -15,19 +15,19 @@ import java.util.List;
 public class CandleRepository {
     private final UpbitFeignClient feignClient;
     
-    public List<MinuteCandleDto> findAllMinuteCandles(Integer unit, String market, int count){
-        return feignClient.getMinuteCandles(unit, market, count);
+    public List<MinuteCandleDto> findAllMinuteCandles(Integer unit, String market){
+        return feignClient.getMinuteCandles(unit, market, 200);
     }
     
-    public List<DayCandleDto> findAllDayCandles(String market, int count){
-        return feignClient.getDayCandles(market, count);
+    public List<DayCandleDto> findAllDayCandles(String market){
+        return feignClient.getDayCandles(market, 200);
     }
     
-    public List<WeekCandleDto> findAllWeekCandles(String market, int count){
-        return feignClient.getWeekCandles(market, count);
+    public List<WeekCandleDto> findAllWeekCandles(String market){
+        return feignClient.getWeekCandles(market, 200);
     }
     
-    public List<MonthCandleDto> findAllMonthCandles(String market, int count){
-        return feignClient.getMonthCandles(market, count);
+    public List<MonthCandleDto> findAllMonthCandles(String market){
+        return feignClient.getMonthCandles(market, 200);
     }
 }
