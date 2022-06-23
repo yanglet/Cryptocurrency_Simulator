@@ -4,9 +4,9 @@ import Head from "next/head";
 import Ticker from "../../components/Ticker/index";
 
 function Exchange(props) {
-  const router = useRouter();
-  const { params = [] } = router.query;
-  console.log(params);
+  // const router = useRouter();
+  // const { params = [] } = router.query;
+  // console.log(params);
 
   return (
     <div>

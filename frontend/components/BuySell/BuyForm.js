@@ -18,7 +18,10 @@ function BuyForm({price}) {
                 </div>
                 <div className='flex justify-between mt-6'>
                     <label className='my-auto'>매수가격</label>
-                    <input className='border rounded-lg w-1/2 h-9 text-right' value={price}/>
+                    <input 
+                        className='border rounded-lg w-1/2 h-9 text-right' 
+                        defaultValue={price}
+                    />
                 </div>
                 <div className='flex justify-between mt-6'>
                     <label className='my-auto'>주문수량</label>
