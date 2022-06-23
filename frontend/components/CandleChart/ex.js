@@ -6,31 +6,28 @@ const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
 
 function Ex({code}) { 
-  const [chartX, setChartX] = useState([])
-  const [chartY, setChartY] = useState([])
-  const [data, setData] = useState([])
-
+  const [data, setData] = useState([]);
+  
   const url = 'http://localhost:9090/v1/api/candles/days?market=KRW-BTC'
 
   useEffect(() => {
-    const dataX = [];
-    const dataY = [];
-    const data = [];
-    
+    const temp = [];
+
     axios.get(url)
       .then(response => {
-        response.data.map(item => { 
-          dataX.push(new Date(item.candle_date_time_kst));
-          dataY.push(item.prices);
-        })
-        data.push
-        setChartX(dataX)
-        setChartY(dataY)
+        response.data.map(item =>  
+          { 
+            temp.push(
+              {
+                x: new Date(item.candle_date_time_kst), 
+                y: item.prices 
+              }
+            )
+          })
+          setData(temp)
       }).catch(e => {
       })
   }, [])
-  //  console.log(chartX)
-  //  console.log(chartY)
  
   var chart = {
          options: {
@@ -57,14 +54,7 @@ function Ex({code}) {
         <div id="chart">
         <ReactApexChart 
           options={chart.options} 
-          series={[{
-            data: [
-              {
-                x: chartX,
-                y: chartY
-              },
-            ]
-          }]}
+          series={[{data: data}]}
           type="candlestick" 
           height={350} />
         </div>
