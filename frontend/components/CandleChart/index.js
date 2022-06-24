@@ -1,6 +1,7 @@
 import React, {useState , useEffect} from 'react';
 import useSWR from "swr";
 import Ex from './Ex';
+import Link from 'next/link';
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 function CandleChart({tickerId, params}) {
@@ -36,10 +37,9 @@ function CandleChart({tickerId, params}) {
         </div>
         </div>
       </div>
-  
-      <Ex params={params}/>
       
-    </div>
+      <Ex params={params}/>
+      </div>
   );
 }
 
