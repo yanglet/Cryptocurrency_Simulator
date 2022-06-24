@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import TickerCategory from './TickerCategory';
 import TickerTable from './TickerTable';
 
-function Ticker(props) {
+function Ticker({params}) {
   const [categoryName, setCategoryName] = useState("main");
 
   return (
@@ -23,7 +23,8 @@ function Ticker(props) {
         </div>
       </div>
       <TickerTable 
-        categoryName={categoryName}         
+        categoryName={categoryName}       
+        params={params}  
       />
     </div>
   );

@@ -2,10 +2,10 @@ import React from "react";
 import Main from "./Main";
 import Holding from "./Holding";
 
-function TickerTable({ categoryName }) {
+function TickerTable({ categoryName, params }) {
   if (categoryName === "main") {
     return ( 
-      <Main />
+      <Main params={params}/>
     );
   } else if (categoryName === "holding") {
     return (

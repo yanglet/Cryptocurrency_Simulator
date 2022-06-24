@@ -6,7 +6,7 @@ import Ticker from "../../components/Ticker/index";
 function Exchange(props) {
   const router = useRouter();
   const { params = [] } = router.query;
-  console.log(params);
+  console.log("params", params);
 
   return (
     <div>
@@ -14,7 +14,7 @@ function Exchange(props) {
         <Head>
           <title>모의 투자 사이트 | 거래소</title>
         </Head>
-        <Ticker />
+        <Ticker params={params} />
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ const menu = [
     {
       id: 1,
       title: "거래소",
-      path: "/exchange",
+      path: "/exchange/KRW-BTC",
     },
     {
       id: 2,

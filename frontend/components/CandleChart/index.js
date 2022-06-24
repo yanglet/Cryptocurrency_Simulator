@@ -1,15 +1,14 @@
 import React, {useState , useEffect} from 'react';
 import useSWR from "swr";
-import ChartCode from './ChartCode';
+import Chart from './Chart';
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
-function CandleChart({tickerId}) {
+function CandleChart({tickerId, params}) {
   const id = `${tickerId}` - 1;
 
   let url = "http://localhost:9090/v1/api/cryptocurrencies";
 
   const { data, error } = useSWR(url, fetcher);
-  
   
   if (error) return <div>failed to load</div>;
   if (!data) return <div>loading...</div>;
@@ -37,10 +36,9 @@ function CandleChart({tickerId}) {
         </div>
         </div>
       </div>
-  
-      <ChartCode tickerId={tickerId} />
       
-    </div>
+      <Chart params={params}/>
+      </div>
   );
 }
 
