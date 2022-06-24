@@ -37,6 +37,7 @@ public class MemberController {
             @ApiImplicitParam(name = "Authorization", value = "사용자 인증을 위한 accessToken", paramType = "header", required = true)
     })
     public ResponseEntity<MemberDto> getMember(@LoginMember Member member){
-        return ResponseEntity.ok(new MemberDto(member));
+        Member fetchMember = memberRepository.findByIdFetch(member.getId());
+        return ResponseEntity.ok(new MemberDto(fetchMember));
     }
 }
