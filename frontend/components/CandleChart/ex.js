@@ -4,15 +4,15 @@ import axios from 'axios';
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
-
-function Ex({code}) { 
-  const [data, setData] = useState([]);
+function Ex({params}) { 
   
-  const url = 'http://localhost:9090/v1/api/candles/days?market=KRW-BTC'
+  console.log("EX", `${params}`)
+  const [data, setData] = useState([]);
+  const url = `http://localhost:9090/v1/api/candles/days?market=${params}`
 
   useEffect(() => {
     const temp = [];
-
+ 
     axios.get(url)
       .then(response => {
         response.data.map(item =>  
@@ -27,7 +27,7 @@ function Ex({code}) {
           setData(temp)
       }).catch(e => {
       })
-  }, [])
+  }, [params])
  
   var chart = {
          options: {
