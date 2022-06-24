@@ -22,6 +22,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom{
     public Post findByIdFetch(Long id) {
         return queryFactory.selectFrom(post)
                 .leftJoin(post.member, member).fetchJoin()
+                .leftJoin(member.ranking, ranking).fetchJoin()
                 .leftJoin(post.comments, comment).fetchJoin()
                 .fetchOne();
     }
