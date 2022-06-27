@@ -19,7 +19,7 @@ public class OrderItem extends BaseEntity {
     private String englishName;
     private String market;
     private String price; // 매수가
-    private Double size; // 수량
+    private Double volume; // 수량
 
     @Builder
     public OrderItem(String koreanName, String englishName, String market, String price, Double size) {
@@ -27,6 +27,6 @@ public class OrderItem extends BaseEntity {
         this.englishName = englishName;
         this.market = market;
         this.price = price;
-        this.size = size;
+        this.volume = size;
     }
 }
