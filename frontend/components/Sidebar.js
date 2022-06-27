@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 const menu = [
@@ -16,9 +16,11 @@ const menu = [
       id: 3,
       title: "커뮤니티",
       path: "/community",
-    },
+    }
   ];
 function Sidebar() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
     return (
         <div className="h-screen px-6 py-6 border-r-2">
         <Link href="/" className="">
@@ -35,6 +37,19 @@ function Sidebar() {
                 </div>
               );
             })}
+              {isLoggedIn ? 
+              <div className="mx-4 my-9">
+                <Link href="/profile">
+                <a className="text-slate-200 text-xl">프로필</a>
+                </Link> 
+              </div>
+              : 
+              <div className="mx-4 my-9">
+                <Link href="/login">
+                <a className="text-slate-200 text-xl">로그인</a>
+                </Link>
+              </div>
+          }
         </ul>
       </div>
       
