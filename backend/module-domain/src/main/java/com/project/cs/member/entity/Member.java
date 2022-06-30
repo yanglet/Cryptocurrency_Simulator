@@ -36,6 +36,14 @@ public class Member extends BaseEntity {
         this.role = role;
     }
 
+    public void buy(String price){
+        this.balance = this.balance.subtract(BigDecimal.valueOf(Double.valueOf(price)));
+    }
+
+    public void sell(String price){
+        this.balance = this.balance.add(BigDecimal.valueOf(Double.valueOf(price)));
+    }
+
     public static Member createNullMember(){
         return new Member();
     }
