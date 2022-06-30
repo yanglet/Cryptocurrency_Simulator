@@ -35,7 +35,6 @@ function Sidebar() {
   const logOut = () => {
     AuthService.logOut();
   };
-
     return (
         <div className="h-screen px-6 py-6 border-r-2">
         <Link href="/" className="">
