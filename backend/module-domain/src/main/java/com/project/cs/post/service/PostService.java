@@ -18,6 +18,9 @@ public class PostService {
     private final UploadFileUtils uploadFileUtils;
 
     public Long post(PostRequest postRequest, Member member) throws IOException {
+        if(member == null){
+            throw new AccessDeniedException("access denied");
+        }
         Post post = Post.builder()
                 .title(postRequest.getTitle())
                 .content(postRequest.getContent())
