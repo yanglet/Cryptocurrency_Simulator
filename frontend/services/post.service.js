@@ -1,37 +1,39 @@
-import axios from 'axios';
-import authHeader from './auth-header';
+import axios from "axios";
+import authHeader from "./auth-header";
 
-const API_URL = "http://localhost:9090/v1/api/posts/";
+const API_URL = "http://localhost:9090/v1/api";
 
 //게시글 목록 조회
 const getAllPosts = () => {
-    return axios.get(API_URL);
+  return axios.get(API_URL);
 };
 
 //게시글 상세 조회
 const getDetailPost = () => {
-    return axios.get(API_URL + `${post_id}`, { headers : authHeader() });
+  return axios.get(API_URL + `/posts/${post_id}`, { headers: authHeader() });
 };
 
 //게시글 수정
 const putPost = () => {
-    return axios.put(API_URL + `${post_id}`, { headers : authHeader() });
+  return axios.put(API_URL + `/posts/${post_id}`, { headers: authHeader() });
 };
 //게시글 삭제
 const deletePost = () => {
-    return axios.delete(API_URL + `${post_id}`, { headers : authHeader() });
-}
+  return axios.delete(API_URL + `/posts/${post_id}`, { headers: authHeader() });
+};
 
 //게시글 작성
 const createPosts = () => {
-    return axios.post(API_URL + "post", {headers : authHeader() })
-}  
+    // axios.get(API_URL + "/members/me", { headers: authHeader() });
+    console.log("auth", authHeader());
+};
+
 const PostService = {
-    getAllPosts,
-    getDetailPost,
-    putPost,
-    deletePost,
-    createPosts,
-  };
-  
-  export default PostService;
+  getAllPosts,
+  getDetailPost,
+  putPost,
+  deletePost,
+  createPosts,
+};
+
+export default PostService;

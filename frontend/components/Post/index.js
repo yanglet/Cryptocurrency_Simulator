@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import PostService from "../../services/post.service";
 import Link from "next/link";
+import authHeader from "../../services/auth-header";
 
 function index(props) {
   const [content, setContent] = useState([]);
@@ -20,7 +21,7 @@ function index(props) {
     <div className="text-center">
       <table className="inline-block border-t-2  border-slate-500 table-fixed">
         <thead>
-          <tr className="bg-red-200">
+          <tr className="bg-slate-200">
             <th className="w-16 pr-5">번호</th>
             <th className="w-96 pr-5">제목</th>
             <th className="w-36 pr-5">글쓴이</th>

@@ -1,5 +1,4 @@
 import {useRouter} from 'next/router';
-
 import React, { useState, useCallback } from "react";
 import AuthService from "../../services/auth.service";
 import useInput from "../hooks/useInput";
