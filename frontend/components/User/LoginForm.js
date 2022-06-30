@@ -1,31 +1,42 @@
 import Link from "next/link";
-import React, { useCallback } from "react";
+import React from "react";
 import useInput from "../hooks/useInput";
+import {useRouter} from 'next/router';
+import AuthService from "../../services/auth.service";
 
-function LoginForm({ setIsLoggedIn }) {
-  const [id, onChangeId] = useInput("");
+function LoginForm() {
+  const router = useRouter();
+  const [email, onChangeEmail] = useInput("");
   const [password, onChangePassword] = useInput("");
 
-  const onSubmitForm = useCallback((e) => {
+  const onSubmitForm = async(e) => {
     e.preventDefault();
-    console.log(id, password);
-    setIsLoggedIn(true);
-  }, [id, password]);
-
+    try {
+      await AuthService.login(email, password).then(
+        () => {
+          window.location.replace('/profile'); 
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    } catch (err){
+      console.log(err);
+    }
+  };
+  
   return (
     <div className="border rounded-lg px-4 py-4 max-w-lg mx-auto">
       <form className="text-center " onSubmit={onSubmitForm}>
         <div className="flex justify-between mb-6">
           <label className="text-gray-700 w-full text-xl" htmlFor="user-id">
-            아이디
+            이메일
           </label>
           <input
             className="text-xl rounded-lg border-2"
-            value={id}
-            onChange={onChangeId}
-            
+            value={email}
+            onChange={onChangeEmail}
             type="text"
-            name="user-id"
             required
           />
         </div>
@@ -36,7 +47,6 @@ function LoginForm({ setIsLoggedIn }) {
             value={password}
             onChange={onChangePassword}
             type="password" 
-            name="user-password"
             required
           />
         </div>
