@@ -1,6 +1,8 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import AuthService from '../services/auth.service';
+
 const menu = [
     {
       id: 1,
@@ -18,8 +20,21 @@ const menu = [
       path: "/community",
     }
   ];
+
 function Sidebar() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState(undefined);
+
+  useEffect(() => {
+    const user = AuthService.getCurrentUser();
+
+    if(user){
+      setCurrentUser(user);
+    }
+  }, []);
+
+  const logOut = () => {
+    AuthService.logOut();
+  };
 
     return (
         <div className="h-screen px-6 py-6 border-r-2">
@@ -37,19 +52,28 @@ function Sidebar() {
                 </div>
               );
             })}
-              {isLoggedIn ? 
+            { currentUser && (
               <div className="mx-4 my-9">
                 <Link href="/profile">
-                <a className="text-slate-200 text-xl">프로필</a>
+                  <a className="text-slate-200 text-xl">프로필</a>
                 </Link> 
               </div>
-              : 
+            )}
+            { currentUser ? (
               <div className="mx-4 my-9">
                 <Link href="/login">
-                <a className="text-slate-200 text-xl">로그인</a>
+                  <a className="text-slate-200 text-xl" onClick={logOut}>로그아웃</a>
                 </Link>
-              </div>
-          }
+            </div>
+            ) : (
+            <div className="mx-4 my-9">
+              <Link href="/login">
+              <a className="text-slate-200 text-xl">로그인</a>
+              </Link>
+            </div>
+            )
+            }
+             
         </ul>
       </div>
       

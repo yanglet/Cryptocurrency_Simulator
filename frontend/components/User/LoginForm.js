@@ -14,7 +14,7 @@ function LoginForm() {
     try {
       await AuthService.login(email, password).then(
         () => {
-          router.replace('/profile'); 
+          window.location.replace('/profile'); 
         },
         (error) => {
           console.log(error);

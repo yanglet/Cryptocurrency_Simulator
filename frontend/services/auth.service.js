@@ -10,21 +10,21 @@ const register = (balance, email, name, password) => {
   })
 } 
 
-const login = (email, password) => {
-  return axios.post(API_URL + "login", {
+const login = async (email, password) => {
+  const response = await axios.post(API_URL + "login", {
     email,
     password,
-  })
-  .then((response) => {
-    if (response.data.accessToken) {
-      localStorage.setItem("user", JSON.stringify(response.data));
-    }
-    return response.data;
   });
+  if (response.data.accessToken) {
+    localStorage.setItem("user", JSON.stringify(response.data));
+  }
+  return response.data;
 };
 
-const logout = () => {
+const logOut = () => {
   localStorage.removeItem("user");
+  window.location.replace('/');
+  console.log("로그아웃")
 };
 
 const getCurrentUser = () => {
@@ -35,7 +35,7 @@ const getCurrentUser = () => {
 const AuthService = {
   register,
   login,
-  logout,
+  logOut,
   getCurrentUser,
 };
 

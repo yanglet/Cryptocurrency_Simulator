@@ -1,24 +1,7 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import AppLayout from '../components/AppLayout'
-import AuthService from '../services/auth.service';
-import { useState, useEffect } from 'react';
 
 export default function Home() {
-  const [currentUser, setCurrentUser] = useState(undefined);
-
-  useEffect(() => {
-    const user = AuthService.getCurrentUser();
-
-    if(user){
-      setCurrentUser(user);
-    }
-  }, []);
-
-  const logout = () => {
-    AuthService.logout();
-  };
-
   return (
     <div>
       <Head>
