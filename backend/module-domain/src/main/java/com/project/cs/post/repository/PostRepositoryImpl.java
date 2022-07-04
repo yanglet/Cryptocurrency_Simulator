@@ -24,6 +24,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom{
                 .leftJoin(post.member, member).fetchJoin()
                 .leftJoin(member.ranking, ranking).fetchJoin()
                 .leftJoin(post.comments, comment).fetchJoin()
+                .where(post.id.eq(id))
                 .fetchOne();
     }
 
