@@ -23,9 +23,16 @@ const deletePost = () => {
 };
 
 //게시글 작성
-const createPosts = () => {
-    // axios.get(API_URL + "/members/me", { headers: authHeader() });
-    console.log("auth", authHeader());
+const createPosts = async (name, content, title) => {
+  //console.log("auth", authHeader());
+  // const user = axios.get(API_URL + "/members/me", { headers: authHeader() });
+  const response = await axios.post(API_URL + "/posts/post", {
+    name,
+    content,
+    title
+  });
+
+  return response;
 };
 
 const PostService = {

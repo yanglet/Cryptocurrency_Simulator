@@ -6,42 +6,40 @@ import AuthService from "../../services/auth.service";
 import UserService from "../../services/user.service";
 
 function CreatePost(props) {
-  const router = useRouter();
   const [content, onChangeContent] = useInput("");
   const [title, onChangeTitle] = useInput("");
   const [user, setUser] = useState([]);
 
-//   useEffect(() => {
-//     UserService.getMemberDetail().then(
-//         (response) => {
-//             setUser(response.data);
-//         },
-//         (error) => {
-//             console.log(error);
-//         }
-//     );
-//   }, []);
+  useEffect(() => {
+    UserService.getMemberDetail().then(
+        (response) => {
+            setUser(response.data);
+        },
+        (error) => {
+            console.log(error);
+        }
+    );
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // try {
-    //   await PostService.createPosts(content, title).then(
-    //     (response) => {
-    //       setUser(response.data);
-    //       window.location.replace("/community");
-    //     },
-    //     (error) => {
-    //       console.log(error);
-    //       // 토큰이 유효하지않은 경우 
-    //       if(error.response && error.response.status === 403){
-    //         AuthService.logOut();
-    //         window.location.replace("");
-    //       }
-    //     }
-    //   );
-    // } catch (err) {
-    //   console.log(err);
-    // }
+    try {
+      await PostService.createPosts(user, content, title).then(
+        () => {
+          window.location.replace("/community");
+        },
+        (error) => {
+          console.log(error);
+          // 토큰이 유효하지않은 경우 
+          if(error.response && error.response.status === 403){
+            AuthService.logOut();
+            window.location.replace("");
+          }
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
