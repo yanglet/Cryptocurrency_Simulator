@@ -5,7 +5,7 @@ const API_URL = "http://localhost:9090/v1/api";
 
 //게시글 목록 조회
 const getAllPosts = () => {
-  return axios.get(API_URL);
+  return axios.get(API_URL + '/posts');
 };
 
 //게시글 상세 조회
@@ -23,16 +23,16 @@ const deletePost = () => {
 };
 
 //게시글 작성
-const createPosts = async (name, content, title) => {
-  //console.log("auth", authHeader());
-  // const user = axios.get(API_URL + "/members/me", { headers: authHeader() });
-  const response = await axios.post(API_URL + "/posts/post", {
-    name,
+const createPosts = async (content, title) => {
+  const response = await axios.post(API_URL + "/posts/post", 
+  {
     content,
     title
+  }, {
+    headers: authHeader()
   });
 
-  return response;
+  return response.data;
 };
 
 const PostService = {

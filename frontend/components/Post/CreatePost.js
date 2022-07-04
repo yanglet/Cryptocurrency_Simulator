@@ -1,15 +1,22 @@
 import React , {useState, useEffect} from "react";
-import { useRouter } from "next/router";
 import PostService from "../../services/post.service";
 import useInput from "../hooks/useInput";
 import AuthService from "../../services/auth.service";
 import UserService from "../../services/user.service";
+import { useRouter } from 'next/router';
 
 function CreatePost(props) {
+  const router = useRouter();
   const [content, onChangeContent] = useInput("");
   const [title, onChangeTitle] = useInput("");
   const [user, setUser] = useState([]);
+  
 
+    // if( typeof window !== 'undefined'){
+    //   const Authorization = Object.values(JSON.parse(localStorage.getItem("user")));
+    //   console.log(Authorization);
+    // }
+ 
   useEffect(() => {
     UserService.getMemberDetail().then(
         (response) => {
@@ -24,17 +31,17 @@ function CreatePost(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await PostService.createPosts(user, content, title).then(
+      await PostService.createPosts(content, title).then(
         () => {
           window.location.replace("/community");
         },
         (error) => {
           console.log(error);
           // 토큰이 유효하지않은 경우 
-          if(error.response && error.response.status === 403){
-            AuthService.logOut();
-            window.location.replace("");
-          }
+          // if(error.response && error.response.status === 403){
+          //   AuthService.logOut();
+          //   window.location.replace("");
+          // }
         }
       );
     } catch (err) {
@@ -48,7 +55,8 @@ function CreatePost(props) {
         onSubmit={handleSubmit}
         className="inline-block border-t-2 border-slate-800"
       >
-         <div className="flex border-b-2 py-6">
+
+        <div className="flex border-b-2 py-6">
           <label className="mr-8">작성자</label>
           <p>{user.name}</p>
           {/* <input
@@ -59,6 +67,7 @@ function CreatePost(props) {
             required
           /> */}
         </div>
+        
         <div className="flex border-b-2 py-6">
           <label className="mr-8">제목</label>
           <input
@@ -82,7 +91,7 @@ function CreatePost(props) {
         <div className="flex justify-end">
           {/* router이용하여 뒤로가기  */}
           <button
-            onClick={() => Router.back()}
+            onClick={() => router.back()}
             className="bg-slate-100 rounded-xl px-2 py-2 mr-2 w-24"
             type="submit"
           >
