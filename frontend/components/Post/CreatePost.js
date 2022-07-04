@@ -11,7 +11,6 @@ function CreatePost(props) {
   const [title, onChangeTitle] = useInput("");
   const [user, setUser] = useState([]);
   
-
     // if( typeof window !== 'undefined'){
     //   const Authorization = Object.values(JSON.parse(localStorage.getItem("user")));
     //   console.log(Authorization);

@@ -8,10 +8,6 @@ const getAllPosts = () => {
   return axios.get(API_URL + '/posts');
 };
 
-//게시글 수정
-const putPost = () => {
-  return axios.put(API_URL + `/posts/${post_id}`, { headers: authHeader() });
-};
 //게시글 삭제
 const deletePost = () => {
   return axios.delete(API_URL + `/posts/${post_id}`, { headers: authHeader() });
@@ -22,7 +18,7 @@ const createPosts = async (content, title) => {
   const response = await axios.post(API_URL + "/posts/post", 
   {
     content,
-    title
+    title,
   }, {
     headers: authHeader()
   });
@@ -33,7 +29,6 @@ const createPosts = async (content, title) => {
 
 const PostService = {
   getAllPosts,
-  putPost,
   deletePost,
   createPosts,
 };
