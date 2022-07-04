@@ -8,11 +8,6 @@ const getAllPosts = () => {
   return axios.get(API_URL + '/posts');
 };
 
-//게시글 상세 조회
-const getDetailPost = () => {
-  return axios.get(API_URL + `/posts/${post_id}`, { headers: authHeader() });
-};
-
 //게시글 수정
 const putPost = () => {
   return axios.put(API_URL + `/posts/${post_id}`, { headers: authHeader() });
@@ -31,13 +26,13 @@ const createPosts = async (content, title) => {
   }, {
     headers: authHeader()
   });
-
   return response.data;
 };
 
+//댓글 작성 
+
 const PostService = {
   getAllPosts,
-  getDetailPost,
   putPost,
   deletePost,
   createPosts,
