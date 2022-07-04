@@ -2,6 +2,7 @@ package com.project.cs.comment.response;
 
 import com.project.cs.comment.entity.Comment;
 import com.project.cs.member.response.MemberDto;
+import com.project.cs.member.response.SimpleMemberDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,10 +12,10 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CommentDto {
     private String content;
-    private MemberDto member;
+    private SimpleMemberDto member;
 
     public CommentDto(Comment comment) {
         this.content = comment.getContent();
-        this.member = new MemberDto(comment.getMember());
+        this.member = new SimpleMemberDto(comment.getMember());
     }
 }
