@@ -10,7 +10,6 @@ function Ex({ params }) {
   const [option, setOption] = useState("days");
   const [minute, setMinute] = useState("");
   const [url, setUrl] = useState("");
- 
 
   // console.log("EX", `${params}`)
   function handleClick(option) {
@@ -78,6 +77,14 @@ function Ex({ params }) {
       yaxis: {
         tooltip: {
           enabled: true,
+        },
+      },
+      plotOptions: {
+        candlestick: {
+          colors: {
+            upward: "rgb(210, 79, 69)",
+            downward: "rgb(16, 93, 188)",
+          },
         },
       },
     },
