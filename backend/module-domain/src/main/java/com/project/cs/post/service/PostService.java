@@ -1,5 +1,6 @@
 package com.project.cs.post.service;
 
+import com.project.cs.comment.repository.CommentRepository;
 import com.project.cs.member.entity.Member;
 import com.project.cs.post.entity.Post;
 import com.project.cs.post.repository.PostRepository;
@@ -15,6 +16,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class PostService {
     private final PostRepository postRepository;
+    private final CommentRepository commentRepository;
     private final UploadFileUtils uploadFileUtils;
 
     public Long post(PostRequest postRequest, Member member) throws IOException {
@@ -53,6 +55,10 @@ public class PostService {
         if(post.getMember().getId() != member.getId()){
             throw new AccessDeniedException("access denied");
         }
+
+        post.getComments()
+                .stream()
+                .forEach(c -> commentRepository.delete(c));
 
         postRepository.deleteById(id);
     }

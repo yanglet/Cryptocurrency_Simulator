@@ -32,5 +32,4 @@ public class LogAspect {
 
         return result;
     }
-
 }
