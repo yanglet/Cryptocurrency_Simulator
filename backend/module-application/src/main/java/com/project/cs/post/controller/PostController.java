@@ -45,7 +45,6 @@ public class PostController {
     public ResponseEntity<PostResponse> post(@Validated @RequestBody PostRequest postRequest,
                                             @LoginMember Member member) throws IOException {
         Long id = postService.post(postRequest, member);
-
         return new ResponseEntity(new PostResponse(id), HttpStatus.CREATED);
     }
 
