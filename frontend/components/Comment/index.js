@@ -20,26 +20,40 @@ function Comment({ params }) {
       };
   }, []);
 
-  const test = data.map((item) => {
-    console.log(item.content);
-  })
+  const deleteComment = (idx) => {
+    axios.delete(
+        url + `/${idx}`,
+        {
+          headers: authHeader(),
+      })
+      .then(res => {
+        console.log(res.data);
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+  };
 
+  const test = data.map((item) => {
+    console.log(item.member.id);
+  });
 
   return (
     <div>
       <p className="text-sm py-4 border-b-2">댓글 {data.length}</p>
-      { data && data.map((item, idx) => 
-      { 
-        return(
-            <div className="">
-        <p className="text-sm pt-4">{item.member.name}</p> 
-
-          <p className="pb-8 border-b-2">{item.content}</p> 
-        </div>
-        )
-        
-      }
-      ) }
+      {data &&
+        data.map((item, idx) => {
+          return (
+            <div className="mx-4">
+              <p className="text-sm pt-4">{item.member.name}</p>
+              <p className="pb-4">{item.content}</p>
+              <div className="text-sm flex justify-end  border-b-2 pb-4">
+                <button className="px-4 border-r-2 ">수정</button>
+                <button className="px-4" onClick={() => deleteComment()}>삭제</button>
+                </div>
+            </div>
+          );
+        })}
     </div>
   );
 }
