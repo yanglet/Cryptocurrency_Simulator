@@ -25,7 +25,7 @@ const createPosts = async (content, title) => {
   return response.data;
 };
 
-//댓글 작성 
+//댓글 작성
 
 const PostService = {
   getAllPosts,
