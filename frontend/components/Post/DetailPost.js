@@ -2,9 +2,9 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import authHeader from "../../services/auth-header";
 import UserService from "../../services/user.service";
-import CommentForm from "./CommentForm";
+import CommentForm from "../Comment/CommentForm";
 import Link from "next/link";
-
+import Comment from "../Comment";
 function DetailPost({ params }) {
   const [content, setContent] = useState([]);
 
@@ -81,8 +81,8 @@ function DetailPost({ params }) {
       </div>
       {/* 댓글부분 - 댓글 개수 추가  */}
       <div>
-        <p className="text-sm py-4 border-b-2">댓글 1</p>
-        <CommentForm />
+        <Comment params={params} />
+        <CommentForm params={params} />
       </div>
     </div>
   );
