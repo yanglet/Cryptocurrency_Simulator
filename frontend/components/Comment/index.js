@@ -20,18 +20,18 @@ function Comment({ params }) {
       };
   }, []);
 
-  const deleteComment = (idx) => {
-    axios.delete(
-        url + `/${idx}`,
-        {
-          headers: authHeader(),
+  const deleteComment = (id) => {
+    axios
+      .delete(url + `/${id}`, {
+        headers: authHeader(),
       })
-      .then(res => {
+      .then((res) => {
+        location.reload();
         console.log(res.data);
-    })
-    .catch((err) => {
+      })
+      .catch((err) => {
         console.log(err);
-    })
+      });
   };
 
   const test = data.map((item) => {
@@ -49,8 +49,10 @@ function Comment({ params }) {
               <p className="pb-4">{item.content}</p>
               <div className="text-sm flex justify-end  border-b-2 pb-4">
                 <button className="px-4 border-r-2 ">수정</button>
-                <button className="px-4" onClick={() => deleteComment()}>삭제</button>
-                </div>
+                <button className="px-4" onClick={() => deleteComment(item.id)}>
+                  삭제
+                </button>
+              </div>
             </div>
           );
         })}
