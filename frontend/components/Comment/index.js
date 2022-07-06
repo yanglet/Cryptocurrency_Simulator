@@ -35,7 +35,7 @@ function Comment({ params }) {
   };
 
   const test = data.map((item) => {
-    console.log(item.member.id);
+    console.log(item.id);
   });
 
   return (
@@ -45,7 +45,7 @@ function Comment({ params }) {
         data.map((item, idx) => {
           return (
             <div className="mx-4">
-              <p className="text-sm pt-4">{item.member.name}</p>
+              <p className="text-sm pt-4">{item.name}</p>
               <p className="pb-4">{item.content}</p>
               <div className="text-sm flex justify-end  border-b-2 pb-4">
                 <button className="px-4 border-r-2 ">수정</button>

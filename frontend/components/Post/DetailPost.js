@@ -44,8 +44,8 @@ function DetailPost({ params }) {
       </div>
       {/* 글쓴이, 날짜, 조회, 추천 */}
       <div className="text-sm py-4 flex justify-start relative text-gray-500 border-b-2 ">
-        <p className="px-4 border-r-2 ">세인</p>
-        <p className="px-4 border-r-2 ">hyun@gmail.com</p>
+        <p className="px-4 border-r-2 ">{content.name}</p>
+        <p className="px-4 border-r-2 ">{content.email}</p>
       </div>
       {/* 내용 */}
       <div className=" h-72">

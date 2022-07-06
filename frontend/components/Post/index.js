@@ -25,7 +25,6 @@ function index(props) {
             <th className="w-16 pr-5">번호</th>
             <th className="w-96 pr-5">제목</th>
             <th className="w-36 pr-5">글쓴이</th>
-            <th className="w-36 pr-5">랭킹</th>
             <th className="pr-5 ">등록일</th>
           </tr>
         </thead>
@@ -36,9 +35,8 @@ function index(props) {
               <tr className="border-b-2" key={item.id}>
                 <td className="text-center pr-5">{item.id}</td>
                 <td className="pr-5">{item.title}</td>
-                <td className="text-center pr-5 w-44">{item.member.name}</td>
-                <td className="text-center pr-5 w-44">{item.member.ranking.rank}</td>
-                <td className="text-center pr-5">{item.createdDate}</td>
+                <td className="text-center pr-5 w-44">{item.name}</td>
+                <td className="text-center pr-5">{item.createTime}</td>
               </tr>
             </Link>
           ))}
