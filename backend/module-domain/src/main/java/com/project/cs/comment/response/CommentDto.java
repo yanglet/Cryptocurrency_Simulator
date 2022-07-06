@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 public class CommentDto {
+    private Long id;
     private String content;
     private String name;
     private String email;
@@ -21,6 +22,7 @@ public class CommentDto {
     private LocalDateTime modifiedTime;
 
     public CommentDto(Comment comment) {
+        this.id = comment.getId();
         this.content = comment.getContent();
         this.name = comment.getMember().getName();
         this.email = comment.getMember().getEmail();
