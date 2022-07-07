@@ -46,10 +46,10 @@ public class CommentService {
         Post post = postRepository.findById(postId).orElseThrow();
         Comment comment = commentRepository.findById(commentId).orElseThrow();
 
-        if(post.getMember().getId() != member.getId() || comment.getMember().getId() != member.getId()){
+        if(post.getMember().getId() == member.getId() || comment.getMember().getId() == member.getId()){
+            commentRepository.delete(comment);
+        }else{
             throw new AccessDeniedException("access denied");
         }
-
-        commentRepository.delete(comment);
     }
 }
