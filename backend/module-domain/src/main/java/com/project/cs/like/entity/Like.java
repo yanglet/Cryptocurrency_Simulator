@@ -20,15 +20,11 @@ public class Like extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
-    private String koreanName;
-    private String englishName;
     private String market;
 
     @Builder
     public Like(Member member, String koreanName, String englishName, String market) {
         this.member = member;
-        this.koreanName = koreanName;
-        this.englishName = englishName;
         this.market = market;
     }
 }
