@@ -16,14 +16,14 @@ public class LikeRepositoryImpl implements LikeRepositoryCustom {
     @Override
     public List<Like> findByMember(Member member) {
         return queryFactory.selectFrom(like)
-                .where( QMember.member.eq(member) )
+                .where( like.member.eq(member) )
                 .fetch();
     }
 
     @Override
     public Like findByMemberAndMarket(Member member, String market) {
         return queryFactory.selectFrom(like)
-                .where( QMember.member.eq(member)
+                .where( like.member.eq(member)
                         ,like.market.eq(market) )
                 .fetchOne();
     }

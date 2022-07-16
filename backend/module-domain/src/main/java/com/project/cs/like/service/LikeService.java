@@ -9,6 +9,7 @@ import com.project.cs.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,6 +21,10 @@ public class LikeService {
     public List<CryptocurrencyDto> getLikes(Member member){
         List<Like> likeList = likeRepository.findByMember(member);
         String markets = getLikesMarkets(likeList);
+
+        if( markets.isBlank() ){
+            return new ArrayList<>();
+        }
 
         return cryptocurrencyRepository.findByMarkets(markets);
     }
@@ -45,6 +50,10 @@ public class LikeService {
             markets += like.getMarket() + ",";
         }
 
-        return markets;
+        if( markets.isBlank() ){
+            return markets;
+        }
+
+        return markets.substring(0, markets.length() - 1);
     }
 }
