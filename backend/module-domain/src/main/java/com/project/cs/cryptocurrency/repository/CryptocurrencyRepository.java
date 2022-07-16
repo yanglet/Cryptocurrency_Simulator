@@ -35,4 +35,8 @@ public class CryptocurrencyRepository {
         CryptocurrencyDto cryptocurrencyDto = feignClient.getCryptocurrencies(market).get(0);
         return cryptocurrencyDto;
     }
+
+    public List<CryptocurrencyDto> findByMarkets(String markets){
+        return feignClient.getCryptocurrencies(markets);
+    }
 }
