@@ -35,5 +35,9 @@ public interface UpbitFeignClient {
     @GetMapping("/candles/months")
     List<MonthCandleDto> getMonthCandles(@RequestParam("market") String market,
                                          @RequestParam("count") int count);
+
+    @GetMapping("/candles/days")
+    DayCandleDto getDayCandle(@RequestParam("market") String market,
+                                     @RequestParam("to") String time);
 }
 

@@ -30,4 +30,8 @@ public class CandleRepository {
     public List<MonthCandleDto> findAllMonthCandles(String market){
         return feignClient.getMonthCandles(market, 200);
     }
+
+    public DayCandleDto findByDay(String market, String time){
+        return feignClient.getDayCandle(market, time);
+    }
 }
