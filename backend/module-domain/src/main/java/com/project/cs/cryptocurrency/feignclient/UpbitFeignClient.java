@@ -7,8 +7,10 @@ import com.project.cs.cryptocurrency.dto.candle.MinuteCandleDto;
 import com.project.cs.cryptocurrency.dto.candle.MonthCandleDto;
 import com.project.cs.cryptocurrency.dto.candle.WeekCandleDto;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @FeignClient(name = "feign", url = "https://api.upbit.com/v1", configuration = FeignConfig.class)
@@ -37,7 +39,7 @@ public interface UpbitFeignClient {
                                          @RequestParam("count") int count);
 
     @GetMapping("/candles/days")
-    DayCandleDto getDayCandle(@RequestParam("market") String market,
-                                     @RequestParam("to") String time);
+    List<DayCandleDto> getDayCandle(@RequestParam("market") String market,
+                                     @RequestParam("to") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'") LocalDateTime time);
 }
 
