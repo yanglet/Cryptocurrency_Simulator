@@ -20,6 +20,6 @@ public class TestRepositoryImpl implements TestRepositoryCustom{
     // yyyy-mm-dd ... 형식에서 yyyy-mm만 가져옴
     private String getTestTIme(String time){
         String[] split = time.split("-");
-        return split[0] + split[1];
+        return split[0] + "-" + split[1];
     }
 }
