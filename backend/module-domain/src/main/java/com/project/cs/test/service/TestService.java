@@ -10,6 +10,7 @@ import com.project.cs.test.response.TestResponse;
 import com.project.cs.test.response.TestSaveResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -20,6 +21,7 @@ public class TestService {
     private final CandleRepository candleRepository;
     private final TestRepository testRepository;
 
+    @Transactional
     public TestSaveResponse save(TestSaveRequest testSaveRequest){
         Test test = Test.builder()
                 .price(testSaveRequest.getPrice())
@@ -41,7 +43,7 @@ public class TestService {
             return new TestResponse(String.valueOf(resultMoney));
         }
         Test test = testRepository.findByTime(testTime);
-        BigDecimal resultMoney = getResultMoney(testRequest, test.getPrice());
+        BigDecimal resultMoney = getResultMoney(testRequest, test.getPrice().multiply(BigDecimal.valueOf(1300)));
 
         return new TestResponse(String.valueOf(resultMoney));
     }

@@ -15,8 +15,8 @@ public class Test {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "test_id")
     private Long id;
-    private BigDecimal price;
     private String time;
+    private BigDecimal price;
 
     @Builder
     public Test(BigDecimal price, String time) {
