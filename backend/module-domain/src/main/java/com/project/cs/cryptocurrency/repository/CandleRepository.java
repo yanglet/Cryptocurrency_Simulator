@@ -8,6 +8,7 @@ import com.project.cs.cryptocurrency.feignclient.UpbitFeignClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -31,7 +32,7 @@ public class CandleRepository {
         return feignClient.getMonthCandles(market, 200);
     }
 
-    public DayCandleDto findByDay(String market, String time){
-        return feignClient.getDayCandle(market, time);
+    public DayCandleDto findByDay(String market, LocalDateTime time){
+        return feignClient.getDayCandle(market, time).get(0);
     }
 }
