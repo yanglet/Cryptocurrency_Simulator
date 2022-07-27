@@ -20,11 +20,10 @@ function Likes({ market }) {
   }
 
   return (
-    <div>
       <button onClick={handleLike}>
-        <AiOutlineHeart />
+        <AiOutlineHeart size="21" />
       </button>
-    </div>
+   
   );
 }
 

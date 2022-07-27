@@ -19,7 +19,9 @@ function CandleChart({ tickerId, params }) {
       <div className="flex">
         <p className="text-2xl font-bold">{data[id].korean_name}</p>
         <p className="my-auto text-sm ml-2">{data[id].market}</p>
-        <Likes market={data[id].market} />
+        <div className="my-auto text-center mx-3">
+          <Likes market={data[id].market} />
+        </div>
       </div>
       <div className="flex justify-between">
         <p className="text-4xl font-bold">
