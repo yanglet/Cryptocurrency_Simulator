@@ -27,7 +27,7 @@ public class CryptocurrencyRepository {
 
         for(int i=0; i<markets.size(); i++){
             cryptocurrencies.get(i).setName(markets.get(i));
-            cryptocurrencies.get(i).setId((Long.valueOf(i + 1)));
+            cryptocurrencies.get(i).setId(Market.getId(markets.get(i).getMarket()));
         }
 
         return cryptocurrencies;
@@ -51,7 +51,7 @@ public class CryptocurrencyRepository {
 
         for(int i=0; i<cryptocurrencies.size(); i++){
             cryptocurrencies.get(i).setName(marketDtoList.get(i));
-            cryptocurrencies.get(i).setId((Long.valueOf(i + 1)));
+            cryptocurrencies.get(i).setId(Market.getId(marketDtoList.get(i).getMarket()));
         }
 
         return cryptocurrencies;
