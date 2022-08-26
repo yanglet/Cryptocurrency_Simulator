@@ -12,7 +12,7 @@ const menu = [
     {
       id: 2,
       title: "테스트",
-      path: "/test",
+      path: "/testPage",
     },
     {
       id: 3,
