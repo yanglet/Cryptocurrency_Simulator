@@ -2,8 +2,11 @@ import React from 'react';
 
 function SellForm({price}) {
     return (
-        <div className='mx-11 my-11'>
-        <form>
+<div className='pt-2 px-4 border-2'>
+<div className='font-bold'>
+                매도
+            </div>
+            <form className='mt-9'>
             {/* 주문구분, 주문가능, 매수가격(KRW), 주문수량(GMT), 주문총액(KRW) */}
             <div className='flex justify-between'>
             <label className='my-auto'>주문구분</label>
@@ -28,9 +31,9 @@ function SellForm({price}) {
                 <label className='my-auto'>주문총액</label>
                 <input className='border rounded-lg w-1/2 h-9'/>
             </div>
-            <div className=''>
-                <button className='mx-14 my-11 px-11 py-3 bg-slate-300'>초기화</button>
-                <button className='px-32 py-3 bg-blue-600 text-white'>매도</button>
+            <div className="mt-11 mb-6 text-center">
+                {/* <button className='mx-14 my-11 px-11 py-3 bg-slate-300'>초기화</button> */}
+                <button className='py-3 px-36 bg-blue-600 text-white rounded-lg'>매도</button>
             </div>
             <div></div>
         </form>

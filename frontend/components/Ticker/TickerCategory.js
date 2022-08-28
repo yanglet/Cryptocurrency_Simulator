@@ -1,6 +1,7 @@
 import React from "react";
 
 function TickerCategory({ categoryName, setCategoryName }) {
+  
   let letter = "";
   if (categoryName === "main") {
     letter = "전체종목";
@@ -9,10 +10,11 @@ function TickerCategory({ categoryName, setCategoryName }) {
   } else if (categoryName === "interest") {
     letter = "관심";
   }
+
   return (
-    <div>
+    <div className="bg-white">
       <button onClick={() => setCategoryName(categoryName)}
-      className="px-10 py-3 hover:border-b-4 hover:border-b-blue-900">{letter}</button>
+      className="py-3 px-11 hover:border-b-4 hover:border-b-gray-900 hover:font-bold hover:bg-gray-100" >{letter}</button>
     </div>
   );
 }

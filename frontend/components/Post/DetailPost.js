@@ -72,9 +72,10 @@ function DetailPost({ params }) {
 
         {/* 목록 이전글 다음글  */}
         <div className="flex justify-end pt-4 pb-32">
-          <button className="bg-gray-100 rounded-xl px-2 py-2 mr-2">
-            목록
-          </button>
+          <Link href="/community">
+            <p className="bg-gray-100 rounded-xl px-2 py-2 mr-2 cursor-pointer">목록</p>
+          </Link>
+ 
           <button className="bg-gray-100 rounded-xl px-2 mr-2">이전글</button>
           <button className="bg-gray-100 rounded-xl px-2 ">다음글</button>
         </div>

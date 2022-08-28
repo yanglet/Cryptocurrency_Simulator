@@ -91,8 +91,9 @@ function Ex({ params }) {
   };
 
   return (
-    <div id="chart">
-      <div className="font-lg flex">
+    <div id="chart" className="bg-white">
+      <p className="font-bold py-2 px-4">차트</p>
+      <div className="font-lg flex border-y py-2 px-2">
         <select onChange={handleChange}>
           <option>분</option>
           <option value="1">1분</option>
@@ -128,12 +129,16 @@ function Ex({ params }) {
           월
         </button>
       </div>
+      <div className="py-3 px-3">
+
+     
       <ReactApexChart
         options={chart.options}
         series={[{ data: data }]}
         type="candlestick"
         height={350}
       />
+       </div>
     </div>
   );
 }

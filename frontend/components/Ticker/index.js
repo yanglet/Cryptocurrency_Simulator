@@ -1,31 +1,25 @@
-import React, {useState} from 'react';
-import TickerCategory from './TickerCategory';
-import TickerTable from './TickerTable';
+import React, { useState } from "react";
+import TickerCategory from "./TickerCategory";
+import TickerTable from "./TickerTable";
 
-function Ticker({params}) {
+function Ticker({ params, tickerId, setTickerId }) {
   const [categoryName, setCategoryName] = useState("main");
 
   return (
-    <div className="my-10">
-      {/* 검색 */}
-      <div className="mt-10 w-1/3 ml-16 ">
-        {/* 전체 종목 | 보유 | 관심 */}
-        <div className="flex justify-between">
-          {["main", "holding", "interest"].map((category, index) => {
-            return (
-              <TickerCategory
-                key={index}
-                categoryName={category}
-                setCategoryName={setCategoryName}
-              />
-            );
-          })}
-        </div>
+    <div className="">
+      {/* 전체 종목 | 보유 | 관심 */}
+      <div className="bg-white flex justify-between">        
+        {["main", "holding", "interest"].map((category, index) => {
+          return (
+            <TickerCategory
+              key={index}
+              categoryName={category}
+              setCategoryName={setCategoryName}
+            />
+          );
+        })}
       </div>
-      <TickerTable 
-        categoryName={categoryName}       
-        params={params}  
-      />
+      <TickerTable categoryName={categoryName} params={params} tickerId={tickerId} setTickerId={setTickerId} />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import useInput from "../hooks/useInput";
-import {useRouter} from 'next/router';
+import { useRouter } from "next/router";
 import AuthService from "../../services/auth.service";
 
 function LoginForm() {
@@ -9,56 +9,57 @@ function LoginForm() {
   const [email, onChangeEmail] = useInput("");
   const [password, onChangePassword] = useInput("");
 
-  const onSubmitForm = async(e) => {
+  const onSubmitForm = async (e) => {
     e.preventDefault();
     try {
       await AuthService.login(email, password).then(
         () => {
-          window.location.replace('/profile'); 
+          window.location.replace("/profile");
         },
         (error) => {
           console.log(error);
         }
       );
-    } catch (err){
+    } catch (err) {
       console.log(err);
     }
   };
-  
+
   return (
-    <div className="border rounded-lg px-4 py-4 max-w-lg mx-auto">
-      <form className="text-center " onSubmit={onSubmitForm}>
-        <div className="flex justify-between mb-6">
-          <label className="text-gray-700 w-full text-xl" htmlFor="user-id">
-            이메일
-          </label>
+    <div className="">
+      <form className="text-center" onSubmit={onSubmitForm}>
+        <input
+          className="w-1/4 h-14 text-lg rounded-lg border-2 mb-4 px-2"
+          value={email}
+          onChange={onChangeEmail}
+          type="text"
+          required
+          placeholder="이메일"
+        />
+
+        <div className="">
           <input
-            className="text-xl rounded-lg border-2"
-            value={email}
-            onChange={onChangeEmail}
-            type="text"
-            required
-          />
-        </div>
-        <div className="flex justify-between">
-          <label className="text-gray-700 w-full text-xl" htmlFor="user-password">비밀번호</label>
-          <input
-            className="text-xl rounded-lg border-2"
+            className="w-1/4 h-14 text-lg rounded-lg border-2 mb-5 px-2"
             value={password}
             onChange={onChangePassword}
-            type="password" 
+            type="password"
             required
+            placeholder="비밀번호"
           />
         </div>
-        <div className="mt-11">
-          <button className="border rounded bg-slate-300 px-11 py-2 mr-6" type="submit">로그인</button>
-          <Link href="/signup">
-            <a>
-              <button className="border rounded bg-slate-600 text-white px-11 py-2">회원가입</button>
-            </a>
-          </Link>
-        </div>
+
+        <button
+          className="mt-9 border bg-blue-600 w-1/4 h-14 rounded-lg text-white font-bold"
+          type="submit"
+        >
+          로그인
+        </button>
       </form>
+      <div className="mt-4 text-right w-3/5 cursor-pointer">
+        <Link href="/signup">
+          <u className="pb-1">회원가입</u>
+        </Link>
+      </div>
     </div>
   );
 }
