@@ -1,7 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
-import CandleChart from "../CandleChart";
-import BuySell from "../BuySell";
 
 const fisrtList = [
   {
@@ -22,17 +20,15 @@ const fisrtList = [
   },
 ];
 
-function List({ data, params }) {
-  const [tickerId, setTickerId] = useState("1");
-
+function List({ data, setTickerId }) {
   return (
-    <div className="flex">
-      <div className="w-2/5 ml-10">
-        <table className="table-auto w-full">
-          <thead className="bg-slate-300">
+    <div className="">
+      <div className="bg-white border-x border-gray-300 overflow-y-scroll overflow-hidden sm:h-[73vw] 2xl:h-[51.3vw]">
+        <table className="w-full table-fixed text-sm ">
+          <thead className="border-x-1 border-gray-900 ">
             <tr>
               {fisrtList.map((list, idx) => (
-                <th key={idx} className="text-lg">
+                <th key={idx} className="text-sm bg-gray-100 text-gray-600">
                   {list.title}
                 </th>
               ))}
@@ -42,24 +38,25 @@ function List({ data, params }) {
             {/* 코인명 | 현재가 | 전일대비 | 거래대금 */}
             {data &&
               data.map((item) => (
-                <Link href={`/exchange/${item.market}`}>
-                  <tr key={item.id}>
-                    <td className="border text-center">
+                <Link href={`/exchange/${item.market}`} key={item.id}>
+                  <tr className="border-y hover:bg-gray-200 ">
+                    <td className="text-center truncate">
                       <button onClick={() => setTickerId(item.id)}>
-                        {item.korean_name}
+                        <p className="font-semibold ">{item.korean_name}</p>
+                        <p className="text-xs text-gray-500">{item.market}</p>
                       </button>
                     </td>
-                    <td className="border text-right">
+                    <td className=" text-right">
                       <button onClick={() => setTickerId(item.id)}>
                         {item.trade_price.toLocaleString()}
                       </button>
                     </td>
-                    <td className="border text-right">
+                    <td className=" text-right">
                       <button onClick={() => setTickerId(item.id)}>
                         {(item.signed_change_rate * 100).toFixed(2)}
                       </button>
                     </td>
-                    <td className="border flex justify-center">
+                    <td className=" flex justify-center py-4">
                       <button onClick={() => setTickerId(item.id)}>
                         {Number(
                           String(item.acc_trade_price_24h.toFixed()).slice(
@@ -78,15 +75,7 @@ function List({ data, params }) {
           </tbody>
         </table>
       </div>
-      <div className="w-3/5 mx-10">
-        <div className="border">
-          <CandleChart tickerId={tickerId} params={params} />
-        </div>
-        <div className="border mt-10">
-          <BuySell tickerId={tickerId} params={params} />
-        </div>
       </div>
-    </div>
   );
 }
 

@@ -4,10 +4,20 @@ import authHeader from "../../services/auth-header";
 import List from "./List";
 import LoginForm from "../User/LoginForm";
 import Link from "next/link";
-
+import AuthService from "../../services/auth.service";
 const url = `http://localhost:9090/v1/api/likes`;
 
-function Interest({ params }) {
+function Interest({ params, setTickerId }) {
+  const [currentUser, setCurrentUser] = useState(undefined);
+
+  useEffect(() => {
+    const user = AuthService.getCurrentUser();
+
+    if (user) {
+      setCurrentUser(user);
+    }
+  }, []);
+
   const [data, setData] = useState("");
 
   useEffect(() => {
@@ -25,10 +35,16 @@ function Interest({ params }) {
       );
   }, [setData]);
 
-  if (data) {
-    return <List data={data} params={params} />;
+  if (data && currentUser) {
+    return <List data={data} params={params} setTickerId={setTickerId} />;
   } else {
-    return <LoginForm />;
+    return (
+      <div className="bg-white text-center h-64 border">
+        <button className="mt-24 border bg-blue-600 w-1/4 h-14 rounded-lg text-white font-bold">
+          <Link href="/login">로그인</Link>
+        </button>
+      </div>
+    );
   }
 }
 
