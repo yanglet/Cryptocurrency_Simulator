@@ -1,29 +1,29 @@
-import React , {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import PostService from "../../services/post.service";
 import useInput from "../hooks/useInput";
 import AuthService from "../../services/auth.service";
 import UserService from "../../services/user.service";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 
 function CreatePost(props) {
   const router = useRouter();
   const [content, onChangeContent] = useInput("");
   const [title, onChangeTitle] = useInput("");
   const [user, setUser] = useState([]);
-  
-    // if( typeof window !== 'undefined'){
-    //   const Authorization = Object.values(JSON.parse(localStorage.getItem("user")));
-    //   console.log(Authorization);
-    // }
- 
+
+  // if( typeof window !== 'undefined'){
+  //   const Authorization = Object.values(JSON.parse(localStorage.getItem("user")));
+  //   console.log(Authorization);
+  // }
+
   useEffect(() => {
     UserService.getMemberDetail().then(
-        (response) => {
-            setUser(response.data);
-        },
-        (error) => {
-            console.log(error);
-        }
+      (response) => {
+        setUser(response.data);
+      },
+      (error) => {
+        console.log(error);
+      }
     );
   }, []);
 
@@ -36,7 +36,7 @@ function CreatePost(props) {
         },
         (error) => {
           console.log(error);
-          // 토큰이 유효하지않은 경우 
+          // 토큰이 유효하지않은 경우
           // if(error.response && error.response.status === 403){
           //   AuthService.logOut();
           //   window.location.replace("");
@@ -49,28 +49,23 @@ function CreatePost(props) {
   };
 
   return (
-    <div className="border-slate-800 text-center">
+    <div className="border-slate-800">
+        <div className="font-bold text-lg border-b-2 pb-4 border-slate-200">
+          게시글 쓰기
+        </div>
       <form
         onSubmit={handleSubmit}
-        className="inline-block border-t-2 border-slate-800"
+        className="text-lg "
       >
-
         <div className="flex border-b-2 py-6">
           <label className="mr-8">작성자</label>
           <p>{user.name}</p>
-          {/* <input
-            className="border-2 rounded-md w-96"
-            value={content.name}
-            onChange={onChangeTitle}
-            type="text"
-            required
-          /> */}
         </div>
-        
+
         <div className="flex border-b-2 py-6">
-          <label className="mr-8">제목</label>
+          <label className="mr-8 text-lg my-auto">제목</label>
           <input
-            className="border-2 rounded-md w-96"
+            className="border-2 rounded-md w-96 h-11 text-lg"
             value={title}
             onChange={onChangeTitle}
             type="text"
@@ -79,7 +74,7 @@ function CreatePost(props) {
         </div>
         <div className="w-full py-11">
           <input
-            className="px-11 w-full h-72 border"
+            className="px-11 w-full h-72 border text-lg"
             type="text"
             placeholder="커뮤니티 글쓰기"
             value={content}
@@ -91,13 +86,13 @@ function CreatePost(props) {
           {/* router이용하여 뒤로가기  */}
           <button
             onClick={() => router.back()}
-            className="bg-slate-100 rounded-xl px-2 py-2 mr-2 w-24"
+            className="bg-red-100 rounded-xl py-2 mr-2 w-36 font-bold  h-14"
             type="submit"
           >
             취소
           </button>
           <button
-            className="bg-slate-400 rounded-xl px-2 py-2 mr-2 w-24"
+            className="bg-blue-100 rounded-xl py-2 mr-2 w-36 font-bold h-14"
             type="submit"
           >
             확인
