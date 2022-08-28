@@ -16,36 +16,27 @@ function UserProfile(props) {
   }, []);
 
   return (
-    <div className="w-5/12 mx-auto border">
-      <div className="text-center mx-auto">
-        <div className="text-2xl font-bold rounded-full inline px-8 py-2 bg-slate-800 text-slate-200">
-          MY PAGE
+      <div className="">
+        <div className="flex justify-center my-4">
+          <div className="my-auto text-lg mr-8">이름</div>
+          <input className="w-1/4 h-14 text-lg rounded-lg border-2 px-6 inline-block " value= {content.name} />    
         </div>
-        <div className="mt-24">
-          <p className="my-2">이름</p>
-          <p className="text-xl bg-slate-200 h-11 w-1/2 inline-block">
-            {content.name}
-          </p>
+        <div className="flex justify-center my-4">
+          <div className="my-auto text-lg mr-4">이메일</div>
+          <input className="w-1/4 h-14 text-lg rounded-lg border-2 px-6 inline-block " value= {content.email} />    
         </div>
-        <div className="my-2">
-          <p>이메일</p>
-          <p className="text-xl bg-slate-200 h-11 w-1/2 inline-block ">
-            {content.email}
-          </p>
+        <div className="flex justify-center my-4">
+          <div className="my-auto text-lg mr-8">잔액</div>
+          <input className="w-1/4 h-14 text-lg rounded-lg border-2 px-6 inline-block " value= {content.balance} />    
         </div>
-        <div className="my-2">
-          <p>잔액</p>
-          <p className="text-xl bg-slate-200 h-11 w-1/2 inline-block	">
-            {content.balance}
-          </p>
-        </div>
-        <div className="mt-16">
-          <button className="rounded-full text-xl border-slate-400 border-4 py-2 px-4">
-            수정하기
-          </button>
-        </div>
+        <button
+          className="mt-9 border bg-blue-600 w-1/4 h-14 rounded-lg text-white font-bold"
+          type="submit"
+        >
+          수정하기
+        </button>
       </div>
-    </div>
+   
   );
 }
 
