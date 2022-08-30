@@ -27,6 +27,7 @@ function LoginForm() {
 
   return (
     <div className="">
+ 
       <form className="text-center" onSubmit={onSubmitForm}>
         <input
           className="w-1/4 h-14 text-lg rounded-lg border-2 mb-4 px-2"
@@ -54,10 +55,12 @@ function LoginForm() {
         >
           로그인
         </button>
+        
       </form>
-      <div className="mt-4 text-right w-3/5 cursor-pointer">
+      <div className="mt-4 cursor-pointer text-gray-700">
+        아직 회원이 아니신가요? &nbsp;
         <Link href="/signup">
-          <u className="pb-1">회원가입</u>
+          <u className="pb-1 text-blue-700">회원가입</u>
         </Link>
       </div>
     </div>
