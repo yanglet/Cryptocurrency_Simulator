@@ -19,6 +19,7 @@ public class PostService {
     private final CommentRepository commentRepository;
     private final UploadFileUtils uploadFileUtils;
 
+    @Transactional
     public Long post(PostRequest postRequest, Member member) throws IOException {
         if(member == null){
             throw new AccessDeniedException("access denied");
