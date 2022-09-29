@@ -24,7 +24,6 @@ const data = [
 function Introduce(props) {
   return (
     <div className="mb-36">
-      <div className="mt-24 text-4xl font-bold">투자에 필요한 모든 기능</div>
       <div className="flex justify-center">
         {data.map((item) => (
           <div className="mt-16" key={item.id}>

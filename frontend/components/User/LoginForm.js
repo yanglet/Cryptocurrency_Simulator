@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import useInput from "../hooks/useInput";
+import useInput from "../../hooks/useInput";
 import { useRouter } from "next/router";
 import AuthService from "../../services/auth.service";
 

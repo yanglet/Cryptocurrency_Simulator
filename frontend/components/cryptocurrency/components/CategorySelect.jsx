@@ -1,6 +1,6 @@
 import React from "react";
 
-function TickerCategory({ categoryName, setCategoryName }) {
+function CateogrySelect({ categoryName, setCategoryName }) {
   
   let letter = "";
   if (categoryName === "main") {
@@ -19,4 +19,4 @@ function TickerCategory({ categoryName, setCategoryName }) {
   );
 }
 
-export default TickerCategory;
+export default CateogrySelect;

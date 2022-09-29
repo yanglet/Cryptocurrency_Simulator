@@ -1,13 +1,21 @@
 import React from "react";
 
-function BuyForm({ price }) {
+function Form({ price, tradingType, tradingPrice, btnColor }) {
   return (
     <div className="pt-2 px-4 border-2">
-      <div className="font-bold">매수</div>
+      <div className="font-bold">{tradingType}</div>
       <form className="mt-9">
         {/* 주문구분, 주문가능, 매수가격(KRW), 주문수량(GMT), 주문총액(KRW) */}
         <div className="flex justify-between">
           <label className="my-auto">주문구분</label>
+          <div className="flex">
+            <input type="radio" value="" />
+            <label className="ml-2">지정가</label>
+          </div>
+          <div className="flex">
+            <input type="radio" value="" />
+            <label className="ml-2">시장가</label>
+          </div>
         </div>
         <div className="flex justify-between mt-6">
           <label className="my-auto">주문가능</label>
@@ -18,7 +26,7 @@ function BuyForm({ price }) {
           </div>
         </div>
         <div className="flex justify-between mt-6">
-          <label className="my-auto">매수가격</label>
+          <label className="my-auto">{tradingPrice}</label>
           <input
             className="border rounded-lg w-1/2 h-9 text-right"
             defaultValue={price}
@@ -36,7 +44,7 @@ function BuyForm({ price }) {
           {/* <button className="mx-14 my-11 px-11 py-3 bg-slate-300">
             초기화
           </button> */}
-          <button className="py-3 px-36 bg-red-600 text-white rounded-lg">매수</button>
+          <button className={btnColor}>{tradingType}</button>
         </div>
         <div></div>
       </form>
@@ -44,4 +52,4 @@ function BuyForm({ price }) {
   );
 }
 
-export default BuyForm;
+export default Form;
