@@ -1,6 +1,6 @@
 import axios from "axios";
 import React , {useState, useEffect} from "react";
-import useInput from "../hooks/useInput";
+import useInput from "../../hooks/useInput";
 import authHeader from "../../services/auth-header";
 
 function CommentForm({params}) {
