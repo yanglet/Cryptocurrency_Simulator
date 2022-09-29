@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import useInput from "../hooks/useInput";
+import useInput from "../../hooks/useInput"
 import axios from "axios";
 const API_URL = "http://localhost:9090/v1/api/tests";
 

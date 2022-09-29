@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PostService from "../../services/post.service";
-import useInput from "../hooks/useInput";
+import useInput from "../../hooks/useInput";
 import AuthService from "../../services/auth.service";
 import UserService from "../../services/user.service";
 import { useRouter } from "next/router";
