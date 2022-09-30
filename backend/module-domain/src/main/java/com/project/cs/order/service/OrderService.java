@@ -41,50 +41,10 @@ public class OrderService {
      * 주문 처리 후 수익률, 랭킹이 바뀌는 것이 반영이 되어야함
      * -> 실시간 X, 하루에 한 번
      */
+
     public OrderResponse order(OrderRequest orderRequest, Member member){
         CryptocurrencyDto cryptocurrencyDto = cryptocurrencyRepository.findByMarket(orderRequest.getMarket());
 
-        OrderItem orderItem = OrderItem.builder()
-                .koreanName(cryptocurrencyDto.getKorean_name())
-                .englishName(cryptocurrencyDto.getEnglish_name())
-                .market(cryptocurrencyDto.getMarket())
-                .size(Double.valueOf(orderRequest.getVolume()))
-                .price(orderRequest.getPrice())
-                .build();
-
-        if( orderRequest.getOrderType().equals("price") ){ // 시장가 주문 - 매수
-            Order result = getOrderResult(orderRequest, member, orderItem);
-            return new OrderResponse(result.getId());
-        }else if( orderRequest.getOrderType().equals("market") ){ // 시장가 주문 - 매도
-            Order result = getOrderResult(orderRequest, member, orderItem);
-            return new OrderResponse(result.getId());
-        }else if( orderRequest.getOrderType().equals("limit") ) { // 지정가 주문
-            if( orderRequest.getSide().equals("bid") ){ // 지정가 매수
-
-            }else if( orderRequest.getSide().equals("ask") ) { // 지정가 매도
-
-            }
-        }
         return null;
     }
-
-    private Order getOrderResult(OrderRequest orderRequest, Member member, OrderItem orderItem) {
-        if(orderRequest.getSide().equals("bid")){
-            member.buy(orderRequest.getPrice());
-        } else if (orderRequest.getSide().equals("ask")){
-            member.sell(orderRequest.getPrice());
-        }
-
-        Order order = Order.builder()
-                .orderItem(orderItem)
-                .member(member)
-                .build();
-
-        orderItemRepository.save(orderItem);
-
-        Order result = orderRepository.save(order);
-
-        return result;
-    }
-
 }

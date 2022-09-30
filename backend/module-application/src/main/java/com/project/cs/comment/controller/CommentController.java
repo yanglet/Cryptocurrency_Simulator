@@ -31,10 +31,10 @@ public class CommentController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "사용자 인증을 위한 accessToken", paramType = "header", required = true)
     })
-    public ResponseEntity<CommentResponse> comment(@PathVariable("post_id") Long id,
+    public ResponseEntity<CommentResponse> comment(@PathVariable("post_id") Long postId,
                                                    @Validated @RequestBody CommentRequest commentRequest,
                                                    @LoginMember Member member){
-        Long commentId = commentService.comment(id, commentRequest, member);
+        Long commentId = commentService.comment(postId, commentRequest, member);
         return new ResponseEntity(new CommentResponse(commentId), HttpStatus.CREATED);
     }
 
@@ -43,8 +43,8 @@ public class CommentController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "사용자 인증을 위한 accessToken", paramType = "header", required = true)
     })
-    public ResponseEntity<List<CommentDto>> getComments(@PathVariable("post_id") Long id){
-        List<CommentDto> commentDtoList = commentRepository.findByPostId(id)
+    public ResponseEntity<List<CommentDto>> getComments(@PathVariable("post_id") Long postId){
+        List<CommentDto> commentDtoList = commentRepository.findByPostId(postId)
                 .stream()
                 .map(c -> new CommentDto(c))
                 .collect(Collectors.toList());

@@ -6,6 +6,7 @@ import com.project.cs.cryptocurrency.dto.candle.DayCandleDto;
 import com.project.cs.cryptocurrency.dto.candle.MinuteCandleDto;
 import com.project.cs.cryptocurrency.dto.candle.MonthCandleDto;
 import com.project.cs.cryptocurrency.dto.candle.WeekCandleDto;
+import feign.RequestLine;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
