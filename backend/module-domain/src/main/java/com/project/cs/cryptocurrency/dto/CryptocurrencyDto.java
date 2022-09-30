@@ -3,6 +3,7 @@ package com.project.cs.cryptocurrency.dto;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -20,6 +21,7 @@ public class CryptocurrencyDto {
     private BigDecimal acc_trade_volume_24h; // 거래량
     private BigDecimal signed_change_rate; // 부호가 있는 변화율 ( 전일대비 )
     private BigDecimal signed_change_price; // 부호가 있는 변화금액 ( 전일대비 )
+    private LocalDateTime ins_date;
 
     @Builder
     public CryptocurrencyDto(String market, String korean_name, String english_name, BigDecimal trade_price, BigDecimal high_price, BigDecimal low_price, String change, BigDecimal acc_trade_price_24h, BigDecimal acc_trade_volume_24h, BigDecimal signed_change_rate, BigDecimal signed_change_price) {
@@ -34,6 +36,7 @@ public class CryptocurrencyDto {
         this.acc_trade_volume_24h = acc_trade_volume_24h;
         this.signed_change_rate = signed_change_rate;
         this.signed_change_price = signed_change_price;
+        this.ins_date = LocalDateTime.now();
     }
 
     public void setName(MarketDto marketDto){

@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.project.cs.order.service.OrderStatusConstants.*;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -21,30 +23,53 @@ public class OrderService {
     private final OrderItemRepository orderItemRepository;
     private final CryptocurrencyRepository cryptocurrencyRepository;
 
-    /**
-     * 주문
-     *
-     * 시장가 -> 바로 처리 가능
-     *
-     * 지정가 -> 가격을 비교해서 가격이 같으면 주문 처리 가능
-     *       -> 지정된 가격을 기준으로 계속 데이터를 불러와서 맞는지 확인해야함
-     *       -> 사용자가 조금만 있어도 API 호출 제한에 걸림 ,,
-     *       API 요청 제한 분당 600회, 초당 10회
-     *
-     * 생각
-     * 1. 메서드가 계속 돌아가도록 해도되나? ( 멀티 쓰레드이기 때문에 괜찮기는 할듯 )
-     *  1-1. 그런데 터무니 없는 값을 지정가로 설정해서 몇달이 돌아가도록 된다면? ,,
-     * 2. 1초마다 API를 호출해서 처리해도 되나?
-     */
-
-    /**
-     * 주문 처리 후 수익률, 랭킹이 바뀌는 것이 반영이 되어야함
-     * -> 실시간 X, 하루에 한 번
-     */
-
+    // 주문
     public OrderResponse order(OrderRequest orderRequest, Member member){
-        CryptocurrencyDto cryptocurrencyDto = cryptocurrencyRepository.findByMarket(orderRequest.getMarket());
+        // if 시장가 주문 -> 바로 체결 -> completeOrder
+        // completeOrder 밑의 로직 두개가 completeOrder 안에 있음
+        // 매도의 경우는 체결시 orderItem 삭제
+        // 매수의 경우는 체결시 orderItem 저장
 
+        // if 지정가 주문 -> order 저장만 -> saveOrder
+        // 매도 매수 관계없이 order 저장
         return null;
+    }
+
+    // 주문 저장
+    public OrderResponse saveOrder(OrderRequest orderRequest, Member member){
+        Order order = Order.builder()
+                .koreanName(orderRequest.getKoreanName())
+                .englishName(orderRequest.getEnglishName())
+                .market(orderRequest.getMarket())
+                .type(orderRequest.getType())
+                .ordType(orderRequest.getOrdType())
+                .status(orderRequest.getStatus())
+                .price(orderRequest.getPrice())
+                .volume(orderRequest.getVolume())
+                .member(member)
+                .build();
+
+        return new OrderResponse(orderRepository.save(order).getId());
+    }
+
+    // 주문 체결
+    // 매도의 경우는 orderItem을 삭제하는 로직
+    // 매수의 경우는 orderItem을 저장하는 로직
+    public void completeOrder(Order order){
+        order.changeStatus(ORDER_STATUS_COMPLETE);
+
+        OrderItem orderItem = OrderItem.builder()
+                .koreanName(order.getKoreanName())
+                .englishName(order.getEnglishName())
+                .market(order.getMarket())
+                .type(order.getType())
+                .ordType(order.getOrdType())
+                .price(order.getPrice())
+                .volume(order.getVolume())
+                .member(order.getMember())
+                .order(order)
+                .build();
+
+        orderItemRepository.save(orderItem);
     }
 }

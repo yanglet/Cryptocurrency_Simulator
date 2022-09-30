@@ -19,6 +19,8 @@ public class Order extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
     private Long id;
+    private String koreanName;
+    private String englishName;
     private String market;
     private String type; // 매도 / 매수 - ask / bid
     private String ordType; // 지정가 / 시장가 매수 / 시장가 매도 - limit / price / market
@@ -30,7 +32,9 @@ public class Order extends BaseEntity {
     private Member member;
 
     @Builder
-    public Order(String market, String type, String ordType, String status, String price, Double volume, Member member) {
+    public Order(String koreanName, String englishName, String market, String type, String ordType, String status, String price, Double volume, Member member) {
+        this.koreanName = koreanName;
+        this.englishName = englishName;
         this.market = market;
         this.type = type;
         this.ordType = ordType;
@@ -38,5 +42,9 @@ public class Order extends BaseEntity {
         this.price = price;
         this.volume = volume;
         this.member = member;
+    }
+
+    public void changeStatus(String status){
+        this.status = status;
     }
 }
