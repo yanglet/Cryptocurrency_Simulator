@@ -9,6 +9,7 @@ import com.project.cs.order.request.OrderRequest;
 import com.project.cs.order.response.OrderResponse;
 import com.project.cs.orderitem.entity.OrderItem;
 import com.project.cs.orderitem.repository.OrderItemRepository;
+import com.project.cs.orderitem.service.OrderItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
     private final CryptocurrencyRepository cryptocurrencyRepository;
+    private final OrderItemService orderItemService;
 
     // 주문
     public OrderResponse order(OrderRequest orderRequest, Member member){
@@ -32,6 +34,17 @@ public class OrderService {
 
         // if 지정가 주문 -> order 저장만 -> saveOrder
         // 매도 매수 관계없이 order 저장
+        if(ORDER_TYPE_LIMIT.equals(orderRequest.getOrdType())){ // 지정가
+            return saveOrder(orderRequest, member);
+        }else {
+            CryptocurrencyDto cryptocurrency = cryptocurrencyRepository.findByMarket(orderRequest.getMarket());
+
+            if(ORDER_TYPE_MARKET.equals(orderRequest.getOrdType())){ // 시장가 매도
+
+            }else if(ORDER_TYPE_PRICE.equals(orderRequest.getOrdType())){ // 시장가 매수
+
+            }
+        }
         return null;
     }
 
@@ -43,7 +56,7 @@ public class OrderService {
                 .market(orderRequest.getMarket())
                 .type(orderRequest.getType())
                 .ordType(orderRequest.getOrdType())
-                .status(orderRequest.getStatus())
+                .status(ORDER_STATUS_WAIT)
                 .price(orderRequest.getPrice())
                 .volume(orderRequest.getVolume())
                 .member(member)
@@ -58,18 +71,14 @@ public class OrderService {
     public void completeOrder(Order order){
         order.changeStatus(ORDER_STATUS_COMPLETE);
 
-        OrderItem orderItem = OrderItem.builder()
-                .koreanName(order.getKoreanName())
-                .englishName(order.getEnglishName())
-                .market(order.getMarket())
-                .type(order.getType())
-                .ordType(order.getOrdType())
-                .price(order.getPrice())
-                .volume(order.getVolume())
-                .member(order.getMember())
-                .order(order)
-                .build();
+        if(TYPE_ASK.equals(order.getType())){ // 매도
+            orderItemService.deleteOrderItem(order);
+        }else if(TYPE_BID.equals(order.getType())) { // 매수
+            orderItemService.saveOrderItem(order);
+        }
+    }
 
-        orderItemRepository.save(orderItem);
+    public void cancelOrder(){
+
     }
 }
