@@ -74,15 +74,12 @@ public class OrderJobConfig {
                 int result = cryptocurrency.getTrade_price().compareTo(BigDecimal.valueOf(Double.valueOf(order.getPrice())));
                 if(result == 0){
                     log.info("orderId = {}", order.getId());
-                    log.info("completeOrder !!");
                     orderService.completeOrder(order);
                 }else if(result < 0 && order.getType().equals(TYPE_BID)){ // 매수 가격이 현재가보다 크다면 체결
                     log.info("orderId = {}", order.getId());
-                    log.info("completeOrder !!");
                     orderService.completeOrder(order);
                 }else if(result > 0 && order.getType().equals(TYPE_ASK)){ // 매도 가격이 현재가보다 작다면 체결
                     log.info("orderId = {}", order.getId());
-                    log.info("completeOrder !!");
                     orderService.completeOrder(order);
                 }
             }
