@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.EntityManagerFactory;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Slf4j
@@ -28,7 +29,7 @@ public class OrderJobConfig {
     private final EntityManagerFactory entityManagerFactory;
     private final CryptocurrencyRepository cryptocurrencyRepository;
     private final OrderService orderService;
-    private int chunkSize = 1000;
+    private final int chunkSize = 100;
 
     @Bean
     public Job OrderItemWriterJob() {
@@ -52,7 +53,7 @@ public class OrderJobConfig {
                 .name("orderItemWriterReader")
                 .entityManagerFactory(entityManagerFactory)
                 .pageSize(chunkSize)
-                .queryString("SELECT o FROM Order o WHERE status = 'wait'")
+                .queryString("SELECT o FROM Order o JOIN FETCH o.member WHERE status = 'wait'")
                 .build();
     }
 
@@ -67,7 +68,7 @@ public class OrderJobConfig {
                         .filter(c -> c.getMarket().equals(order.getMarket()))
                         .findFirst().orElseThrow();
 
-                if(cryptocurrency.getTrade_price().equals(order.getPrice())){
+                if(cryptocurrency.getTrade_price().compareTo(BigDecimal.valueOf(Double.valueOf(order.getPrice()))) == 0){
                     log.info("orderId = {}", order.getId());
                     orderService.completeOrder(order);
                 }

@@ -15,8 +15,6 @@ public class OrderRequest {
     private String englishName;
     @NotEmpty
     private String market; // 마켓 코드
-    @NotEmpty
-    private String side; // 주문 종류 - bid(매수), ask(매도)
     @Positive
     private Double volume; // 주문량
     @NotEmpty
