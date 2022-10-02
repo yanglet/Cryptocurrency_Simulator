@@ -37,10 +37,12 @@ public class Member extends BaseEntity {
     }
 
     public void buy(String price, Double volume){
+        System.out.println("BigDecimal.valueOf(Double.valueOf(price) * volume) = " + BigDecimal.valueOf(Double.valueOf(price) * volume));
         this.balance = this.balance.subtract(BigDecimal.valueOf(Double.valueOf(price) * volume));
     }
 
     public void sell(String price, Double volume){
+        System.out.println("BigDecimal.valueOf(Double.valueOf(price) * volume) = " + BigDecimal.valueOf(Double.valueOf(price) * volume));
         this.balance = this.balance.add(BigDecimal.valueOf(Double.valueOf(price) * volume));
     }
 

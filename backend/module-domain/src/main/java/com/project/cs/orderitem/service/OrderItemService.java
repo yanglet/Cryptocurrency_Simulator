@@ -1,5 +1,6 @@
 package com.project.cs.orderitem.service;
 
+import com.project.cs.member.entity.Member;
 import com.project.cs.order.entity.Order;
 import com.project.cs.orderitem.entity.OrderItem;
 import com.project.cs.orderitem.repository.OrderItemRepository;
@@ -13,8 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class OrderItemService {
     private final OrderItemRepository orderItemRepository;
 
-    public void deleteOrderItem(Order order){
-        orderItemRepository.deleteByOrder(order);
+    public void deleteOrderItem(Member member, String market){
+        OrderItem orderItem = orderItemRepository.findByMemberAndMarket(member, market);
+        orderItemRepository.delete(orderItem);
     }
 
     public void saveOrderItem(Order order){

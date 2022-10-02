@@ -4,6 +4,7 @@ import com.project.cs.cryptocurrency.dto.CryptocurrencyDto;
 import com.project.cs.cryptocurrency.repository.CryptocurrencyRepository;
 import com.project.cs.order.entity.Order;
 import com.project.cs.order.service.OrderService;
+import com.project.cs.order.service.OrderStatusConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -19,6 +20,8 @@ import org.springframework.context.annotation.Configuration;
 import javax.persistence.EntityManagerFactory;
 import java.math.BigDecimal;
 import java.util.List;
+
+import static com.project.cs.order.service.OrderStatusConstants.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -68,8 +71,18 @@ public class OrderJobConfig {
                         .filter(c -> c.getMarket().equals(order.getMarket()))
                         .findFirst().orElseThrow();
 
-                if(cryptocurrency.getTrade_price().compareTo(BigDecimal.valueOf(Double.valueOf(order.getPrice()))) == 0){
+                int result = cryptocurrency.getTrade_price().compareTo(BigDecimal.valueOf(Double.valueOf(order.getPrice())));
+                if(result == 0){
                     log.info("orderId = {}", order.getId());
+                    log.info("completeOrder !!");
+                    orderService.completeOrder(order);
+                }else if(result < 0 && order.getType().equals(TYPE_BID)){ // 매수 가격이 현재가보다 크다면 체결
+                    log.info("orderId = {}", order.getId());
+                    log.info("completeOrder !!");
+                    orderService.completeOrder(order);
+                }else if(result > 0 && order.getType().equals(TYPE_ASK)){ // 매도 가격이 현재가보다 작다면 체결
+                    log.info("orderId = {}", order.getId());
+                    log.info("completeOrder !!");
                     orderService.completeOrder(order);
                 }
             }

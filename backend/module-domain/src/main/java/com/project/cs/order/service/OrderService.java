@@ -4,12 +4,18 @@ import com.project.cs.member.entity.Member;
 import com.project.cs.order.entity.Order;
 import com.project.cs.order.repository.OrderRepository;
 import com.project.cs.order.request.OrderRequest;
+import com.project.cs.order.response.OrderDto;
 import com.project.cs.order.response.OrderResponse;
 import com.project.cs.orderitem.repository.OrderItemRepository;
 import com.project.cs.orderitem.service.OrderItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.project.cs.order.service.OrderStatusConstants.*;
 
@@ -20,6 +26,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
     private final OrderItemService orderItemService;
+    private final EntityManager entityManager;
 
     /**
      * - 주문 -
@@ -41,20 +48,30 @@ public class OrderService {
 
         if (ORDER_TYPE_LIMIT.equals(orderRequest.getOrdType())) { // 지정가
             if(TYPE_BID.equals(orderRequest.getType())){
-                order.getMember().buy(order.getPrice(), order.getVolume());
+                /**
+                 * entityManager.detach(order) 하는 이유
+                 * order 의 member 가 초기화 되지 않은 상태로 order 가 영속 상태이면
+                 * 영속성 컨텍스트에 member 가 초기화 되지 않은 order 가 올라가 있으므로
+                 * fetch join 을 날려서 가져오려 해도 이미 영속성 컨텍스트에 올라가 있는 order 가 조회됨
+                 * 따라서 detach (비영속 상태로 만듦) 해서 fetch join 으로 가져와야
+                 * member 가 초기화 된 order 를 가져올 수 있음
+                 */
+                entityManager.detach(order);
+                orderRepository.findByIdFetch(order.getId())
+                        .getMember().buy(order.getPrice(), order.getVolume());
             }
             return new OrderResponse(order.getId());
-        }
-        // 시장가
-        if (ORDER_TYPE_MARKET.equals(orderRequest.getOrdType())) { // 시장가 매도
-            if(!orderItemRepository.existsByMemberAndMarket(member, orderRequest.getMarket())){
-                throw new IllegalArgumentException();
+        }else { // 시장가
+            if (ORDER_TYPE_MARKET.equals(orderRequest.getOrdType())) { // 시장가 매도
+                if(!orderItemRepository.existsByMemberAndMarket(member, orderRequest.getMarket())){
+                    throw new IllegalArgumentException();
+                }
+                completeOrder(order);
+                return new OrderResponse(order.getId());
+            } else if (ORDER_TYPE_PRICE.equals(orderRequest.getOrdType())) { // 시장가 매수
+                completeOrder(order);
+                return new OrderResponse(order.getId());
             }
-            completeOrder(order);
-            return new OrderResponse(order.getId());
-        } else if (ORDER_TYPE_PRICE.equals(orderRequest.getOrdType())) { // 시장가 매수
-            completeOrder(order);
-            return new OrderResponse(order.getId());
         }
 
         return null;
@@ -86,15 +103,27 @@ public class OrderService {
      * 매수
      * -> orderItem 을 저장하고 member 의 보유 금액에 매수된 금액만큼 빼줘야함
      */
-    public void completeOrder(Order order){ // 여기서의 order 는 전부 초기화 되어 있는 상태의 영속성 상태의 order
-        order.changeStatus(ORDER_STATUS_COMPLETE);
+    public void completeOrder(Order order){
+        /**
+         * entityManager.detach(order) 하는 이유
+         * order 의 member 가 초기화 되지 않은 상태로 order 가 영속 상태이면
+         * 영속성 컨텍스트에 member 가 초기화 되지 않은 order 가 올라가 있으므로
+         * fetch join 을 날려서 가져오려 해도 이미 영속성 컨텍스트에 올라가 있는 order 가 조회됨
+         * 따라서 detach (비영속 상태로 만듦) 해서 fetch join 으로 가져와야
+         * member 가 초기화 된 order 를 가져올 수 있음
+         */
+        entityManager.detach(order);
+        Order fetchOrder = orderRepository.findByIdFetch(order.getId());
+        fetchOrder.changeStatus(ORDER_STATUS_COMPLETE);
 
         if(TYPE_ASK.equals(order.getType())){ // 매도
-            orderItemService.deleteOrderItem(order);
-            order.getMember().sell(order.getPrice(), order.getVolume());
+            fetchOrder.getMember().sell(order.getPrice(), order.getVolume());
+            orderItemService.deleteOrderItem(fetchOrder.getMember(), fetchOrder.getMarket());
         }else if(TYPE_BID.equals(order.getType())) { // 매수
+            if(!ORDER_TYPE_LIMIT.equals(order.getOrdType())){
+                fetchOrder.getMember().buy(order.getPrice(), order.getVolume());
+            }
             orderItemService.saveOrderItem(order);
-            order.getMember().buy(order.getPrice(), order.getVolume());
         }
     }
 
@@ -107,11 +136,21 @@ public class OrderService {
         if(member == null){
             throw new IllegalArgumentException("로그인 후에 이용해주세요.");
         }
-        Order order = orderRepository.findById(orderId).orElseThrow();
-        order.changeStatus(ORDER_STATUS_CANCEL);
+        Order order = orderRepository.findByIdFetch(orderId);
+
+        if(order.getStatus().equals(ORDER_STATUS_WAIT)) {
+            order.changeStatus(ORDER_STATUS_CANCEL);
+        }
 
         if(TYPE_BID.equals(order.getType())){
             order.getMember().sell(order.getPrice(), order.getVolume());
         }
+    }
+
+    public List<OrderDto> getOrders(Member member, String status){
+        return orderRepository.findByMemberAndStatus(member, status)
+                .stream()
+                .map(OrderDto::new)
+                .collect(Collectors.toList());
     }
 }
