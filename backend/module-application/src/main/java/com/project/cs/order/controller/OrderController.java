@@ -21,12 +21,7 @@ import java.util.List;
 @RequestMapping("v1/api/orders")
 public class OrderController {
     private final OrderService orderService;
-    /**
-     * 주문
-     * 주문 취소
-     * 주문 내역 ( 체결 / 미체결 )
-     * 보유 자산은 orderItem 에 가는게 맞는듯?
-     */
+
     @ApiOperation("주문 내역 조회")
     @GetMapping
     @ApiImplicitParams({

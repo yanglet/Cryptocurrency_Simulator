@@ -1,6 +1,5 @@
 package com.project.cs.order.response;
 
-import com.project.cs.member.entity.Member;
 import com.project.cs.order.entity.Order;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
