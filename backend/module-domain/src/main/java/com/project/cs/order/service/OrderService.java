@@ -1,17 +1,23 @@
 package com.project.cs.order.service;
 
-import com.project.cs.cryptocurrency.dto.CryptocurrencyDto;
-import com.project.cs.cryptocurrency.repository.CryptocurrencyRepository;
 import com.project.cs.member.entity.Member;
 import com.project.cs.order.entity.Order;
 import com.project.cs.order.repository.OrderRepository;
 import com.project.cs.order.request.OrderRequest;
+import com.project.cs.order.response.OrderDto;
 import com.project.cs.order.response.OrderResponse;
-import com.project.cs.orderitem.entity.OrderItem;
 import com.project.cs.orderitem.repository.OrderItemRepository;
+import com.project.cs.orderitem.service.OrderItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.project.cs.order.service.OrderStatusConstants.*;
 
 @Service
 @RequiredArgsConstructor
@@ -19,32 +25,132 @@ import org.springframework.transaction.annotation.Transactional;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
-    private final CryptocurrencyRepository cryptocurrencyRepository;
+    private final OrderItemService orderItemService;
+    private final EntityManager entityManager;
 
     /**
-     * 주문
+     * - 주문 -
      *
-     * 시장가 -> 바로 처리 가능
+     * 지정가
+     * -> 단순히 주문만 저장하고 끝.
+     * -> 배치에서 처리
+     * -> 근데 매수의 경우 돈을 미리 빼가고 취소시에 돌려주어야함
      *
-     * 지정가 -> 가격을 비교해서 가격이 같으면 주문 처리 가능
-     *       -> 지정된 가격을 기준으로 계속 데이터를 불러와서 맞는지 확인해야함
-     *       -> 사용자가 조금만 있어도 API 호출 제한에 걸림 ,,
-     *       API 요청 제한 분당 600회, 초당 10회
-     *
-     * 생각
-     * 1. 메서드가 계속 돌아가도록 해도되나? ( 멀티 쓰레드이기 때문에 괜찮기는 할듯 )
-     *  1-1. 그런데 터무니 없는 값을 지정가로 설정해서 몇달이 돌아가도록 된다면? ,,
-     * 2. 1초마다 API를 호출해서 처리해도 되나?
+     * 시장가
+     * 시장가는 주문이 현재의 시세로 들어온다는 가정하에 구현
+     * -> 바로 처리할 수 있음.
+     * -> completeOrder 호출하기 전에 매도의 경우는 orderItem 이 있는지 확인하는 로직 필요
+     * -> orderItem 은 member and market 으로 찾을 수 있음(?)
+     * -> completeOrder 호출
      */
+    public OrderResponse order(OrderRequest orderRequest, Member member) {
+        Order order = saveOrder(orderRequest, member);
 
-    /**
-     * 주문 처리 후 수익률, 랭킹이 바뀌는 것이 반영이 되어야함
-     * -> 실시간 X, 하루에 한 번
-     */
-
-    public OrderResponse order(OrderRequest orderRequest, Member member){
-        CryptocurrencyDto cryptocurrencyDto = cryptocurrencyRepository.findByMarket(orderRequest.getMarket());
+        if (ORDER_TYPE_LIMIT.equals(orderRequest.getOrdType())) { // 지정가
+            if(TYPE_BID.equals(orderRequest.getType())){
+                /**
+                 * entityManager.detach(order) 하는 이유
+                 * order 의 member 가 초기화 되지 않은 상태로 order 가 영속 상태이면
+                 * 영속성 컨텍스트에 member 가 초기화 되지 않은 order 가 올라가 있으므로
+                 * fetch join 을 날려서 가져오려 해도 이미 영속성 컨텍스트에 올라가 있는 order 가 조회됨
+                 * 따라서 detach (비영속 상태로 만듦) 해서 fetch join 으로 가져와야
+                 * member 가 초기화 된 order 를 가져올 수 있음
+                 */
+                entityManager.detach(order);
+                orderRepository.findByIdFetch(order.getId())
+                        .getMember().buy(order.getPrice(), order.getVolume());
+            }
+            return new OrderResponse(order.getId());
+        }else { // 시장가
+            if (ORDER_TYPE_MARKET.equals(orderRequest.getOrdType())) { // 시장가 매도
+                if(!orderItemRepository.existsByMemberAndMarket(member, orderRequest.getMarket())){
+                    throw new IllegalArgumentException();
+                }
+                completeOrder(order);
+                return new OrderResponse(order.getId());
+            } else if (ORDER_TYPE_PRICE.equals(orderRequest.getOrdType())) { // 시장가 매수
+                completeOrder(order);
+                return new OrderResponse(order.getId());
+            }
+        }
 
         return null;
+    }
+
+    // 주문 저장
+    public Order saveOrder(OrderRequest orderRequest, Member member){
+        Order order = Order.builder()
+                .koreanName(orderRequest.getKoreanName())
+                .englishName(orderRequest.getEnglishName())
+                .market(orderRequest.getMarket())
+                .type(orderRequest.getType())
+                .ordType(orderRequest.getOrdType())
+                .status(ORDER_STATUS_WAIT)
+                .price(orderRequest.getPrice())
+                .volume(orderRequest.getVolume())
+                .member(member)
+                .build();
+
+        return orderRepository.save(order);
+    }
+
+    /**
+     * - 주문 체결 -
+     *
+     * 매도
+     * -> orderItem 을 삭제하고 member 의 보유 금액에 매도된 금액만큼 더해줘야함
+     *
+     * 매수
+     * -> orderItem 을 저장하고 member 의 보유 금액에 매수된 금액만큼 빼줘야함
+     */
+    public void completeOrder(Order order){
+        /**
+         * entityManager.detach(order) 하는 이유
+         * order 의 member 가 초기화 되지 않은 상태로 order 가 영속 상태이면
+         * 영속성 컨텍스트에 member 가 초기화 되지 않은 order 가 올라가 있으므로
+         * fetch join 을 날려서 가져오려 해도 이미 영속성 컨텍스트에 올라가 있는 order 가 조회됨
+         * 따라서 detach (비영속 상태로 만듦) 해서 fetch join 으로 가져와야
+         * member 가 초기화 된 order 를 가져올 수 있음
+         */
+        entityManager.detach(order);
+        Order fetchOrder = orderRepository.findByIdFetch(order.getId());
+        fetchOrder.changeStatus(ORDER_STATUS_COMPLETE);
+
+        if(TYPE_ASK.equals(order.getType())){ // 매도
+            fetchOrder.getMember().sell(order.getPrice(), order.getVolume());
+            orderItemService.deleteOrderItem(fetchOrder.getMember(), fetchOrder.getMarket());
+        }else if(TYPE_BID.equals(order.getType())) { // 매수
+            if(!ORDER_TYPE_LIMIT.equals(order.getOrdType())){
+                fetchOrder.getMember().buy(order.getPrice(), order.getVolume());
+            }
+            orderItemService.saveOrderItem(order);
+        }
+    }
+
+    /**
+     * - 주문 취소 -
+     *
+     * -> status 를 취소로 바꿈 & 지정가 매수 주문이었다면 돈을 다시 돌려줘야함
+     */
+    public void cancelOrder(Long orderId, Member member){
+        if(member == null){
+            throw new IllegalArgumentException("로그인 후에 이용해주세요.");
+        }
+        Order order = orderRepository.findByIdFetch(orderId);
+
+        if(order.getStatus().equals(ORDER_STATUS_WAIT)) {
+            order.changeStatus(ORDER_STATUS_CANCEL);
+        }
+
+        if(TYPE_BID.equals(order.getType())){
+            order.getMember().sell(order.getPrice(), order.getVolume());
+        }
+    }
+
+    public List<OrderDto> getOrders(Member member, String status){
+        return orderRepository.findByMemberAndStatus(member, status)
+                .stream()
+                .map(OrderDto::new)
+                .collect(Collectors.toList());
     }
 }

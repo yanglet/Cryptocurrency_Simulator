@@ -23,15 +23,11 @@ allprojects {
 	version = '0.0.1-SNAPSHOT'
 }
 
-jar {
-	baseName = 'youtugo-application'
-	version = '0.0.1'
-}
-
 def javaProjects = [
         project(':module-application'),
 		project(':module-domain'),
-		project(':module-common')
+		project(':module-common'),
+		project(':module-batch')
 ]
 
 configure(javaProjects){
@@ -95,6 +91,9 @@ configure(javaProjects){
 		main.java.srcDir querydslDir
 	}
 	configurations {
+		compileOnly {
+			extendsFrom annotationProcessor
+		}
 		querydsl.extendsFrom compileClasspath
 	}
 	compileQuerydsl{
@@ -115,6 +114,7 @@ project(':module-application'){
 	dependencies {
 		compileOnly project(':module-common')
 		compileOnly project(':module-domain')
+		compileOnly project(':module-batch')
 	}
 }
 
@@ -127,5 +127,12 @@ project(':module-domain'){
 project(':module-common'){
 	dependencies {
 
+	}
+}
+
+project(':module-batch'){
+	dependencies {
+		compileOnly project(':module-common')
+		compileOnly project(':module-domain')
 	}
 }

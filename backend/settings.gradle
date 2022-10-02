@@ -2,4 +2,5 @@ rootProject.name = 'cryptocurrency_simulator'
 include 'module-common'
 include 'module-application'
 include 'module-domain'
+include 'module-batch'
 
