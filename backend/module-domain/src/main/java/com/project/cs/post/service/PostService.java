@@ -14,12 +14,12 @@ import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class PostService {
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
     private final UploadFileUtils uploadFileUtils;
 
-    @Transactional
     public Long post(PostRequest postRequest, Member member) throws IOException {
         if(member == null){
             throw new AccessDeniedException("access denied");
@@ -34,7 +34,6 @@ public class PostService {
         return postRepository.save(post).getId();
     }
 
-    @Transactional
     public void update(Long id, PostRequest postRequest, Member member) throws IOException {
         Post post = postRepository.findById(id).orElseThrow();
 
@@ -49,7 +48,6 @@ public class PostService {
         }
     }
 
-    @Transactional
     public void delete(Long id, Member member){
         Post post = postRepository.findById(id).orElseThrow();
 

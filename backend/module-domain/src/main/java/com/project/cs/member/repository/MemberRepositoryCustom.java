@@ -7,4 +7,5 @@ import java.util.List;
 public interface MemberRepositoryCustom {
     List<Member> findAllFetch();
     Member findByIdFetch(Long id);
+    List<Member> findAllFetchByRankings();
 }

@@ -24,4 +24,12 @@ public class Ranking extends BaseEntity {
         this.rank = rank;
         this.profit = profit;
     }
+
+    public void changeProfit(Double profit){
+        this.profit = profit;
+    }
+
+    public void changeRank(Integer rank){
+        this.rank = rank;
+    }
 }

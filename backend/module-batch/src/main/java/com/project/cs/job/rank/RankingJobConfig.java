@@ -1,6 +1,7 @@
 package com.project.cs.job.rank;
 
 import com.project.cs.member.entity.Member;
+import com.project.cs.ranking.service.RankingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -22,7 +23,8 @@ public class RankingJobConfig {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final EntityManagerFactory entityManagerFactory;
-    private int chunkSize = 1000;
+    private final RankingService rankingService;
+    private final int chunkSize = 1000;
 
     @Bean
     public Job RankingItemWriterJob() {
@@ -54,9 +56,7 @@ public class RankingJobConfig {
     public ItemWriter<Member> RankingItemWriter() {
         return items -> {
             log.info("items Size = {}", items.size());
-            for (Member item : items) {
-                // 랭킹 매일 초기화하는 로직
-            }
+            rankingService.initRankings();
         };
     }
 }

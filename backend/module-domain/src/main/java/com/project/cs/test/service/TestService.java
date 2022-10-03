@@ -17,11 +17,11 @@ import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class TestService {
     private final CandleRepository candleRepository;
     private final TestRepository testRepository;
 
-    @Transactional
     public TestSaveResponse save(TestSaveRequest testSaveRequest){
         Test test = Test.builder()
                 .price(testSaveRequest.getPrice())

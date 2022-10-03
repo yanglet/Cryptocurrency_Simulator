@@ -7,12 +7,14 @@ import com.project.cs.like.repository.LikeRepository;
 import com.project.cs.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class LikeService {
     private final LikeRepository likeRepository;
     private final CryptocurrencyRepository cryptocurrencyRepository;

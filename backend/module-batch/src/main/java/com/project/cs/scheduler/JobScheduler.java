@@ -32,7 +32,7 @@ public class JobScheduler {
         jobLauncher.run(orderJobConfig.OrderItemWriterJob(), jobParameters);
     }
 
-    @Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul") // 매일 00시에 반복
+    @Scheduled(cron = "0/5 * * * * *", zone = "Asia/Seoul") // 매일 00시에 반복 0 0 0 * * *
     public void runRankJob() throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
         Map<String, JobParameter> confMap = new HashMap<>();
         confMap.put("time", new JobParameter(System.currentTimeMillis()));
