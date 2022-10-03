@@ -35,23 +35,24 @@ public class RankingService {
         List<CryptocurrencyDto> cryptocurrencies = cryptocurrencyRepository.findAll();
         List<Member> members = memberRepository.findAllFetchByRankings();
 
-        members.stream().forEach(m -> {
+        for (Member member : members) {
             BigDecimal tradePrice = BigDecimal.valueOf(0);
             BigDecimal presentPrice = BigDecimal.valueOf(0);
 
-            List<OrderItem> orderItems = orderItemRepository.findByMember(m);
-            for(OrderItem oi : orderItems){
-                tradePrice.add(BigDecimal.valueOf(Double.valueOf(oi.getPrice()) * oi.getVolume()));
-                for(CryptocurrencyDto c : cryptocurrencies){
-                    if(c.getMarket().equals(oi.getMarket())){
-                        presentPrice.add(c.getTrade_price().multiply(BigDecimal.valueOf(oi.getVolume())));
+            List<OrderItem> orderItems = orderItemRepository.findByMember(member);
+            for (OrderItem oi : orderItems) {
+                tradePrice = tradePrice.add(BigDecimal.valueOf(Double.parseDouble(oi.getPrice()) * oi.getVolume()));
+                for (CryptocurrencyDto c : cryptocurrencies) {
+                    if (c.getMarket().equals(oi.getMarket())) {
+                        presentPrice = presentPrice.add(c.getTrade_price().multiply(BigDecimal.valueOf(oi.getVolume())));
                     }
                 }
             }
-            Double result = presentPrice.doubleValue() - tradePrice.doubleValue();
+            Double result = presentPrice.subtract(tradePrice).doubleValue();
+            Double profit = (result / presentPrice.doubleValue()) * 100.0;
 
-            m.getRanking().changeProfit(result / presentPrice.doubleValue() * 100);
-        });
+            member.getRanking().changeProfit(profit);
+        }
 
         members.sort((o1, o2) -> {
             if(o1.getRanking().getProfit() < o2.getRanking().getProfit()){
@@ -60,9 +61,10 @@ public class RankingService {
             return 0;
         });
 
-        members.stream().forEach(m -> {
+        members.forEach(m -> {
             for(int i=0; i<members.size(); i++){
-                m.getRanking().changeRank(i + 1);
+                Integer rank = i + 1;
+                m.getRanking().changeRank(rank);
             }
         });
     }

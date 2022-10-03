@@ -16,6 +16,6 @@ public class RankingDto {
     public RankingDto(Ranking ranking) {
         this.id = ranking.getId();
         this.rank = ranking.getRank();
-        this.profit = ranking.getProfit();
+        this.profit = Double.valueOf(String.format("%.2f", ranking.getProfit()));
     }
 }

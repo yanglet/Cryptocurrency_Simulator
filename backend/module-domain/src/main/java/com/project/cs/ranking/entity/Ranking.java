@@ -15,7 +15,7 @@ public class Ranking extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ranking_id")
     private Long id;
-    @Column(unique = true, name = "ranking")
+    @Column(name = "ranking")
     private Integer rank;
     private Double profit;
 
