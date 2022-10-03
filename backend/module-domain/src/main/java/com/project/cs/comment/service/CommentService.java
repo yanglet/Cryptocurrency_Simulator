@@ -13,11 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class CommentService {
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
 
-    @Transactional
     public Long comment(Long postId,
                         CommentRequest commentRequest,
                         Member member){
@@ -28,7 +28,6 @@ public class CommentService {
         return commentRepository.save(comment).getId();
     }
 
-    @Transactional
     public void update(Long commentId,
                        CommentRequest commentRequest,
                        Member member){
@@ -41,7 +40,6 @@ public class CommentService {
         comment.change(commentRequest.getContent());
     }
 
-    @Transactional
     public void delete(Long postId, Long commentId, Member member){
         Post post = postRepository.findById(postId).orElseThrow();
         Comment comment = commentRepository.findById(commentId).orElseThrow();

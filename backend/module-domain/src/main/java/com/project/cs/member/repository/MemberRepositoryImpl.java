@@ -1,15 +1,13 @@
 package com.project.cs.member.repository;
 
 import com.project.cs.member.entity.Member;
-import com.project.cs.member.entity.QMember;
-import com.project.cs.ranking.entity.QRanking;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-import static com.project.cs.member.entity.QMember.*;
-import static com.project.cs.ranking.entity.QRanking.*;
+import static com.project.cs.member.entity.QMember.member;
+import static com.project.cs.ranking.entity.QRanking.ranking;
 
 @RequiredArgsConstructor
 public class MemberRepositoryImpl implements MemberRepositoryCustom{
@@ -28,5 +26,13 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
                 .leftJoin(member.ranking, ranking).fetchJoin()
                 .where(member.id.eq(id))
                 .fetchOne();
+    }
+
+    @Override
+    public List<Member> findAllFetchByRankings() {
+        return queryFactory.selectFrom(member)
+                .leftJoin(member.ranking, ranking).fetchJoin()
+                .orderBy(member.ranking.rank.asc())
+                .fetch();
     }
 }

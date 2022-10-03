@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,8 +45,6 @@ public class OrderService {
      * -> completeOrder 호출
      */
     public OrderResponse order(OrderRequest orderRequest, Member member) {
-        Order order = saveOrder(orderRequest, member);
-
         if (ORDER_TYPE_LIMIT.equals(orderRequest.getOrdType())) { // 지정가
             if(TYPE_BID.equals(orderRequest.getType())){
                 /**
@@ -56,19 +55,35 @@ public class OrderService {
                  * 따라서 detach (비영속 상태로 만듦) 해서 fetch join 으로 가져와야
                  * member 가 초기화 된 order 를 가져올 수 있음
                  */
+                BigDecimal needBalance = BigDecimal.valueOf(Double.valueOf(orderRequest.getPrice()) * orderRequest.getVolume());
+                if(member.getBalance().compareTo(needBalance) < 0){ // 보유 금액 부족
+                    throw new IllegalArgumentException("보유 금액이 부족합니다.");
+                }
+
+                Order order = saveOrder(orderRequest, member);
+
                 entityManager.detach(order);
                 orderRepository.findByIdFetch(order.getId())
                         .getMember().buy(order.getPrice(), order.getVolume());
+
+                return new OrderResponse(order.getId());
             }
-            return new OrderResponse(order.getId());
         }else { // 시장가
             if (ORDER_TYPE_MARKET.equals(orderRequest.getOrdType())) { // 시장가 매도
                 if(!orderItemRepository.existsByMemberAndMarket(member, orderRequest.getMarket())){
                     throw new IllegalArgumentException();
                 }
+
+                Order order = saveOrder(orderRequest, member);
                 completeOrder(order);
                 return new OrderResponse(order.getId());
             } else if (ORDER_TYPE_PRICE.equals(orderRequest.getOrdType())) { // 시장가 매수
+                BigDecimal needBalance = BigDecimal.valueOf(Double.valueOf(orderRequest.getPrice()) * orderRequest.getVolume());
+                if(member.getBalance().compareTo(needBalance) < 0){ // 보유 금액 부족
+                    throw new IllegalArgumentException("보유 금액이 부족합니다.");
+                }
+
+                Order order = saveOrder(orderRequest, member);
                 completeOrder(order);
                 return new OrderResponse(order.getId());
             }
