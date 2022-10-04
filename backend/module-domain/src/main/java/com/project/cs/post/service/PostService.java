@@ -3,14 +3,20 @@ package com.project.cs.post.service;
 import com.project.cs.comment.repository.CommentRepository;
 import com.project.cs.member.entity.Member;
 import com.project.cs.post.entity.Post;
+import com.project.cs.post.entity.UploadFile;
 import com.project.cs.post.repository.PostRepository;
+import com.project.cs.post.repository.UploadFileRepository;
 import com.project.cs.post.request.PostRequest;
+import com.project.cs.post.request.PostSaveRequest;
+import com.project.cs.post.response.PostDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -19,47 +25,82 @@ public class PostService {
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
     private final UploadFileUtils uploadFileUtils;
+    private final UploadFileRepository uploadFileRepository;
 
-    public Long post(PostRequest postRequest, Member member) throws IOException {
+    public List<PostDto> getPosts(){
+        List<UploadFile> uploadFiles = uploadFileRepository.findAllFetch();
+
+        return postRepository.findAllFetch()
+                .stream()
+                .map(p -> new PostDto(p,
+                        uploadFiles
+                                .stream()
+                                .filter(u -> u.getPost().getId() == p.getId())
+                                .distinct()
+                                .collect(Collectors.toList())))
+                .collect(Collectors.toList());
+    }
+
+    public PostDto getPost(Long postId){
+        Post post = postRepository.findByIdFetch(postId);
+        return new PostDto(post, uploadFileRepository.findByPost(post));
+    }
+
+    public PostDto post(PostSaveRequest postSaveRequest, Member member) throws IOException {
         if(member == null){
             throw new AccessDeniedException("access denied");
         }
         Post post = Post.builder()
-                .title(postRequest.getTitle())
-                .content(postRequest.getContent())
-                .uploadFile(uploadFileUtils.createUploadFile(postRequest.getMultipartFile()))
+                .title(postSaveRequest.getTitle())
+                .content(postSaveRequest.getContent())
                 .member(member)
                 .build();
 
-        return postRepository.save(post).getId();
+        Post save = postRepository.save(post);
+
+        postSaveRequest.getMultipartFiles().forEach(f -> uploadFileUtils.saveFile(f, save.getId()));
+
+        return new PostDto(save, uploadFileRepository.findByPost(save));
     }
 
-    public void update(Long id, PostRequest postRequest, Member member) throws IOException {
-        Post post = postRepository.findById(id).orElseThrow();
+    public PostDto update(Long postId, PostSaveRequest postSaveRequest, Member member) {
+        if(member == null){
+            throw new AccessDeniedException("access denied");
+        }
+
+        Post post = postRepository.findByIdFetch(postId);
 
         if(post.getMember().getId() != member.getId()){
             throw new AccessDeniedException("access denied");
         }
 
-        if( post.getUploadFile() != null && ( post.getUploadFile().getOriginalFileName() != postRequest.getMultipartFile().getOriginalFilename()) ){
-            post.change(postRequest.getTitle(), postRequest.getContent(), uploadFileUtils.createUploadFile(postRequest.getMultipartFile()));
-        }else{
-            post.change(postRequest.getTitle(), postRequest.getContent(), post.getUploadFile());
-        }
+        post.change(postSaveRequest.getTitle(), postSaveRequest.getContent());
+
+        uploadFileRepository.deleteAll(uploadFileRepository.findByPost(post));
+
+        postSaveRequest.getMultipartFiles().forEach(f -> uploadFileUtils.saveFile(f, post.getId()));
+
+        return new PostDto(post, uploadFileRepository.findByPost(post));
     }
 
-    public void delete(Long id, Member member){
-        Post post = postRepository.findById(id).orElseThrow();
+    public void delete(Long postId, Member member){
+        if(member == null){
+            throw new AccessDeniedException("access denied");
+        }
+
+        Post post = postRepository.findByIdFetch(postId);
 
         if(post.getMember().getId() != member.getId()){
             throw new AccessDeniedException("access denied");
         }
 
-        post.getComments()
-                .stream()
-                .forEach(c -> commentRepository.delete(c));
+        commentRepository.deleteAll(post.getComments());
 
-        postRepository.deleteById(id);
+        if(uploadFileRepository.existsByPost(post)){
+            uploadFileRepository.deleteAll(uploadFileRepository.findByPost(post));
+        }
+
+        postRepository.delete(post);
     }
 
 }

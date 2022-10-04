@@ -12,6 +12,8 @@ dependencies {
 
     implementation("io.springfox:springfox-boot-starter:${swaggerVersion}")
     implementation("io.springfox:springfox-swagger-ui:${swaggerVersion}")
+
+    implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
 }
 
 test {

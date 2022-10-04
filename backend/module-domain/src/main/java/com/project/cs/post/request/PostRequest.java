@@ -18,5 +18,4 @@ public class PostRequest {
     private String title;
     @NotEmpty
     private String content;
-    private MultipartFile multipartFile;
 }

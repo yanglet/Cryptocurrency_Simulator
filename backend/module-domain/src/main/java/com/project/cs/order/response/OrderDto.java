@@ -1,8 +1,11 @@
 package com.project.cs.order.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.project.cs.order.entity.Order;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
@@ -16,6 +19,10 @@ public class OrderDto {
     private String status; // 완료 / 대기 / 취소 - complete / wait / cancel
     private String price; // 주문가
     private Double volume; // 수량
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy년 MM월 dd일", timezone = "Asia/Seoul")
+    private LocalDateTime createTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy년 MM월 dd일", timezone = "Asia/Seoul")
+    private LocalDateTime modifiedTime;
 
     public OrderDto(Order order) {
         this.id = order.getId();
@@ -27,5 +34,7 @@ public class OrderDto {
         this.status = order.getStatus();
         this.price = order.getPrice();
         this.volume = order.getVolume();
+        this.createTime = order.getCreateTime();
+        this.modifiedTime = order.getModifiedTime();
     }
 }
