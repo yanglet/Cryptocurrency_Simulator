@@ -6,6 +6,7 @@ import com.project.cs.member.entity.Member;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -17,26 +18,22 @@ public class Post extends BaseEntity {
     private Long id;
     private String title;
     private String content;
-    @Embedded
-    private UploadFile uploadFile;
     @OneToMany(mappedBy = "post")
-    private List<Comment> comments;
+    private List<Comment> comments = new ArrayList<>();
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
     @Builder
-    public Post(String title, String content, UploadFile uploadFile, List<Comment> comments, Member member) {
+    public Post(String title, String content, List<Comment> comments, Member member) {
         this.title = title;
         this.content = content;
-        this.uploadFile = uploadFile;
         this.comments = comments;
         this.member = member;
     }
 
-    public void change(String title, String content, UploadFile uploadFile){
+    public void change(String title, String content){
         this.title = title;
         this.content = content;
-        this.uploadFile = uploadFile;
     }
 }
