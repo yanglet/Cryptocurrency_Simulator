@@ -2,7 +2,7 @@ package com.project.cs.orderitem.service;
 
 import com.project.cs.member.entity.Member;
 import com.project.cs.member.repository.MemberRepository;
-import com.project.cs.member.response.MemberDto;
+import com.project.cs.member.response.OMGMemberDto;
 import com.project.cs.order.entity.Order;
 import com.project.cs.orderitem.entity.OrderItem;
 import com.project.cs.orderitem.repository.OrderItemRepository;
@@ -22,7 +22,7 @@ public class OrderItemService {
     private final MemberRepository memberRepository;
 
     public Holdings getOrderItems(Member member){
-        return new Holdings(new MemberDto(memberRepository.findByIdFetch(member.getId())),
+        return new Holdings(new OMGMemberDto(memberRepository.findByIdFetch(member.getId())),
                 orderItemRepository.findByMember(member)
                 .stream()
                 .map(OrderItemDto::new)
