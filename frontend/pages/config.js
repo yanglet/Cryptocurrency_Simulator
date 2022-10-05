@@ -24,3 +24,13 @@ export const LIKE = {
 export const TEST = {
     TEST: `${URL}/tests`,
 }
+
+export const ORDER = {
+    ORDER_LIST: `${URL}/orders`,
+    ORDER: `${URL}/orders/order`,
+}
+
+// 회원 상세 정보
+export const MEMBER = {
+    ME: `${URL}/members/me`,
+}
