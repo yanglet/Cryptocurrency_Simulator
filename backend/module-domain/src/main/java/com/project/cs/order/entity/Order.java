@@ -12,9 +12,12 @@ import org.hibernate.mapping.Join;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "orders")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Table(
+        name = "orders",
+        indexes = @Index(name = "idx_status", columnList = "status")
+)
 public class Order extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
