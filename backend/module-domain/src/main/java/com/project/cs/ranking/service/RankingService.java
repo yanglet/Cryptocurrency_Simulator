@@ -48,8 +48,8 @@ public class RankingService {
                     }
                 }
             }
-            Double result = presentPrice.subtract(tradePrice).doubleValue();
-            Double profit = (result / presentPrice.doubleValue()) * 100.0;
+            Double result = presentPrice.compareTo(BigDecimal.valueOf(0)) == 0 ? 0.0 : presentPrice.subtract(tradePrice).doubleValue();
+            Double profit = presentPrice.compareTo(BigDecimal.valueOf(0)) == 0 ? 0.0 : (result / presentPrice.doubleValue()) * 100.0;
 
             member.getRanking().changeProfit(profit);
         }
@@ -57,15 +57,14 @@ public class RankingService {
         members.sort((o1, o2) -> {
             if(o1.getRanking().getProfit() < o2.getRanking().getProfit()){
                 return 1;
+            }else if (o1.getRanking().getProfit() > o2.getRanking().getProfit()){
+                return -1;
             }
             return 0;
         });
 
-        members.forEach(m -> {
-            for(int i=0; i<members.size(); i++){
-                Integer rank = i + 1;
-                m.getRanking().changeRank(rank);
-            }
-        });
+        for(int i=0; i<members.size(); i++){
+            members.get(i).getRanking().changeRank(i + 1);
+        }
     }
 }

@@ -12,12 +12,16 @@ public class RankingResponse {
     private Long memberId;
     private String email;
     private String name;
-    private RankingDto ranking;
+    private Long rankingId;
+    private Integer rank;
+    private Double profit;
 
     public RankingResponse(Member member) {
         this.memberId = member.getId();
         this.email = member.getEmail();
         this.name = member.getName();
-        this.ranking = new RankingDto(member.getRanking());
+        this.rankingId = member.getRanking().getId();
+        this.rank = member.getRanking().getRank();
+        this.profit = Double.valueOf(String.format("%.2f", member.getRanking().getProfit()));
     }
 }
