@@ -57,12 +57,14 @@ public class RankingService {
         members.sort((o1, o2) -> {
             if(o1.getRanking().getProfit() < o2.getRanking().getProfit()){
                 return 1;
+            }else if (o1.getRanking().getProfit() > o2.getRanking().getProfit()){
+                return -1;
             }
             return 0;
         });
 
         for(int i=0; i<members.size(); i++){
-            members.get(members.size() - (i + 1)).getRanking().changeRank(i + 1);
+            members.get(i).getRanking().changeRank(i + 1);
         }
     }
 }
