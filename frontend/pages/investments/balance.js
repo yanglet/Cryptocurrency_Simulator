@@ -1,6 +1,10 @@
 import React, {useState} from 'react';
 import Head from 'next/head';
 import InvestmentsCategory from '../../components/Orders/components/InvestmentsCategory';
+import { BalanceProvider } from '../../contexts/Balance';
+import BalanceContainer from '../../components/Balance/containers/BalanceContainer';
+import { OrdersProvider } from '../../contexts/Order';
+import OrdersContainers from '../../components/Orders/containers/OrdersContainers';
 
 function Balance(props) {
     const [categoryName, setCategoryName] = useState("balance");
@@ -11,6 +15,12 @@ function Balance(props) {
           <title>모의 투자 사이트 | 거래내역</title>
         </Head>
         <InvestmentsCategory setCategoryName={setCategoryName} />
+       
+        <BalanceProvider>
+          <BalanceContainer />
+        </BalanceProvider>
+       
+        
         </div>
     );
 }
