@@ -14,7 +14,7 @@ function LoginForm() {
     try {
       await AuthService.login(email, password).then(
         () => {
-          window.location.replace("/profile");
+          window.location.replace("/member/profile");
         },
         (error) => {
           console.log(error);
@@ -59,7 +59,7 @@ function LoginForm() {
       </form>
       <div className="mt-4 cursor-pointer text-gray-700">
         아직 회원이 아니신가요? &nbsp;
-        <Link href="/signup">
+        <Link href="/member/signup">
           <u className="pb-1 text-blue-700">회원가입</u>
         </Link>
       </div>

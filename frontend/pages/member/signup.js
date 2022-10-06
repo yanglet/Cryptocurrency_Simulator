@@ -1,5 +1,5 @@
 import React from "react";
-import SignUpForm from "../components/User/SignUpForm";
+import SignUpForm from "../../components/User/SignUpForm";
 import Head from "next/head";
 
 function signup(props) {

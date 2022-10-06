@@ -1,4 +1,4 @@
-const URL = 'http://localhost:9090/v1/api';
+export const URL = 'http://localhost:9090/v1/api';
 
 // 모든 가상화폐 조회
 export const CRYPTOCURRENCY = {
@@ -34,3 +34,23 @@ export const ORDER = {
 export const MEMBER = {
     ME: `${URL}/members/me`,
 }
+
+// 보유 자산 조회
+export const BALANCE = {
+    BALANCE: `${URL}/orderItems`,
+}
+
+// 랭킹
+export const RANKING = {
+    LIST: `${URL}/rankings`
+}
+
+// 게시글 
+export const POST = {
+    POST_LIST: `${URL}/posts`,
+}
+
+export const COMMENT = {
+    COMMENT_LIST: `${URL}/posts`
+}
+
