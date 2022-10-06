@@ -2,6 +2,8 @@ package com.project.cs.orderitem.repository;
 
 import com.project.cs.member.entity.Member;
 import com.project.cs.member.entity.QMember;
+import com.project.cs.order.entity.Order;
+import com.project.cs.order.entity.QOrder;
 import com.project.cs.orderitem.entity.OrderItem;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +20,17 @@ public class OrderItemRepositoryImpl implements OrderItemRepositoryCustom {
     public List<OrderItem> findByMember(Member member) {
         return queryFactory.selectFrom(orderItem)
                 .leftJoin(orderItem.member, QMember.member).fetchJoin()
+                .leftJoin(orderItem.order, QOrder.order).fetchJoin()
                 .where(orderItem.member.eq(member))
                 .fetch();
+    }
+
+    @Override
+    public OrderItem findByOrder(Order order) {
+        return queryFactory.selectFrom(orderItem)
+                .leftJoin(orderItem.member, QMember.member).fetchJoin()
+                .leftJoin(orderItem.order, QOrder.order).fetchJoin()
+                .where(orderItem.order.eq(order))
+                .fetchOne();
     }
 }

@@ -6,6 +6,7 @@ import com.project.cs.order.repository.OrderRepository;
 import com.project.cs.order.request.OrderRequest;
 import com.project.cs.order.response.OrderDto;
 import com.project.cs.order.response.OrderResponse;
+import com.project.cs.orderitem.entity.OrderItem;
 import com.project.cs.orderitem.repository.OrderItemRepository;
 import com.project.cs.orderitem.service.OrderItemService;
 import lombok.RequiredArgsConstructor;
@@ -53,7 +54,7 @@ public class OrderService {
                  * 영속성 컨텍스트에 member 가 초기화 되지 않은 order 가 올라가 있으므로
                  * fetch join 을 날려서 가져오려 해도 이미 영속성 컨텍스트에 올라가 있는 order 가 조회됨
                  * 따라서 detach (비영속 상태로 만듦) 해서 fetch join 으로 가져와야
-                 * member 가 초기화 된 order 를 가져올 수 있음
+                        * member 가 초기화 된 order 를 가져올 수 있음
                  */
                 BigDecimal needBalance = BigDecimal.valueOf(Double.valueOf(orderRequest.getPrice()) * orderRequest.getVolume());
                 if(member.getBalance().compareTo(needBalance) < 0){ // 보유 금액 부족
@@ -67,8 +68,20 @@ public class OrderService {
                         .getMember().buy(order.getPrice(), order.getVolume());
 
                 return new OrderResponse(order.getId());
+            } else if (TYPE_ASK.equals(orderRequest.getType())){
+                if(!orderItemRepository.existsByMemberAndMarket(member, orderRequest.getMarket())){
+                    throw new IllegalArgumentException();
+                }
+
+                Order order = saveOrder(orderRequest, member);
+
+                entityManager.detach(order);
+                orderRepository.findByIdFetch(order.getId())
+                        .getMember().buy(order.getPrice(), order.getVolume());
+
+                return new OrderResponse(order.getId());
             }
-        }else { // 시장가
+        } else { // 시장가
             if (ORDER_TYPE_MARKET.equals(orderRequest.getOrdType())) { // 시장가 매도
                 if(!orderItemRepository.existsByMemberAndMarket(member, orderRequest.getMarket())){
                     throw new IllegalArgumentException();
@@ -133,11 +146,26 @@ public class OrderService {
 
         if(TYPE_ASK.equals(order.getType())){ // 매도
             fetchOrder.getMember().sell(order.getPrice(), order.getVolume());
+
+            OrderItem orderItem = orderItemRepository.findByMemberAndMarket(order.getMember(), order.getMarket());
+
+            if(orderItem.getVolume() - order.getVolume() > 0){
+                orderItem.change(order.getType(), order.getVolume(), order.getPrice());
+                return;
+            }
+
             orderItemService.deleteOrderItem(fetchOrder.getMember(), fetchOrder.getMarket());
         }else if(TYPE_BID.equals(order.getType())) { // 매수
             if(!ORDER_TYPE_LIMIT.equals(order.getOrdType())){
                 fetchOrder.getMember().buy(order.getPrice(), order.getVolume());
             }
+
+            if(orderItemRepository.existsByMemberAndMarket(order.getMember(), order.getMarket())){
+                orderItemRepository.findByMemberAndMarket(order.getMember(), order.getMarket())
+                        .change(order.getType(), order.getVolume(), order.getPrice());
+                return;
+            }
+
             orderItemService.saveOrderItem(order);
         }
     }
