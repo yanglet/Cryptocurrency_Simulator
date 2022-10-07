@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import useInput from "../../hooks/useInput"
 import axios from "axios";
-const API_URL = "http://localhost:9090/v1/api/tests";
+import { URL } from "../../pages/config";
+import TestResult from "./components/TestResult";
 
 function TestForm(props) {
   const [market, setMarket] = useState("KRW-BTC");
@@ -12,7 +13,7 @@ function TestForm(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await axios
-      .post(API_URL, {
+      .post(`${URL}/tests`, {
         market,
         money,
         time,
@@ -26,13 +27,17 @@ function TestForm(props) {
       });
   };
 
+  function pop() {
+    alert("비트코인 투자 예상 결과 보기");
+  }
+
   return (
-    <div className="px-4 py-4 max-w-lg mx-auto">
-      <form onSubmit={handleSubmit} className="text-center border-slate-800 ">
+    <div className="grid grid-cols-2">
+      <form onSubmit={handleSubmit} className="text-center border-r pr-7">
         <div className="flex justify-between mt-6">
-          <label className="my-auto text-xl">투자금액</label>
+          <label className="my-auto">투자금액</label>
           <input
-            className="h-14 text-lg rounded-lg border-2 px-11"
+            className="h-11 rounded-lg border-2 px-11"
             value={money}
             onChange={onChangeMoney}
             type="text"
@@ -40,9 +45,9 @@ function TestForm(props) {
           ></input>
         </div>
         <div className="flex justify-between mt-6">
-          <label className="my-auto text-xl">투자 날짜</label>
+          <label className="my-auto">투자 날짜</label>
           <input
-            className="h-14 text-lg rounded-lg border-2 px-6"
+            className="h-11 rounded-lg border-2 px-6"
             value={time}
             onChange={onChangeTime}
             type="datetime-local"
@@ -51,7 +56,7 @@ function TestForm(props) {
         </div>
         <div className="my-9">
           <button
-            className="mt-9 border bg-blue-600 h-14 rounded-lg text-white font-bold w-full"
+            className="mt-9 border bg-blue-500 h-11 rounded-lg text-white font-bold w-full"
             type="submit"
             onClick={pop}
           >
@@ -59,15 +64,10 @@ function TestForm(props) {
           </button>{" "}
         </div>
       </form>
-      <div className="flex  justify-between my-11 font-bold text-2xl">
-        <p className="">투자 결과</p>
-        <p>{Math.ceil(result).toLocaleString()}원</p>
-      </div>
+      <TestResult result={result} />
     </div>
   );
-  function pop() {
-    alert("예상 투자 결과");
-  }
+ 
 }
 
 export default TestForm;
