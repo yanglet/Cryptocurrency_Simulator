@@ -1,7 +1,7 @@
 import React from "react";
 import List from "../common/List";
 
-function Cryptocurrency({ content, setTickerId, tickerId }) {
+function Cryptocurrency({ setEnglishName, setKoreanName, content, setTickerId, tickerId }) {
   return (
     <div>
       <List
@@ -9,6 +9,10 @@ function Cryptocurrency({ content, setTickerId, tickerId }) {
         setTickerId={setTickerId}
         content={content}
         listName={[
+          // {
+          //   id:0,
+          //   title: "",
+          // },
           {
             id: 1,
             title: "코인명",

@@ -8,7 +8,7 @@ function InformationContainer({ params, tickerId, setTickerId}) {
     
     return (
         <div>
-            <Information content={content} params={params} tickerId={tickerId} setTickerId={setTickerId} />
+            <Information content={content} params={params} tickerId={tickerId}  />
         </div>
     );
 }

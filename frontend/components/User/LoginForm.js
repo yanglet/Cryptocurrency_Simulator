@@ -27,10 +27,9 @@ function LoginForm() {
 
   return (
     <div className="">
- 
-      <form className="text-center" onSubmit={onSubmitForm}>
+      <form className="" onSubmit={onSubmitForm}>
         <input
-          className="w-1/4 h-14 text-lg rounded-lg border-2 mb-4 px-2"
+          className="w-1/3 h-14 text-lg rounded-lg border-2 mb-4 px-2"
           value={email}
           onChange={onChangeEmail}
           type="text"
@@ -40,7 +39,7 @@ function LoginForm() {
 
         <div className="">
           <input
-            className="w-1/4 h-14 text-lg rounded-lg border-2 mb-5 px-2"
+            className="w-1/3 h-14 text-lg rounded-lg border-2 mb-5 px-2"
             value={password}
             onChange={onChangePassword}
             type="password"
@@ -50,14 +49,14 @@ function LoginForm() {
         </div>
 
         <button
-          className="mt-9 border bg-blue-600 w-1/4 h-14 rounded-lg text-white font-bold"
+          className="mt-9 border-2 bg-blue-500 w-1/3 h-14 rounded-lg text-white font-bold"
           type="submit"
         >
           로그인
         </button>
         
       </form>
-      <div className="mt-4 cursor-pointer text-gray-700">
+      <div className="mt-6 cursor-pointer text-gray-700">
         아직 회원이 아니신가요? &nbsp;
         <Link href="/member/signup">
           <u className="pb-1 text-blue-700">회원가입</u>

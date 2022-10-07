@@ -1,25 +1,23 @@
 import { createContext, useEffect, useState } from "react";
-import axios from "axios";
 import { CRYPTOCURRENCY } from "../../pages/config";
+import useSWR from 'swr'
+
+const fetcher = (...args) => fetch(...args).then(res => res.json())
 
 export const CryptocurrencyContext = createContext({
-    content: () => {},
+  content: () => {},
 });
 
-export const CryptocurrencyProvider = ({children}) => {
-    const [content, setContent] = useState([]);
+export const CryptocurrencyProvider = ({ children }) => {
+    const { data: content, error} = useSWR(`${CRYPTOCURRENCY.CRYPTOCURRENCY}`, fetcher, { refreshInterval: 10000})
     
-    useEffect(() => {
-        axios.get(`${CRYPTOCURRENCY.CRYPTOCURRENCY}`)
-            .then((result) => {
-                setContent(result.data)
-            })
-    }, [setContent]);    
+    if (error) console.log("에러")
+    if(!content) console.log("로딩중")
 
-    return(
-        <CryptocurrencyContext.Provider value={content}>
-            {children}
-        </CryptocurrencyContext.Provider>
-    )
-}
 
+  return (
+    <CryptocurrencyContext.Provider value={content}>
+      {children}
+    </CryptocurrencyContext.Provider>
+  );
+};

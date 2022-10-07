@@ -1,66 +1,98 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { AiFillHeart, AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
+import Likes from "../Likes"
+import AddLikeContainers from "../../Like/containers/AddLikeContainers";
 
 function Information({ content, tickerId, params }) {
+  const [color, setColor] = useState("");
+  const [icon, setIcon] = useState();
+
+  console.log(tickerId)
   const id = `${tickerId}` - 1;
   console.log("id", id);
+  //console.log(content[id]);
+
+  useEffect(() => {
+    {
+      content  &&
+        (content[id].signed_change_price >= 0
+          ? setIcon(<AiFillCaretUp />)
+          : setIcon(<AiFillCaretDown />));
+    }
+  }, [content, id]);
+
+  useEffect(() => {
+    {
+      content && content[id].change === "RISE" && setColor("text-red-600 ");
+    }
+    {
+      content &&
+        content[id].change === "FALL" &&
+        setColor("text-blue-600 ");
+    }
+    {
+      content && content[id].change === "EVEN" && setColor("text-gray-600");
+    }
+  }, [content, id]);
 
   return (
-    <div>
-      {content[id] && (
-        <div className="bg-white px-4 py-4 mb-3 grid grid-cols-3 gap-12">
-          <div>
+    <div className="border-b">
+      
+      { content && content[id] && (
+        <div className="bg-white px-4 py-4 mb-3">
+          <div className="flex justify-between">
+            {/* 하트 */}
             <div className="flex">
-              <p className="text-2xl font-bold">{content[id].korean_name}</p>
-              <p className="my-auto text-sm ml-2">{content[id].market}</p>
-              <div className="my-auto text-center mx-3">
-                {/* <Likes market={content[id].market} /> */}
+              <div className="mx-2 mt-1">
+                {/* <AiFillHeart size="18" /> */}
+                <AddLikeContainers market={content[id].market} />
               </div>
-            </div>
-            <div className="flex">
-              <p className="text-4xl font-bold">
-                {content[id].trade_price.toLocaleString()}
-              </p>
-              <p className="my-auto">KRW</p>
-            </div>
-          </div>
-          <div className="col-span-2 my-auto">
-            
-            <div className="flex justify-between">
               <div>
-                <div className="grid grid-cols-3">
-                  <p>고가</p>
-                  <p className="col-span-2">
-                    {content[id].high_price.toLocaleString()}
+                {/* 코인명 코인가격 */}
+                <div className="flex">
+                  <p className="text-xl font-bold">{content[id].korean_name}</p>
+                  <p className="my-auto text-sm ml-2 text-gray-600">
+                    {content[id].market}
                   </p>
                 </div>
-                <div className="grid grid-cols-3">
-                  <p>저가</p>
-                  <p className="col-span-2">
-                    {content[id].low_price.toLocaleString()}
+                <div className="flex">
+                  <p className={`text-3xl font-bold mr-2 ${color}`}>
+                    {content[id].trade_price.toLocaleString()}
                   </p>
-                  <p></p>
+                  <p className={`${color} my-auto mx-2 font-semibold`}>
+                    {(content[id].signed_change_rate * 100).toFixed(2)}%
+                  </p>
+                  <div className={`${color} my-auto mx-2 font-semibold flex`}>
+                    <p className="my-auto">{icon}</p>
+                    <p>
+                      {Number(content[id].signed_change_price).toLocaleString()}
+                    </p>
+                  </div>
                 </div>
               </div>
-              <div className="pl-5">
-                <div className="grid grid-cols-3 gap-8">
-                  <p>거래량(24H)</p>
-                  <div className="col-span-2 flex">
-                    <p>{content[id].low_price.toLocaleString()}</p>
-                    <p className="text-xs my-auto">KRW</p>
-                  </div>
-                </div>
-                <div className="grid grid-cols-3 gap-4">
-                  <p className="">거래대금(24H)</p>
-                  <div className="col-span-2 flex">
-                    <p>
-                      {" "}
-                      {Math.floor(
-                        content[id].acc_trade_price_24h
-                      ).toLocaleString()}
-                    </p>
-                    <p className="text-xs my-auto">KRW</p>
-                  </div>
-                </div>
+            </div>
+            <div></div>
+            {/* 코인 정보 */}
+            <div className="grid grid-cols-2 text-xs text-gray-500 mt-5">
+              <div className="flex">
+                <p className="mr-3">고가</p>
+                <p className="text-red-600"> {content[id].high_price.toLocaleString()}</p>
+              </div>
+              <div className="flex">
+                <p className="mr-6">거래량(24H)</p>
+                <p> {content[id].low_price.toLocaleString()}</p>
+              </div>
+              <div className="flex">
+                <p className="mr-3">저가</p>
+                <p className="text-blue-600"> {content[id].low_price.toLocaleString()}</p>
+              </div>
+            
+              <div className="flex">
+                <p className="mr-3">거래대금(24H)</p>
+                <p>
+                  {" "}
+                  {Math.floor(content[id].acc_trade_price_24h).toLocaleString()}
+                </p>
               </div>
             </div>
           </div>

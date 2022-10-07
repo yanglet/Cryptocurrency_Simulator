@@ -22,7 +22,7 @@ function Chart({ params, day, month, week }) {
     setMinutes(e.target.value);
   }
 
-  console.log("옵션", option);
+  // console.log("옵션", option);
 
   function handleClick(option) {
     setOption(option);
@@ -65,10 +65,10 @@ function Chart({ params, day, month, week }) {
     }
   }, [type]);
 
-  console.log("data", data);
+  // console.log("data", data);
 
   return (
-    <div id="chart" className="bg-white">
+    <div id="chart" className="border-b">
       <p className="font-bold py-2 px-4">차트</p>
       <div className="font-lg flex border-y py-2 px-2">
         <MinuteSelect value={handleChange} />

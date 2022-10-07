@@ -9,9 +9,9 @@ function TradingContainer({ tickerId }) {
     const [data, setData] = useState("")
     const id = `${tickerId}` - 1;
 
-    useEffect(() => {
-        { content[id] && setData(content[id])}
-    }, [content, id]);
+    // useEffect(() => {
+    //     { content[id] && setData(content[id])}
+    // }, [content, id]);
     
     return (
         <div>

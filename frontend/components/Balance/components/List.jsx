@@ -3,7 +3,7 @@ import React from "react";
 const headList = [
   "보유자산",
   "보유수량",
-  "매수금액",
+  "매수평균가",
 ];
 
 function List({ content }) {
