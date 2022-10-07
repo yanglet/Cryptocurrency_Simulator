@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,11 +24,19 @@ public class OrderItemService {
     private final MemberRepository memberRepository;
 
     public Holdings getOrderItems(Member member){
+        List<OrderItem> orderItems = orderItemRepository.findByMember(member);
+        BigDecimal totalTradePrice = BigDecimal.valueOf(0);
+
+        for(OrderItem oi : orderItems){
+            totalTradePrice = totalTradePrice.add(new BigDecimal(oi.getPrice()).multiply(BigDecimal.valueOf(oi.getVolume())));
+        }
+
         return new Holdings(new OMGMemberDto(memberRepository.findByIdFetch(member.getId())),
-                orderItemRepository.findByMember(member)
+                orderItems
                 .stream()
                 .map(OrderItemDto::new)
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList()), totalTradePrice
+                );
     }
 
     public void deleteOrderItem(Member member, String market){
