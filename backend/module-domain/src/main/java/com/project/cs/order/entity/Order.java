@@ -1,13 +1,12 @@
 package com.project.cs.order.entity;
 
+import com.project.cs.common.converter.BooleanToYnConverter;
 import com.project.cs.common.entity.BaseEntity;
 import com.project.cs.member.entity.Member;
-import com.project.cs.orderitem.entity.OrderItem;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.mapping.Join;
 
 import javax.persistence.*;
 
@@ -30,12 +29,14 @@ public class Order extends BaseEntity {
     private String status; // 완료 / 대기 / 취소 - complete / wait / cancel
     private String price; // 주문가
     private Double volume; // 수량
+    @Convert(converter = BooleanToYnConverter.class)
+    private boolean noticeYn; // 체결됐을 때 주문의 알림 여부
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
     @Builder
-    public Order(String koreanName, String englishName, String market, String type, String ordType, String status, String price, Double volume, Member member) {
+    public Order(String koreanName, String englishName, String market, String type, String ordType, String status, String price, Double volume, boolean noticeYn, Member member) {
         this.koreanName = koreanName;
         this.englishName = englishName;
         this.market = market;
@@ -44,10 +45,15 @@ public class Order extends BaseEntity {
         this.status = status;
         this.price = price;
         this.volume = volume;
+        this.noticeYn = noticeYn;
         this.member = member;
     }
 
     public void changeStatus(String status){
         this.status = status;
+    }
+
+    public void changeNoticeYn(){
+        this.noticeYn = !this.noticeYn;
     }
 }
