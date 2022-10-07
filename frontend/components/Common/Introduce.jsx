@@ -29,8 +29,8 @@ function Introduce(props) {
           <div className="mt-16" key={item.id}>
             <div className="mx-16">
               <Image src={item.src} width={150} height={150} alt={item.title} />
-              <p className="font-bold text-lg">{item.title}</p>
-              <p className="mt-2">{item.subscribe}</p>
+              <p className="mt-6 font-bold">{item.title}</p>
+              <p className="mt-2 text-sm">{item.subscribe}</p>
             </div>
           </div>
         ))}

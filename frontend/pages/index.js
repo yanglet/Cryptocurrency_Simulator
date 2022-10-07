@@ -2,6 +2,8 @@ import Head from "next/head";
 import Intro from "../components/Common/Intro";
 
 export default function Home() {
+
+
   return (
     <div>
       <Head>

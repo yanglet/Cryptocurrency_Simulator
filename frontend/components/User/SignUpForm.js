@@ -31,7 +31,7 @@ function SignUpForm(props) {
       <form className="text-center" onSubmit={onSubmitForm}>
         <div>
           <input
-            className="w-1/4 h-14 text-lg rounded-lg border-2 mb-4 px-2"
+            className="w-1/3 h-14 text-lg rounded-lg border-2 mb-4 px-2"
             value={email}
             onChange={onChangeEmail}
             required
@@ -40,7 +40,7 @@ function SignUpForm(props) {
         </div>
         <div>
           <input
-            className="w-1/4 h-14 text-lg rounded-lg border-2 mb-4 px-2"
+            className="w-1/3 h-14 text-lg rounded-lg border-2 mb-4 px-2"
             name="user-nickname"
             value={name}
             onChange={onChangeName}
@@ -50,7 +50,7 @@ function SignUpForm(props) {
         </div>
         <div>
           <input
-            className="w-1/4 h-14 text-lg rounded-lg border-2 mb-4 px-2"
+            className="w-1/3 h-14 text-lg rounded-lg border-2 mb-4 px-2"
             value={balance}
             onChange={onChangeBalance}
             required
@@ -59,7 +59,7 @@ function SignUpForm(props) {
         </div>
         <div>
           <input
-            className="w-1/4 h-14 text-lg rounded-lg border-2 mb-4 px-2"
+            className="w-1/3 h-14 text-lg rounded-lg border-2 mb-4 px-2"
             value={password}
             type="password"
             onChange={onChangePassword}
@@ -68,7 +68,7 @@ function SignUpForm(props) {
           />
         </div>
         <button
-          className="mt-9 border bg-blue-600 w-1/4 h-14 rounded-lg text-white font-bold"
+          className="mt-9 border-2 bg-blue-500 w-1/3 h-14 rounded-lg text-white font-bold"
           type="submit"
         >
           회원가입
