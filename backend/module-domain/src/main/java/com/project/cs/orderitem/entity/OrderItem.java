@@ -28,7 +28,6 @@ public class OrderItem extends BaseEntity {
     private String ordType; // 지정가 / 시장가 매수 / 시장가 매도 - limit / price / market
     private String price; // 체결가
     private Double volume; // 수량
-//    private boolean noticeYn; // 체결된 주문 알림이 회원에게 갔는지 여부
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;

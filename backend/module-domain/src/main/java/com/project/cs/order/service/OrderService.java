@@ -47,7 +47,7 @@ public class OrderService {
      */
     public OrderResponse order(OrderRequest orderRequest, Member member) {
         if (ORDER_TYPE_LIMIT.equals(orderRequest.getOrdType())) { // 지정가
-            if(TYPE_BID.equals(orderRequest.getType())){
+            if(TYPE_BID.equals(orderRequest.getType())){ // 매수
                 /**
                  * entityManager.detach(order) 하는 이유
                  * order 의 member 가 초기화 되지 않은 상태로 order 가 영속 상태이면
@@ -68,8 +68,13 @@ public class OrderService {
                         .getMember().buy(order.getPrice(), order.getVolume());
 
                 return new OrderResponse(order.getId());
-            } else if (TYPE_ASK.equals(orderRequest.getType())){
+            } else if (TYPE_ASK.equals(orderRequest.getType())){ // 매도
                 if(!orderItemRepository.existsByMemberAndMarket(member, orderRequest.getMarket())){
+                    throw new IllegalArgumentException();
+                }
+
+                OrderItem orderItem = orderItemRepository.findByMemberAndMarket(member, orderRequest.getMarket());
+                if(orderItem.getVolume() - orderRequest.getVolume() < 0){
                     throw new IllegalArgumentException();
                 }
 
@@ -77,7 +82,7 @@ public class OrderService {
 
                 entityManager.detach(order);
                 orderRepository.findByIdFetch(order.getId())
-                        .getMember().buy(order.getPrice(), order.getVolume());
+                        .getMember().sell(order.getPrice(), order.getVolume());
 
                 return new OrderResponse(order.getId());
             }
@@ -107,6 +112,8 @@ public class OrderService {
 
     // 주문 저장
     public Order saveOrder(OrderRequest orderRequest, Member member){
+        boolean noticeYn = !ORDER_TYPE_LIMIT.equals(orderRequest.getOrdType()); // 시장가 거래는 알림없음
+
         Order order = Order.builder()
                 .koreanName(orderRequest.getKoreanName())
                 .englishName(orderRequest.getEnglishName())
@@ -116,6 +123,7 @@ public class OrderService {
                 .status(ORDER_STATUS_WAIT)
                 .price(orderRequest.getPrice())
                 .volume(orderRequest.getVolume())
+                .noticeYn(noticeYn)
                 .member(member)
                 .build();
 
@@ -192,6 +200,16 @@ public class OrderService {
 
     public List<OrderDto> getOrders(Member member, String status){
         return orderRepository.findByMemberAndStatus(member, status)
+                .stream()
+                .map(OrderDto::new)
+                .collect(Collectors.toList());
+    }
+
+    public List<OrderDto> getNoticeOrders(Member member){
+        List<Order> orders = orderRepository.findByMemberAndStatusAndNoticeYn(member);
+        orders.forEach(Order::changeNoticeYn);
+
+        return orders
                 .stream()
                 .map(OrderDto::new)
                 .collect(Collectors.toList());

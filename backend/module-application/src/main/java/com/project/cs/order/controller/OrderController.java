@@ -51,4 +51,13 @@ public class OrderController {
                             @LoginMember Member member){
         orderService.cancelOrder(orderId, member);
     }
+
+    @ApiOperation("체결 주문 알림 조회")
+    @GetMapping("/notice")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "사용자 인증을 위한 accessToken", paramType = "header", required = true),
+    })
+    public ResponseEntity<List<OrderDto>> getNoticeOrders(@LoginMember Member member){
+        return ResponseEntity.ok(orderService.getNoticeOrders(member));
+    }
 }
