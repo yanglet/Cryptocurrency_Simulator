@@ -1,6 +1,7 @@
 package com.project.cs.orderitem.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.project.cs.cryptocurrency.feignclient.Market;
 import com.project.cs.orderitem.entity.OrderItem;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class OrderItemDto {
     private Long id;
+    private Long coinId;
     private String koreanName;
     private String englishName;
     private String market;
@@ -25,6 +27,7 @@ public class OrderItemDto {
 
     public OrderItemDto(OrderItem orderItem) {
         this.id = orderItem.getId();
+        this.coinId = Market.getId(orderItem.getMarket());
         this.koreanName = orderItem.getKoreanName();
         this.englishName = orderItem.getEnglishName();
         this.market = orderItem.getMarket();

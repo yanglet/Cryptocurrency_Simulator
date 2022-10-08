@@ -15,7 +15,10 @@ import javax.persistence.*;
 @Getter
 @Table(
         name = "orders",
-        indexes = @Index(name = "idx_status", columnList = "status")
+        indexes = {
+                @Index(name = "idx_status", columnList = "status"),
+                @Index(name = "idx_notice_yn", columnList = "notice_yn")
+        }
 )
 public class Order extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
