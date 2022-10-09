@@ -1,10 +1,13 @@
 package com.project.cs.comment.service;
 
 import com.project.cs.comment.entity.Comment;
+import com.project.cs.comment.exception.CommentNotFoundException;
 import com.project.cs.comment.repository.CommentRepository;
 import com.project.cs.comment.request.CommentRequest;
 import com.project.cs.member.entity.Member;
+import com.project.cs.member.exception.NotLoggedInException;
 import com.project.cs.post.entity.Post;
+import com.project.cs.post.exception.PostNotFoundException;
 import com.project.cs.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
@@ -21,9 +24,11 @@ public class CommentService {
     public Long comment(Long postId,
                         CommentRequest commentRequest,
                         Member member){
+        loginCheck(member);
+
         Comment comment = Comment.of(commentRequest.getContent(),
                 member,
-                postRepository.findById(postId).orElseThrow());
+                postRepository.findById(postId).orElseThrow(PostNotFoundException::new));
 
         return commentRepository.save(comment).getId();
     }
@@ -31,7 +36,9 @@ public class CommentService {
     public void update(Long commentId,
                        CommentRequest commentRequest,
                        Member member){
-        Comment comment = commentRepository.findById(commentId).orElseThrow();
+        loginCheck(member);
+
+        Comment comment = commentRepository.findById(commentId).orElseThrow(CommentNotFoundException::new);
 
         if(comment.getMember().getId() != member.getId()){
             throw new AccessDeniedException("access denied");
@@ -41,13 +48,21 @@ public class CommentService {
     }
 
     public void delete(Long postId, Long commentId, Member member){
-        Post post = postRepository.findById(postId).orElseThrow();
-        Comment comment = commentRepository.findById(commentId).orElseThrow();
+        loginCheck(member);
+
+        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
+        Comment comment = commentRepository.findById(commentId).orElseThrow(CommentNotFoundException::new);
 
         if(post.getMember().getId() == member.getId() || comment.getMember().getId() == member.getId()){
             commentRepository.delete(comment);
         }else{
             throw new AccessDeniedException("access denied");
+        }
+    }
+
+    private void loginCheck(Member member) {
+        if(member == null){
+            throw new NotLoggedInException();
         }
     }
 }

@@ -2,6 +2,7 @@ package com.project.cs.post.service;
 
 import com.project.cs.comment.repository.CommentRepository;
 import com.project.cs.member.entity.Member;
+import com.project.cs.member.exception.NotLoggedInException;
 import com.project.cs.post.entity.Post;
 import com.project.cs.post.entity.UploadFile;
 import com.project.cs.post.repository.PostRepository;
@@ -47,9 +48,8 @@ public class PostService {
     }
 
     public PostDto post(PostSaveRequest postSaveRequest, Member member) throws IOException {
-        if(member == null){
-            throw new AccessDeniedException("access denied");
-        }
+        loginCheck(member);
+
         Post post = Post.builder()
                 .title(postSaveRequest.getTitle())
                 .content(postSaveRequest.getContent())
@@ -64,9 +64,7 @@ public class PostService {
     }
 
     public PostDto update(Long postId, PostSaveRequest postSaveRequest, Member member) {
-        if(member == null){
-            throw new AccessDeniedException("access denied");
-        }
+        loginCheck(member);
 
         Post post = postRepository.findByIdFetch(postId);
 
@@ -84,9 +82,7 @@ public class PostService {
     }
 
     public void delete(Long postId, Member member){
-        if(member == null){
-            throw new AccessDeniedException("access denied");
-        }
+        loginCheck(member);
 
         Post post = postRepository.findByIdFetch(postId);
 
@@ -101,6 +97,12 @@ public class PostService {
         }
 
         postRepository.delete(post);
+    }
+
+    private void loginCheck(Member member) {
+        if(member == null){
+            throw new NotLoggedInException();
+        }
     }
 
 }

@@ -5,6 +5,7 @@ import com.project.cs.cryptocurrency.repository.CryptocurrencyRepository;
 import com.project.cs.like.entity.Like;
 import com.project.cs.like.repository.LikeRepository;
 import com.project.cs.member.entity.Member;
+import com.project.cs.member.exception.NotLoggedInException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,9 +32,7 @@ public class LikeService {
     }
 
     public Long save(Member member, String market){
-        if(member == null){
-            throw new IllegalArgumentException("로그인 후에 이용해주세요.");
-        }
+        loginCheck(member);
 
         Like like = Like.builder()
                 .market(market)
@@ -62,5 +61,11 @@ public class LikeService {
         }
 
         return markets.substring(0, markets.length() - 1);
+    }
+
+    private void loginCheck(Member member) {
+        if(member == null){
+            throw new NotLoggedInException();
+        }
     }
 }

@@ -17,7 +17,7 @@ import javax.persistence.*;
         name = "orders",
         indexes = {
                 @Index(name = "idx_status", columnList = "status"),
-                @Index(name = "idx_notice_yn", columnList = "notice_yn")
+                @Index(name = "idx_notice_yn", columnList = "noticeYn")
         }
 )
 public class Order extends BaseEntity {

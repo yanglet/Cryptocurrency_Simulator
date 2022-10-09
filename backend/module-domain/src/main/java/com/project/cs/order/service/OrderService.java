@@ -1,12 +1,16 @@
 package com.project.cs.order.service;
 
 import com.project.cs.member.entity.Member;
+import com.project.cs.member.exception.InsufficientBalanceException;
+import com.project.cs.member.exception.NotLoggedInException;
 import com.project.cs.order.entity.Order;
+import com.project.cs.order.exception.InsufficientVolumeException;
 import com.project.cs.order.repository.OrderRepository;
 import com.project.cs.order.request.OrderRequest;
 import com.project.cs.order.response.OrderDto;
 import com.project.cs.order.response.OrderResponse;
 import com.project.cs.orderitem.entity.OrderItem;
+import com.project.cs.orderitem.exception.OrderItemNotFoundException;
 import com.project.cs.orderitem.repository.OrderItemRepository;
 import com.project.cs.orderitem.service.OrderItemService;
 import lombok.RequiredArgsConstructor;
@@ -46,6 +50,7 @@ public class OrderService {
      * -> completeOrder 호출
      */
     public OrderResponse order(OrderRequest orderRequest, Member member) {
+        loginCheck(member);
         if (ORDER_TYPE_LIMIT.equals(orderRequest.getOrdType())) { // 지정가
             if(TYPE_BID.equals(orderRequest.getType())){ // 매수
                 /**
@@ -58,7 +63,7 @@ public class OrderService {
                  */
                 BigDecimal needBalance = BigDecimal.valueOf(Double.valueOf(orderRequest.getPrice()) * orderRequest.getVolume());
                 if(member.getBalance().compareTo(needBalance) < 0){ // 보유 금액 부족
-                    throw new IllegalArgumentException("보유 금액이 부족합니다.");
+                    throw new InsufficientBalanceException();
                 }
 
                 Order order = saveOrder(orderRequest, member);
@@ -70,12 +75,12 @@ public class OrderService {
                 return new OrderResponse(order.getId());
             } else if (TYPE_ASK.equals(orderRequest.getType())){ // 매도
                 if(!orderItemRepository.existsByMemberAndMarket(member, orderRequest.getMarket())){
-                    throw new IllegalArgumentException();
+                    throw new OrderItemNotFoundException();
                 }
 
                 OrderItem orderItem = orderItemRepository.findByMemberAndMarket(member, orderRequest.getMarket());
                 if(orderItem.getVolume() - orderRequest.getVolume() < 0){
-                    throw new IllegalArgumentException();
+                    throw new InsufficientVolumeException();
                 }
 
                 Order order = saveOrder(orderRequest, member);
@@ -89,7 +94,12 @@ public class OrderService {
         } else { // 시장가
             if (ORDER_TYPE_MARKET.equals(orderRequest.getOrdType())) { // 시장가 매도
                 if(!orderItemRepository.existsByMemberAndMarket(member, orderRequest.getMarket())){
-                    throw new IllegalArgumentException();
+                    throw new OrderItemNotFoundException();
+                }
+
+                OrderItem orderItem = orderItemRepository.findByMemberAndMarket(member, orderRequest.getMarket());
+                if(orderItem.getVolume() - orderRequest.getVolume() < 0){
+                    throw new InsufficientVolumeException();
                 }
 
                 Order order = saveOrder(orderRequest, member);
@@ -98,7 +108,7 @@ public class OrderService {
             } else if (ORDER_TYPE_PRICE.equals(orderRequest.getOrdType())) { // 시장가 매수
                 BigDecimal needBalance = BigDecimal.valueOf(Double.valueOf(orderRequest.getPrice()) * orderRequest.getVolume());
                 if(member.getBalance().compareTo(needBalance) < 0){ // 보유 금액 부족
-                    throw new IllegalArgumentException("보유 금액이 부족합니다.");
+                    throw new InsufficientBalanceException();
                 }
 
                 Order order = saveOrder(orderRequest, member);
@@ -184,9 +194,7 @@ public class OrderService {
      * -> status 를 취소로 바꿈 & 지정가 매수 주문이었다면 돈을 다시 돌려줘야함
      */
     public void cancelOrder(Long orderId, Member member){
-        if(member == null){
-            throw new IllegalArgumentException("로그인 후에 이용해주세요.");
-        }
+        loginCheck(member);
         Order order = orderRepository.findByIdFetch(orderId);
 
         if(order.getStatus().equals(ORDER_STATUS_WAIT)) {
@@ -199,6 +207,8 @@ public class OrderService {
     }
 
     public List<OrderDto> getOrders(Member member, String status){
+        loginCheck(member);
+
         return orderRepository.findByMemberAndStatus(member, status)
                 .stream()
                 .map(OrderDto::new)
@@ -206,6 +216,8 @@ public class OrderService {
     }
 
     public List<OrderDto> getNoticeOrders(Member member){
+        loginCheck(member);
+
         List<Order> orders = orderRepository.findByMemberAndStatusAndNoticeYn(member);
         orders.forEach(Order::changeNoticeYn);
 
@@ -213,5 +225,11 @@ public class OrderService {
                 .stream()
                 .map(OrderDto::new)
                 .collect(Collectors.toList());
+    }
+
+    private void loginCheck(Member member) {
+        if(member == null){
+            throw new NotLoggedInException();
+        }
     }
 }
