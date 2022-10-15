@@ -1,5 +1,6 @@
 package com.project.cs.like.repository;
 
+import com.project.cs.cryptocurrency.feignclient.Market;
 import com.project.cs.like.entity.Like;
 import com.project.cs.member.entity.Member;
 import com.project.cs.member.entity.QMember;
@@ -15,9 +16,13 @@ public class LikeRepositoryImpl implements LikeRepositoryCustom {
     private final JPAQueryFactory queryFactory;
     @Override
     public List<Like> findByMember(Member member) {
-        return queryFactory.selectFrom(like)
-                .where( like.member.eq(member) )
+        List<Like> likes = queryFactory.selectFrom(like)
+                .where(like.member.eq(member))
                 .fetch();
+
+        likes.sort((o1, o2) -> (int) (Market.getId(o1.getMarket()) - Market.getId(o2.getMarket())));
+
+        return likes;
     }
 
     @Override
