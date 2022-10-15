@@ -37,6 +37,7 @@ function LikeContainer({ market }) {
             })
             .then(() => {
               console.log("좋아요 취소");
+              location.reload("")
               setLike(!like);
             })
             .catch((error) => {
@@ -53,6 +54,7 @@ function LikeContainer({ market }) {
             })
             .then(() => {
               console.log("좋아요 추가");
+              location.reload("")
               setLike(!like);
             })
             .catch((error) => {
