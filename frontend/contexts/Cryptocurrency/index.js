@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext } from "react";
 import { CRYPTOCURRENCY } from "../../pages/config";
 import useSWR from 'swr'
 
@@ -9,7 +9,7 @@ export const CryptocurrencyContext = createContext({
 });
 
 export const CryptocurrencyProvider = ({ children }) => {
-    const { data: content, error} = useSWR(`${CRYPTOCURRENCY.CRYPTOCURRENCY}`, fetcher, { refreshInterval: 10000})
+    const { data: content, error} = useSWR(`${CRYPTOCURRENCY.CRYPTOCURRENCY}`, fetcher, { refreshInterval: 1000})
     
     if (error) console.log("에러")
     if(!content) console.log("로딩중")
