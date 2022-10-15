@@ -49,7 +49,7 @@ public class RankingService {
                 }
             }
             Double result = presentPrice.compareTo(BigDecimal.valueOf(0)) == 0 ? 0.0 : presentPrice.subtract(tradePrice).doubleValue();
-            Double profit = presentPrice.compareTo(BigDecimal.valueOf(0)) == 0 ? 0.0 : (result / presentPrice.doubleValue()) * 100.0;
+            Double profit = presentPrice.compareTo(BigDecimal.valueOf(0)) == 0 ? 0.0 : (result / tradePrice.doubleValue()) * 100.0;
 
             member.getRanking().changeProfit(profit);
         }
