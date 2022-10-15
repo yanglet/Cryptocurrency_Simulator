@@ -9,7 +9,7 @@ export const CandleContext = createContext({
     week: () => {},
 });
 
-export const CandleProvider = ({children, params}) => {
+export const CandleProvider = ({children, params, minutes}) => {
     const [day, setDay] = useState([]);
     const [month, setMonth] = useState([]);
     const [week, setWeek] = useState([]);
@@ -37,14 +37,14 @@ export const CandleProvider = ({children, params}) => {
     }, [params, setWeek]); 
 
     useEffect(() => {
-        axios.get(`${CANDLE.MINUTES}/${minute}?market=${params}`)
+        axios.get(`${CANDLE.MINUTES}/${minutes}?market=${params}`)
             .then((result) => {
                 setMinute(result.data)
         })
-    }, [minute, params, setMinute]); 
+    }, [minutes, params, setMinute]); 
 
     return(
-        <CandleContext.Provider params={params} minute={minute} value={{day, month, week, minute}}>
+        <CandleContext.Provider params={params} minutes={minutes} value={{day, month, week, minute}}>
             {children}
         </CandleContext.Provider>
     )

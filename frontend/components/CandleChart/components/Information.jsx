@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { AiFillHeart, AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
-import Likes from "../Likes"
-import AddLikeContainers from "../../Like/containers/AddLikeContainers";
+import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
+import { LikeProvider } from "../../../contexts/Like";
+import LikeContainer from "../../Like/containers/LikeContainer";
 
 function Information({ content, tickerId, params }) {
   const [color, setColor] = useState("");
@@ -10,7 +10,6 @@ function Information({ content, tickerId, params }) {
   console.log(tickerId)
   const id = `${tickerId}` - 1;
   console.log("id", id);
-  //console.log(content[id]);
 
   useEffect(() => {
     {
@@ -44,8 +43,9 @@ function Information({ content, tickerId, params }) {
             {/* 하트 */}
             <div className="flex">
               <div className="mx-2 mt-1">
-                {/* <AiFillHeart size="18" /> */}
-                <AddLikeContainers market={content[id].market} />
+                <LikeProvider>
+                  <LikeContainer market={content[id].market} />
+                </LikeProvider>
               </div>
               <div>
                 {/* 코인명 코인가격 */}
