@@ -23,9 +23,8 @@ function List({ content }) {
           content.map((item) => (
             <tr key={item.id}>
               <td>{item.koreanName}</td>
-              <td>{Number(item.price * item.volume).toLocaleString()} KRW</td>
+              <td>{item.volume} KRW</td>
               <td> {Number(item.price).toLocaleString()} KRW</td>
-
             </tr>
           ))}
       </tbody>
