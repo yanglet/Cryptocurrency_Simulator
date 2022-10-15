@@ -48,14 +48,14 @@ function Navbar() {
   };
 
   return (
-    <div className="px-4 py-3 flex justify-between">
-      <div className="flex justify-start">
+    <div className="px-4 py-6 flex justify-between">
+      <div className="flex justify-star">
         {/* 로고 */}
         <Link href="/">
           <Image
-            src="/images/mojalogo.png"
+            src="/images/moja.png"
             width={70}
-            height={10}
+            height={30}
             alt="로고 이미지"
           />
         </Link>
@@ -70,7 +70,7 @@ function Navbar() {
           ))}
         </div>
       </div>
-      <div>
+      <div className="my-auto">
         {currentUser ? (
           <div className="flex">
             <Button
