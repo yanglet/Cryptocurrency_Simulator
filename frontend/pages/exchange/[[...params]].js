@@ -10,6 +10,8 @@ import CandleChartContainer from "../../components/CandleChart/containers/Candle
 import TradingContainer from "../../components/Trading/containers/TradingContainer";
 import { LikeProvider } from "../../contexts/Like";
 import InterestContainer from "../../components/cryptocurrency/containers/InterestContainer";
+import { BalanceProvider } from "../../contexts/Balance";
+import HoldingContainer from "../../components/cryptocurrency/containers/HoldingContainer";
 
 function Exchange(props) {
   const [categoryName, setCategoryName] = useState("main");
@@ -52,6 +54,15 @@ function Exchange(props) {
                   params={params}
                 />
               </LikeProvider>
+            )}
+            {categoryName === "holding" && (
+              <BalanceProvider>
+                <HoldingContainer
+                  tickerId={tickerId}
+                  setTickerId={setTickerId}
+                  params={params}
+                />
+              </BalanceProvider>
             )}
           </div>
           <div className="w-4/6 border ml-2">
