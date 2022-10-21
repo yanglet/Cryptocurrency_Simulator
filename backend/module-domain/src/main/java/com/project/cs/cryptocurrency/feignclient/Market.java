@@ -41,7 +41,7 @@ public enum Market {
     아이오에스티("IOST", "KRW-IOST", 35L),
     리퍼리움("Refereum", "KRW-RFR", 36L),
     시빅("Civic", "KRW-CVC", 37L),
-    에브리피디아("Everipedia", "KRW-IQ", 38L),
+    아이큐("IQ.wiki", "KRW-IQ", 38L),
     아이오타("IOTA", "KRW-IOTA", 39L),
     메인프레임("Mainframe", "KRW-MFT", 40L),
     온톨로지가스("ONG", "KRW-ONG", 41L),
@@ -116,7 +116,8 @@ public enum Market {
     아발란체("Avalanche", "KRW-AVAX", 110L),
     쓰레스홀드("Threshold", "KRW-T", 111L),
     셀로("Celo", "KRW-CELO", 112L),
-    스테픈("Stepn", "KRW-GMT", 113L);
+    스테픈("Stepn", "KRW-GMT", 113L),
+    앱토스("Aptos", "KRW-APT", 114L);
 
     private String english_name;
     private String marketCode;
