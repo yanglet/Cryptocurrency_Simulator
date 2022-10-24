@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import { CalculationContext } from "../../../contexts/Balance/calculation";
 
+function numberFormat(inputNumber) {
+  return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 function Balance() {
   const { purchaseAmount, valuationAmount,valuationRate,valuationLoss,holdings,balance } = useContext(CalculationContext);
   const [color, setColor] = useState([]);
@@ -32,23 +36,23 @@ function Balance() {
         <div className=" grid grid-cols-2">
           <div className="grid grid-cols-2 w-96">
             <div className=" text-gray-500">총매수금액</div>
-            <div>{Number(purchaseAmount).toLocaleString()} KRW</div>
+            <div>{purchaseAmount.toLocaleString()} KRW</div>
           </div>
           <div className="grid grid-cols-2 w-96">
             <div className=" text-gray-500 pr-12">총평가손익</div>
-            <div>{Number(valuationLoss).toLocaleString()} KRW</div>
+            <div>{numberFormat(Number(valuationLoss).toFixed())} KRW</div>
           </div>
         </div>
 
         <div className="grid grid-cols-2 py-2">
           <div className="grid grid-cols-2 w-96">
             <div className=" text-gray-500">총평가금액</div>
-            <div>{Number(valuationAmount).toLocaleString()} KRW</div>
+            <div>{numberFormat(Number(valuationAmount).toFixed())} KRW</div>
           </div>
           <div className="grid grid-cols-2 w-96">
             <div className=" text-gray-500 pr-9">총평가수익률</div>
 
-            <div className={color}>{Number(valuationRate).toFixed(2)}%</div>
+            <div className={color}>{Number(valuationRate).toFixed()}%</div>
 
           </div>
         </div> 

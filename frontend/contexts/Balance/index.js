@@ -13,7 +13,6 @@ const fetcher = (...args) => fetch(...args).then(res => res.json())
 
 export const BalanceProvider = ({children}) => {
     const [content, setContent] = useState([]);
-    const [profit, setProfit] = useState([]);
     const { data, error} = useSWR(`${CRYPTOCURRENCY.CRYPTOCURRENCY}`, fetcher, { refreshInterval: 1000})
 
     useEffect(() => {
@@ -25,19 +24,13 @@ export const BalanceProvider = ({children}) => {
         })
     }, [setContent]);    
 
-    // console.log("hi", content.orderItems)
-    // console.log("hi2", data && data[7].trade_price)
-
     useEffect(()=> {
         {content.orderItems && content.orderItems.map((item) => {
-            // console.log("hi3", item.koreanName, item.coinId, item.price , item.volume)
-            item["profit"] = (((data && data[item.coinId-1].trade_price) - item.price) * item.volume ) / item.price * item.volume * 100
-            // console.log("item", item)
-        })}
-    }, [content.orderItems, data, profit, setProfit])
-    // console.log("contnet", content.orderItems[1])
-    // console.log("profit", profit)
-
+            item["profit"] = (( data && data[item.coinId-1].trade_price - item.price) / (data && data[item.coinId-1].trade_price)) * 100 
+            item["income"] =  item.price * (item.profit && item.profit) * item.volume      
+        })} 
+    }, [data, content.orderItems])
+    
     return(
         <BalanceContext.Provider value={content}>
             {children}

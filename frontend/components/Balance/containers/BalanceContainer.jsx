@@ -19,10 +19,11 @@ function BalanceContainer(props) {
          </div>
          <CalculationProvider>
           <Balance />
-        </CalculationProvider>
+         </CalculationProvider>
           <div className='py-6 px-9 text-gray-500 font-semibold text-lg'>
           보유자산 목록
           </div>
+          
           <List content={content.orderItems} />
         </div>
       )}
