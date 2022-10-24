@@ -6,8 +6,9 @@ import BalanceContainer from "../../components/Balance/containers/BalanceContain
 
 function Balance(props) {
   const [categoryName, setCategoryName] = useState("balance");
-
+  
   return (
+
     <div className="mb-20 max-w-5xl mx-auto">
       <Head>
         <title>모의 투자 사이트 | 거래내역</title>

@@ -29,7 +29,7 @@ function HoldingTbody({ item, setTickerId }) {
         <td className="text-center">{item.price}</td>
 
         <td className={`flex justify-center py-4 ${color}`}>
-          {(item.profit).toFixed(2)}%
+          {Number(item.profit).toFixed(0)}%
         </td>
       </tr>
     </Link>

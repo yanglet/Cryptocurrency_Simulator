@@ -39,7 +39,7 @@ export const CalculationProvider = ({children}) => {
     // console.log(data && data[7].trade_price, data && data[16].trade_price, data && data[15].trade_price) 
 
     useEffect(() => {
-        // 매수 금액
+        // 총 매수 금액
         setPurchaseAmount(content.map(item => item.volume * item.price).reduce((prev, curr) => prev + curr, 0))
         // 총 평가 금액
         { data && 
@@ -51,13 +51,13 @@ export const CalculationProvider = ({children}) => {
         // 총 평가 수익률 
         setValuationRate((valuationAmount - purchaseAmount) / purchaseAmount * 100)
         // 총 평가 손익 
-        setValuationLoss(purchaseAmount + (purchaseAmount * valuationRate))
+        setValuationLoss(valuationAmount - purchaseAmount)
         // 총 보유자산
         setHoldings(balance + valuationAmount)
     }, [balance, purchaseAmount, valuationAmount, valuationRate]);
 
    
-    const value = useMemo(() => ({ purchaseAmount, valuationAmount,valuationRate,valuationLoss,holdings,balance }), [purchaseAmount, valuationAmount,valuationRate,valuationLoss,holdings,balance ]);
+    const value = useMemo(() => ({ purchaseAmount, valuationAmount,valuationRate,valuationLoss,holdings,balance }), [purchaseAmount, valuationAmount,valuationRate,valuationLoss,holdings,balance, content ]);
     // console.log("매수금액", purchaseAmount, "총평가금액", valuationAmount, "총평가수익률", valuationRate, "총평가손익", valuationLoss, "총 보유자산", holdings)
 
     return(

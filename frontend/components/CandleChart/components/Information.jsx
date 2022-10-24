@@ -13,10 +13,9 @@ function Information({ content, tickerId, params }) {
 
   useEffect(() => {
     {
-      content  &&
-        (content[id].signed_change_price >= 0
+        content && content[id].signed_change_price >= 0
           ? setIcon(<AiFillCaretUp />)
-          : setIcon(<AiFillCaretDown />));
+          : setIcon(<AiFillCaretDown />)
     }
   }, [content, id]);
 
