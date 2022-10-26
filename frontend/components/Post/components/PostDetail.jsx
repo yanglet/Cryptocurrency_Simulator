@@ -5,7 +5,16 @@ import { POST } from "../../../pages/config";
 import authHeader from "../../../services/auth-header";
 import Router from "next/router";
 import Image from "next/image";
-
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+const settings = {
+  dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+};
 function deletePost(id) {
   console.log("id", id);
   axios
@@ -32,9 +41,21 @@ function PostDetail({ content }) {
         <p className="px-4 border-r-2 ">{content.name}</p>
         <p className="px-4 border-r-2 ">{content.createTime}</p>
       </div>
-      { content.uploadFiles && content.uploadFiles.map((item, idx) => (
-        <Image key={idx} src={`/images/${item.savedFileName}`} width="300" height="300" alt="사진" />
-      ))}
+      {content.uploadFiles &&
+        <Slider {...settings}>
+          {content.uploadFiles.map((item) => (
+            <div className="my-auto" key={item.id}>
+              <Image
+                src={`/images/${item.savedFileName}`}
+                width="300"
+                height="300"
+                alt="커뮤니티 사진"
+              />
+            </div>
+          ))}
+          </Slider>
+  }
+    
       {/* 내용 */}
       <div className=" h-72">
         <p className="px-4 py-24">{content.content}</p>

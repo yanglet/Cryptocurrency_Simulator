@@ -1,15 +1,42 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState, useCallback } from "react";
-import useInput from "../../../hooks/useInput";
 import { BsPlusSquare } from "react-icons/bs";
 import axios from "axios";
 import authHeader from "../../../services/auth-header";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Image from "next/image";
+const settings = {
+  dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+};
 
 function PostEdit({ value }) {
   const router = useRouter();
-  const ImgInput = useRef();
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
+
+  const [showImages, setShowImages] = useState([]);
+  const handleAddImages = (event) => {
+   
+    const imageLists = event.target.files;
+    let imageUrlLists = [...showImages];
+
+    for (let i = 0; i < imageLists.length; i++) {
+      const currentImageUrl = URL.createObjectURL(imageLists[i]);
+      imageUrlLists.push(currentImageUrl);
+    }
+
+    if (imageUrlLists.length > 10) {
+      imageUrlLists = imageUrlLists.slice(0, 10);
+    }
+
+    setShowImages(imageUrlLists);
+  }
 
   useEffect(() => {
     setContent(value.content);
@@ -70,24 +97,38 @@ function PostEdit({ value }) {
           placeholder="제목을 입력하세요. "
         />
       </div>
-      <div className="flex py-9 border-b">
-        <p className="text-gray-600 my-auto">사진 첨부</p>
-        <input
-          ref={ImgInput}
+      <div className="text-gray-600 my-auto py-11 flex">
+          <p className="text-sm text-gray-3 ">
+            사진 첨부
+          </p>
+          <div>
+          <input
+          className="ml-16"
           type="file"
           id="Img"
           accept="image/*"
           name="multipartFiles"
           multiple
-          hidden
+          onChange={handleAddImages}
         />
-        <button
-          className=" mx-3 ml-16"
-          onClick={(e) => ImgInput.current && ImgInput.current.click()}
-        >
-          <BsPlusSquare size="25" />{" "}
-        </button>
-      </div>
+        <div className="text-center py-4">
+            <Slider {...settings}>
+              {showImages &&
+                showImages.map((image, id) => (
+                  <div key={id}>
+                    <Image
+                      src={image}
+                      alt={`${image}-${id}`}
+                      width="200"
+                      height="200"
+                    />
+                  </div>
+                ))}
+            </Slider>
+            </div>
+        </div>
+        </div>
+     
       <div className="py-7">
         <input
           required
