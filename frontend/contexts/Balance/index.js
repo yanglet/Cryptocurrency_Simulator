@@ -27,7 +27,7 @@ export const BalanceProvider = ({children}) => {
     useEffect(()=> {
         {content.orderItems && content.orderItems.map((item) => {
             item["profit"] = (( data && data[item.coinId-1].trade_price - item.price) / (data && data[item.coinId-1].trade_price)) * 100 
-            item["income"] =  item.price * (item.profit && item.profit) * item.volume      
+            item["income"] =  (data && data[item.coinId-1].trade_price) * (item.profit && item.profit) * item.volume      
         })} 
     }, [data, content.orderItems])
     

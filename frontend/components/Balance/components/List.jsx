@@ -37,7 +37,7 @@ function List({ content }) {
               <td>{item.koreanName}</td>
               <td>{item.volume} {item.market.slice(-3)}</td>
               <td>{Number(item.price).toLocaleString()} KRW</td>
-              <td className={ item.profit > 0 ? "text-red-600" : item.profit < 0 && "text-blue-600"}>{Number(item.profit).toFixed(1)} % </td>
+              <td className={ item.profit > 0 ? "text-red-600" : item.profit < 0 && "text-blue-600"}>{Number(item.profit).toFixed(2)} % </td>
               <td className={ item.income > 0 ? "text-red-600" : item.income < 0 && "text-blue-600"}>{numberFormat(Number(item.income).toFixed())} KRW</td>
             </tr>
           ))}

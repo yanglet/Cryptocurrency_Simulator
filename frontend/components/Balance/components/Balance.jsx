@@ -29,7 +29,7 @@ function Balance() {
         </div>
         <div className="text-lg grid grid-cols-2 w-96">
           <div className=" text-gray-500">총 보유자산 KRW</div>
-          <div>{holdings.toLocaleString()} KRW</div>
+          <div>{numberFormat(Number(holdings).toFixed())} KRW</div>
         </div>
       </div>
       <div className="gird grid-cols-2 text-center pt-4">
