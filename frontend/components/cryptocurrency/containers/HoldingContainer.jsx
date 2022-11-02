@@ -7,7 +7,9 @@ function HoldingContainer({tickerId, setTickerId}) {
     console.log("content", content)
     return (
         <div>
-            <Holding content={content} tickerId={tickerId} setTickerId={setTickerId} />
+            { content && 
+            <Holding content={content[0].orderItems} tickerId={tickerId} setTickerId={setTickerId} data={content[1]} />
+}
         </div>
     );
 }

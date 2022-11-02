@@ -1,7 +1,7 @@
 import React from 'react';
 import HoldingTbody from './HoldingTbody';
 
-function HoldingList({ listName , content, tickerId, setTickerId}) {
+function HoldingList({ listName , content, tickerId, setTickerId, data}) {
     return (
         <div className="">
         <div className="bg-white border-x border-gray-300 overflow-y-scroll overflow-hidden sm:h-[73vw] 2xl:h-[51.3vw]">
@@ -19,7 +19,7 @@ function HoldingList({ listName , content, tickerId, setTickerId}) {
               {/* 코인명 | 보유(평가금) | 매수평균가 | 수익률 */}
               {content &&
                 content.map((item) => (
-                 <HoldingTbody item={item} setTickerId={setTickerId} />
+                 <HoldingTbody item={item} setTickerId={setTickerId} data={data} />
                 ))}
             </tbody>
           </table>
