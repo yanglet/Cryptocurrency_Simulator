@@ -29,7 +29,7 @@ function Balance() {
         </div>
         <div className="text-lg grid grid-cols-2 w-96">
           <div className=" text-gray-500">총 보유자산 KRW</div>
-          <div>{numberFormat(Number(holdings).toFixed())} KRW</div>
+          <div>{holdings.toLocaleString(undefined, { maximumFractionDigits: 0})} KRW</div>
         </div>
       </div>
       <div className="gird grid-cols-2 text-center pt-4">
@@ -40,19 +40,20 @@ function Balance() {
           </div>
           <div className="grid grid-cols-2 w-96">
             <div className=" text-gray-500 pr-12">총평가손익</div>
-            <div>{numberFormat(Number(valuationLoss).toFixed())} KRW</div>
+            {/* valuationLoss.toLocaleString(undefined, { maximumFractionDigits: 0}) */}
+            <div>{valuationLoss.toLocaleString(undefined, { maximumFractionDigits: 0})} KRW</div>
           </div>
         </div>
 
         <div className="grid grid-cols-2 py-2">
           <div className="grid grid-cols-2 w-96">
             <div className=" text-gray-500">총평가금액</div>
-            <div>{numberFormat(Number(valuationAmount).toFixed())} KRW</div>
+            <div>{valuationAmount.toLocaleString(undefined, { maximumFractionDigits: 0})} KRW</div>
           </div>
           <div className="grid grid-cols-2 w-96">
             <div className=" text-gray-500 pr-9">총평가수익률</div>
 
-            <div className={color}>{Number(valuationRate).toFixed()}%</div>
+            <div className={color}>{Number(valuationRate).toFixed(2)}%</div>
 
           </div>
         </div> 

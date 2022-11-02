@@ -8,23 +8,20 @@ import List from "../components/List";
 function BalanceContainer(props) {
   const content = useContext(BalanceContext);
 
-  console.log("content", content);
-
   return (
     <div>
       {content && (
         <div>
-          <div className='pt-6 px-9 text-gray-500 font-semibold text-lg'>
-          내 보유자산
-         </div>
-         <CalculationProvider>
-          <Balance />
-         </CalculationProvider>
-          <div className='py-6 px-9 text-gray-500 font-semibold text-lg'>
-          보유자산 목록
+          <div className="pt-6 px-9 text-gray-500 font-semibold text-lg">
+            내 보유자산
           </div>
-          
-          <List content={content.orderItems} />
+          <CalculationProvider>
+            <Balance />
+          </CalculationProvider>
+          <div className="py-6 px-9 text-gray-500 font-semibold text-lg">
+            보유자산 목록
+          </div>
+          <List content={content[0].orderItems} data={content[1]} />
         </div>
       )}
     </div>
