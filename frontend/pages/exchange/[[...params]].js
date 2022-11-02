@@ -7,11 +7,12 @@ import CategoryType from "../../components/cryptocurrency/components/CategoryTyp
 import InformationContainer from "../../components/CandleChart/containers/InformationContainer";
 import { CandleProvider } from "../../contexts/CandleChart";
 import CandleChartContainer from "../../components/CandleChart/containers/CandleChartContainer";
-import TradingContainer from "../../components/Trading/containers/TradingContainer";
 import { LikeProvider } from "../../contexts/Like";
 import InterestContainer from "../../components/cryptocurrency/containers/InterestContainer";
 import { BalanceProvider } from "../../contexts/Balance";
 import HoldingContainer from "../../components/cryptocurrency/containers/HoldingContainer";
+import { PriceProvider } from "../../contexts/Price/index"
+import TradingContainer from "../../components/Trading/containers/TradingContainer"
 
 function Exchange(props) {
   const [categoryName, setCategoryName] = useState("main");
@@ -65,7 +66,9 @@ function Exchange(props) {
               </BalanceProvider>
             )}
           </div>
+        
           <div className="w-4/6 border ml-2">
+            {/* 비트코인 기본 정보 */}
             <CryptocurrencyProvider>
               <InformationContainer
                 params={params}
@@ -73,6 +76,7 @@ function Exchange(props) {
                 setTickerId={setTickerId}
               />
             </CryptocurrencyProvider>
+            {/* 캔들차트 */}
             <CandleProvider params={params}>
               <CandleChartContainer
                 params={params}
@@ -80,9 +84,10 @@ function Exchange(props) {
                 setTickerId={setTickerId}
               />
             </CandleProvider>
-            <CryptocurrencyProvider>
+            {/* 거래 관련  */}
+            <PriceProvider>
               <TradingContainer tickerId={tickerId} />
-            </CryptocurrencyProvider>
+            </PriceProvider>
           </div>
         </div>
       </div>

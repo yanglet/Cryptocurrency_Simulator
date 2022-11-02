@@ -1,24 +1,21 @@
-import React, {useState, useEffect} from 'react';
-import { useContext } from 'react';
-import { CryptocurrencyContext } from '../../../contexts/Cryptocurrency';
+import React, {useState, useEffect, useContext} from 'react';
 import { MembersProvider } from '../../../contexts/Member';
 import Trading from '../components/Trading';
+import { PriceContext } from '../../../contexts/Price';
+import { CryptocurrencyContext } from '../../../contexts/Cryptocurrency';
+import { CRYPTOCURRENCY } from '../../../pages/config';
+import axios from 'axios';
 
 function TradingContainer({ tickerId }) {
-    const content = useContext(CryptocurrencyContext);
-    const [data, setData] = useState("")
-    const id = `${tickerId}` - 1;
-
-    useEffect(() => {
-        { content && setData(content[id])}
-    }, [content, id]);
-    
+    const content = useContext(PriceContext)
+ 
     return (
         <div>
             <MembersProvider>
-                <Trading content={data} />
-            </MembersProvider>
-           
+                { content && 
+               <Trading content={content} tickerId={tickerId} />
+                }
+            </MembersProvider>         
         </div>
     );
 }
