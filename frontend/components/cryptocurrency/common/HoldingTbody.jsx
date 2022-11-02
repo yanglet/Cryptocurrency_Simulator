@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 
-function HoldingTbody({ item, setTickerId }) {
+function HoldingTbody({ item, setTickerId, data }) {
   const [color, setColor] = useState("");
 
   useEffect(() => {
@@ -28,9 +28,33 @@ function HoldingTbody({ item, setTickerId }) {
         <td className="text-center">{item.volume.toFixed(4)}</td>
         <td className="text-center">{item.price}</td>
 
-        <td className={`flex justify-center py-4 ${color}`}>
+        {/* <td className={`flex justify-center py-4 ${color}`}>
           {Number(item.profit).toFixed(0)}%
-        </td>
+        </td> */}
+         <td
+                className={
+                  ((data &&
+                    data[item.coinId - 1].trade_price - Number(item.price)) /
+                    Number(item.price)) *
+                    100 >
+                  0
+                    ? "text-red-600"
+                    : ((data &&
+                        data[item.coinId - 1].trade_price -
+                          Number(item.price)) /
+                        Number(item.price)) *
+                        100 <
+                        0 && "text-blue-600"
+                }
+              >
+                {(
+                  ((data &&
+                    data[item.coinId - 1].trade_price - Number(item.price)) /
+                    Number(item.price)) *
+                  100
+                ).toFixed(2)}
+                %
+              </td>
       </tr>
     </Link>
   );

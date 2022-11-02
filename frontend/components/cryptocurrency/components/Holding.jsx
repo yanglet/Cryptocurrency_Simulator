@@ -1,21 +1,15 @@
 import React, { useEffect, useState } from "react";
 import HoldingList from "../common/HoldingList";
-function Holding({ content, setTickerId, tickerId }) {
-  const [data, setData] = useState([])
-  
-  useEffect(() => {
-    { content && setData(content.orderItems)}
 
-    
-  }, [content])
-
+function Holding({ content, setTickerId, tickerId, data }) {
 
   return (
     <div>
       <HoldingList
         tickerId={tickerId}
         setTickerId={setTickerId}
-        content={data}
+        content={content}
+        data={data}
         listName={[
           {
             id: 1,
