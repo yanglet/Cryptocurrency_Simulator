@@ -21,7 +21,8 @@ export const MembersProvider = ({children}) => {
             console.log(err)
         })
     }, [setContent]);    
-
+    console.log("dd", content)
+    
     return(
         <MembersContext.Provider value={content}>
             {children}

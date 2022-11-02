@@ -48,7 +48,7 @@ function Navbar() {
   };
 
   return (
-    <div className="px-4 py-6 flex justify-between">
+    <div className="px-4 py-6 flex justify-between font-semibold">
       <div className="flex justify-star">
         {/* 로고 */}
         <Link href="/">
@@ -60,7 +60,7 @@ function Navbar() {
           />
         </Link>
         {/* 메뉴 */}
-        <div className="flex pl-7">
+        <div className="flex pl-7 font-semibold">
           {menu.map((item) => (
             <div key={item.id} className="my-auto mx-7 ">
               <Link href={item.path}>
