@@ -86,8 +86,6 @@ public class OrderService {
                 Order order = saveOrder(orderRequest, member);
 
                 entityManager.detach(order);
-                orderRepository.findByIdFetch(order.getId())
-                        .getMember().sell(order.getPrice(), order.getVolume());
 
                 return new OrderResponse(order.getId());
             }
