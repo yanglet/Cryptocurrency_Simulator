@@ -129,19 +129,19 @@ public enum Market {
         this.id = id;
     }
 
-    public static String getAllMarketCode(){
+    public static String getAllMarketCode() {
         String result = "";
 
-        for(Market m : Market.values()){
+        for (Market m : Market.values()) {
             result += m.getMarketCode() + ",";
         }
 
         return result.substring(0, result.length() - 1);
     }
 
-    public static Long getId(String marketCode){
-        for(Market m : Market.values()){
-            if(marketCode.equals(m.getMarketCode())){
+    public static Long getId(String marketCode) {
+        for (Market m : Market.values()) {
+            if (marketCode.equals(m.getMarketCode())) {
                 return m.getId();
             }
         }

@@ -19,7 +19,7 @@ public class CryptocurrencyController {
 
     @ApiOperation("모든 가상화폐 조회")
     @GetMapping
-    public ResponseEntity<List<CryptocurrencyDto>> getCryptocurrencies(){
+    public ResponseEntity<List<CryptocurrencyDto>> getCryptocurrencies() {
         return ResponseEntity.ok(cryptocurrencyRepository.findAll());
     }
 }

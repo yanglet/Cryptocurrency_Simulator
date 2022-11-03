@@ -23,28 +23,27 @@ public class OrderItemService {
     private final OrderItemRepository orderItemRepository;
     private final MemberRepository memberRepository;
 
-    public Holdings getOrderItems(Member member){
+    public Holdings getOrderItems(Member member) {
         List<OrderItem> orderItems = orderItemRepository.findByMember(member);
         BigDecimal totalTradePrice = BigDecimal.valueOf(0);
 
-        for(OrderItem oi : orderItems){
+        for (OrderItem oi : orderItems) {
             totalTradePrice = totalTradePrice.add(new BigDecimal(oi.getPrice()).multiply(BigDecimal.valueOf(oi.getVolume())));
         }
 
         return new Holdings(new OMGMemberDto(memberRepository.findByIdFetch(member.getId())),
-                orderItems
-                .stream()
-                .map(OrderItemDto::new)
-                .collect(Collectors.toList()), totalTradePrice
-                );
+                orderItems.stream()
+                        .map(OrderItemDto::new)
+                        .collect(Collectors.toList()), totalTradePrice
+        );
     }
 
-    public void deleteOrderItem(Member member, String market){
+    public void deleteOrderItem(Member member, String market) {
         OrderItem orderItem = orderItemRepository.findByMemberAndMarket(member, market);
         orderItemRepository.delete(orderItem);
     }
 
-    public void saveOrderItem(Order order){
+    public void saveOrderItem(Order order) {
         OrderItem orderItem = OrderItem.builder()
                 .koreanName(order.getKoreanName())
                 .englishName(order.getEnglishName())

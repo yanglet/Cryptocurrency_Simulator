@@ -12,7 +12,8 @@ import javax.persistence.*;
 @Getter
 @Setter(AccessLevel.PRIVATE)
 public class Comment extends BaseEntity {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
     private Long id;
     private String content;
@@ -31,7 +32,7 @@ public class Comment extends BaseEntity {
     }
 
     // 생성 메서드
-    public static Comment of(String content, Member member, Post post){
+    public static Comment of(String content, Member member, Post post) {
         Comment comment = new Comment();
         comment.setContent(content);
         comment.setMember(member);
@@ -41,7 +42,7 @@ public class Comment extends BaseEntity {
         return comment;
     }
 
-    public void change(String content){
+    public void change(String content) {
         this.content = content;
     }
 }

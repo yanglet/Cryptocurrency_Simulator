@@ -22,11 +22,11 @@ public class JwtProvider {
     private Long JWT_ACCESS_TOKEN_VALIDITY;
 
     @PostConstruct
-    protected void init(){
+    protected void init() {
         SECRET_KEY = Base64.getEncoder().encodeToString(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String generateAccessToken(Member member){
+    public String generateAccessToken(Member member) {
         Date now = new Date();
         Date expireDate = new Date(now.getTime() + JWT_ACCESS_TOKEN_VALIDITY);
 
@@ -38,7 +38,7 @@ public class JwtProvider {
                 .compact();
     }
 
-    public String getEmailFromAccessToken(String accessToken){
+    public String getEmailFromAccessToken(String accessToken) {
         Claims claims = Jwts.parser()
                 .setSigningKey(SECRET_KEY)
                 .parseClaimsJws(accessToken)
@@ -47,7 +47,7 @@ public class JwtProvider {
         return claims.getSubject();
     }
 
-    public boolean isValidateToken(String accessToken){
+    public boolean isValidateToken(String accessToken) {
         try {
             Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(accessToken);
             return true;

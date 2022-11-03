@@ -19,7 +19,7 @@ public class RankingController {
 
     @ApiOperation("랭킹 조회")
     @GetMapping
-    public ResponseEntity<List<RankingResponse>> getRankings(){
+    public ResponseEntity<List<RankingResponse>> getRankings() {
         return ResponseEntity.ok(rankingService.getRankings());
     }
 }

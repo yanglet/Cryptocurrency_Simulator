@@ -17,14 +17,14 @@ import java.util.Set;
 @Configuration
 @EnableWebMvc
 public class SwaggerConfig {
-    private ApiInfo swaggerInfo(){
+    private ApiInfo swaggerInfo() {
         return new ApiInfoBuilder()
                 .title("Cryptocurrency Simulator API")
                 .description("API Docs").build();
     }
 
     @Bean
-    public Docket swaggerApi(){
+    public Docket swaggerApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .consumes(getConsumeContentTypes())
                 .produces(getProduceContentTypes())
@@ -42,7 +42,7 @@ public class SwaggerConfig {
         return consumes;
     }
 
-    private Set<String> getProduceContentTypes(){
+    private Set<String> getProduceContentTypes() {
         Set<String> produces = new HashSet<>();
         produces.add("application/json;charset=UTF-8");
         return produces;

@@ -17,15 +17,15 @@ import java.util.stream.Collectors;
 public class CryptocurrencyRepository {
     private final UpbitFeignClient feignClient;
 
-    public List<MarketDto> findAllMarkets(){
+    public List<MarketDto> findAllMarkets() {
         return feignClient.getMarkets();
     }
 
-    public List<CryptocurrencyDto> findAll(){
+    public List<CryptocurrencyDto> findAll() {
         List<MarketDto> markets = findAllMarkets().stream().filter(m -> m.getMarket().contains("KRW")).collect(Collectors.toList());
         List<CryptocurrencyDto> cryptocurrencies = feignClient.getCryptocurrencies(Market.getAllMarketCode());
 
-        for(int i=0; i<markets.size(); i++){
+        for (int i = 0; i < markets.size(); i++) {
             cryptocurrencies.get(i).setName(markets.get(i));
             cryptocurrencies.get(i).setId(Market.getId(markets.get(i).getMarket()));
         }
@@ -33,23 +33,23 @@ public class CryptocurrencyRepository {
         return cryptocurrencies;
     }
 
-    public CryptocurrencyDto findByMarket(String market){
+    public CryptocurrencyDto findByMarket(String market) {
         CryptocurrencyDto cryptocurrencyDto = feignClient.getCryptocurrencies(market).get(0);
         return cryptocurrencyDto;
     }
 
-    public List<CryptocurrencyDto> findByMarkets(String markets){
+    public List<CryptocurrencyDto> findByMarkets(String markets) {
         List<CryptocurrencyDto> cryptocurrencies = feignClient.getCryptocurrencies(markets);
         List<String> marketList = Arrays.asList(markets.split(","));
         List<MarketDto> marketDtoList = new ArrayList<>();
 
-        for(MarketDto marketDto : findAllMarkets()){
-            if( marketList.contains(marketDto.getMarket()) ){
+        for (MarketDto marketDto : findAllMarkets()) {
+            if (marketList.contains(marketDto.getMarket())) {
                 marketDtoList.add(marketDto);
             }
         }
 
-        for(int i=0; i<cryptocurrencies.size(); i++){
+        for (int i = 0; i < cryptocurrencies.size(); i++) {
             cryptocurrencies.get(i).setName(marketDtoList.get(i));
             cryptocurrencies.get(i).setId(Market.getId(marketDtoList.get(i).getMarket()));
         }

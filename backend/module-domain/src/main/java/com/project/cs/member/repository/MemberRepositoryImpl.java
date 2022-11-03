@@ -10,7 +10,7 @@ import static com.project.cs.member.entity.QMember.member;
 import static com.project.cs.ranking.entity.QRanking.ranking;
 
 @RequiredArgsConstructor
-public class MemberRepositoryImpl implements MemberRepositoryCustom{
+public class MemberRepositoryImpl implements MemberRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override

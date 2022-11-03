@@ -15,7 +15,7 @@ import static com.project.cs.member.entity.QMember.*;
 import static com.project.cs.ranking.entity.QRanking.*;
 
 @RequiredArgsConstructor
-public class CommentRepositoryImpl implements CommentRepositoryCustom{
+public class CommentRepositoryImpl implements CommentRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override

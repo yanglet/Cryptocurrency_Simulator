@@ -14,6 +14,7 @@ import static com.project.cs.like.entity.QLike.like;
 @RequiredArgsConstructor
 public class LikeRepositoryImpl implements LikeRepositoryCustom {
     private final JPAQueryFactory queryFactory;
+
     @Override
     public List<Like> findByMember(Member member) {
         List<Like> likes = queryFactory.selectFrom(like)
@@ -28,8 +29,8 @@ public class LikeRepositoryImpl implements LikeRepositoryCustom {
     @Override
     public Like findByMemberAndMarket(Member member, String market) {
         return queryFactory.selectFrom(like)
-                .where( like.member.eq(member)
-                        ,like.market.eq(market) )
+                .where(like.member.eq(member)
+                        , like.market.eq(market))
                 .fetchOne();
     }
 }

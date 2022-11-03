@@ -26,7 +26,7 @@ public class InitDb {
 
     @PostConstruct
     public void init() throws IOException, ParseException {
-        initService.dbInit();
+//        initService.dbInit();
     }
 
     @Component
@@ -39,7 +39,7 @@ public class InitDb {
             ClassPathResource resource = new ClassPathResource("data/data.json");
             Path path = Paths.get(resource.getURI());
             JSONArray jsonList = (JSONArray) new JSONParser().parse(new FileReader(path.toString()));
-            for(Object o : jsonList){
+            for (Object o : jsonList) {
                 Test test = new Gson().fromJson(o.toString(), Test.class);
                 testRepository.save(test);
             }

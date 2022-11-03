@@ -4,6 +4,7 @@ import com.project.cs.cryptocurrency.dto.CryptocurrencyDto;
 import com.project.cs.cryptocurrency.repository.CryptocurrencyRepository;
 import com.project.cs.like.entity.Like;
 import com.project.cs.like.repository.LikeRepository;
+import com.project.cs.like.response.LikeResponse;
 import com.project.cs.member.entity.Member;
 import com.project.cs.member.exception.NotLoggedInException;
 import lombok.RequiredArgsConstructor;
@@ -20,18 +21,18 @@ public class LikeService {
     private final LikeRepository likeRepository;
     private final CryptocurrencyRepository cryptocurrencyRepository;
 
-    public List<CryptocurrencyDto> getLikes(Member member){
+    public List<CryptocurrencyDto> getLikes(Member member) {
         List<Like> likeList = likeRepository.findByMember(member);
         String markets = getLikesMarkets(likeList);
 
-        if( markets.isBlank() ){
+        if (markets.isBlank()) {
             return new ArrayList<>();
         }
 
         return cryptocurrencyRepository.findByMarkets(markets);
     }
 
-    public Long save(Member member, String market){
+    public LikeResponse save(Member member, String market) {
         loginCheck(member);
 
         Like like = Like.builder()
@@ -39,24 +40,24 @@ public class LikeService {
                 .member(member)
                 .build();
 
-        return likeRepository.save(like).getId();
+        return new LikeResponse(likeRepository.save(like).getId());
     }
 
-    public void delete(Member member, String market){
+    public void delete(Member member, String market) {
         Like like = likeRepository.findByMemberAndMarket(member, market);
         likeRepository.delete(like);
     }
 
-    private String getLikesMarkets(List<Like> likeList){
+    private String getLikesMarkets(List<Like> likeList) {
         String markets = "";
 
-        for(Like like : likeList){
-            if( !markets.contains(like.getMarket()) ){
+        for (Like like : likeList) {
+            if (!markets.contains(like.getMarket())) {
                 markets += like.getMarket() + ",";
             }
         }
 
-        if( markets.isBlank() ){
+        if (markets.isBlank()) {
             return markets;
         }
 
@@ -64,7 +65,7 @@ public class LikeService {
     }
 
     private void loginCheck(Member member) {
-        if(member == null){
+        if (member == null) {
             throw new NotLoggedInException();
         }
     }

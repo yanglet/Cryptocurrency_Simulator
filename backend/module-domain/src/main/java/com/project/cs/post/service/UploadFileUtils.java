@@ -17,28 +17,27 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Transactional
 public class UploadFileUtils {
-//    private final String fileDirName = "C:\\Users\\Yanglet\\cryptocurrency_simulator_files\\";
-    private final String fileDirName = "/Users/sein/Documents/mojaimg/";
+    private final String fileDirName = "C:\\Users\\Yanglet\\Cryptocurrency_Simulator\\frontend\\public\\images\\";
     private final PostRepository postRepository;
     private final UploadFileRepository uploadFileRepository;
 
-    public String getFullPath(String filename){
+    public String getFullPath(String filename) {
         return fileDirName + filename;
     }
 
-    public String createSavedFileName(String originalFilename){
+    public String createSavedFileName(String originalFilename) {
         String ext = extractExt(originalFilename);
         String uuid = UUID.randomUUID().toString();
         return uuid + "." + ext;
     }
 
-    public String extractExt(String originalFilename){
+    public String extractExt(String originalFilename) {
         int pos = originalFilename.lastIndexOf(".");
         return originalFilename.substring(pos + 1);
     }
 
     public Long saveFile(MultipartFile multipartFile, Long postId) {
-        if(multipartFile == null || multipartFile.isEmpty()){
+        if (multipartFile == null || multipartFile.isEmpty()) {
             return -1L;
         }
 
@@ -60,7 +59,7 @@ public class UploadFileUtils {
     }
 
     private void transferTo(MultipartFile multipartFile, String savedFileName) {
-        try{
+        try {
             multipartFile.transferTo(new File(getFullPath(savedFileName)));
         } catch (Exception e) {
             throw new FileUploadException();
