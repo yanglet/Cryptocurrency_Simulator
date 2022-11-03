@@ -16,8 +16,9 @@ import static com.project.cs.post.entity.QPost.*;
 import static com.project.cs.ranking.entity.QRanking.*;
 
 @RequiredArgsConstructor
-public class PostRepositoryImpl implements PostRepositoryCustom{
+public class PostRepositoryImpl implements PostRepositoryCustom {
     private final JPAQueryFactory queryFactory;
+
     @Override
     public Post findByIdFetch(Long id) {
         return queryFactory.selectFrom(post)

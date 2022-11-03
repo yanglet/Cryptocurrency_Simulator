@@ -28,7 +28,7 @@ public class PostController {
 
     @ApiOperation("게시글 목록 조회")
     @GetMapping
-    public ResponseEntity<List<PostDto>> getPosts(){
+    public ResponseEntity<List<PostDto>> getPosts() {
         return ResponseEntity.ok(postService.getPosts());
     }
 
@@ -48,7 +48,7 @@ public class PostController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "사용자 인증을 위한 accessToken", paramType = "header", required = true)
     })
-    public ResponseEntity<PostDto> getPost(@PathVariable("postId") Long postId){
+    public ResponseEntity<PostDto> getPost(@PathVariable("postId") Long postId) {
         return ResponseEntity.ok(postService.getPost(postId));
     }
 
@@ -58,9 +58,9 @@ public class PostController {
             @ApiImplicitParam(name = "Authorization", value = "사용자 인증을 위한 accessToken", paramType = "header", required = true)
     })
     public ResponseEntity<PostDto> update(@PathVariable("postId") Long postId,
-                                               @Validated @RequestPart(value = "requestData") PostRequest requestData,
-                                               @RequestPart(value = "requestFiles", required = false) List<MultipartFile> requestFiles,
-                                               @LoginMember Member member) throws IOException {
+                                          @Validated @RequestPart(value = "requestData") PostRequest requestData,
+                                          @RequestPart(value = "requestFiles", required = false) List<MultipartFile> requestFiles,
+                                          @LoginMember Member member) {
         return ResponseEntity.ok(postService.update(postId, new PostSaveRequest(requestData, requestFiles), member));
     }
 
@@ -71,7 +71,7 @@ public class PostController {
     })
     @ResponseStatus(HttpStatus.NON_AUTHORITATIVE_INFORMATION)
     public void delete(@PathVariable("postId") Long postId,
-                       @LoginMember Member member){
+                       @LoginMember Member member) {
         postService.delete(postId, member);
     }
 }

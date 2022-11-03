@@ -25,9 +25,8 @@ public class LikeController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "사용자 인증을 위한 accessToken", paramType = "header", required = true)
     })
-    public ResponseEntity<List<CryptocurrencyDto>> getLikes(@LoginMember Member member){
-        List<CryptocurrencyDto> likeList = likeService.getLikes(member);
-        return ResponseEntity.ok(likeList);
+    public ResponseEntity<List<CryptocurrencyDto>> getLikes(@LoginMember Member member) {
+        return ResponseEntity.ok(likeService.getLikes(member));
     }
 
     @ApiOperation("관심 목록 추가")
@@ -37,9 +36,8 @@ public class LikeController {
             @ApiImplicitParam(name = "market", value = "마켓 코드", paramType = "query", required = true)
     })
     public ResponseEntity<LikeResponse> addLike(@LoginMember Member member,
-                                                @RequestParam("market") String market){
-        Long id = likeService.save(member, market);
-        return ResponseEntity.ok(new LikeResponse(id));
+                                                @RequestParam("market") String market) {
+        return ResponseEntity.ok(likeService.save(member, market));
     }
 
     @ApiOperation("관심 목록 삭제")
@@ -49,7 +47,7 @@ public class LikeController {
             @ApiImplicitParam(name = "market", value = "마켓 코드", paramType = "query", required = true)
     })
     public void deleteLike(@LoginMember Member member,
-                           @RequestParam("market") String market){
+                           @RequestParam("market") String market) {
         likeService.delete(member, market);
     }
 }

@@ -24,8 +24,8 @@ public interface UpbitFeignClient {
 
     @GetMapping("/candles/minutes/{unit}")
     List<MinuteCandleDto> getMinuteCandles(@PathVariable("unit") Integer unit,
-                                        @RequestParam("market") String market,
-                                        @RequestParam("count") int count);
+                                           @RequestParam("market") String market,
+                                           @RequestParam("count") int count);
 
     @GetMapping("/candles/days")
     List<DayCandleDto> getDayCandles(@RequestParam("market") String market,
@@ -41,6 +41,6 @@ public interface UpbitFeignClient {
 
     @GetMapping("/candles/days")
     List<DayCandleDto> getDayCandle(@RequestParam("market") String market,
-                                     @RequestParam("to") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'") LocalDateTime time);
+                                    @RequestParam("to") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'") LocalDateTime time);
 }
 

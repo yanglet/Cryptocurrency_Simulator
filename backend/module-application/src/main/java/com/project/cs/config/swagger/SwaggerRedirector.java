@@ -10,7 +10,7 @@ import java.io.IOException;
 public class SwaggerRedirector {
 
     @GetMapping("/api-docs")
-    public void docs (HttpServletResponse response) throws IOException {
+    public void docs(HttpServletResponse response) throws IOException {
         response.sendRedirect("/swagger-ui/index.html");
     }
 }

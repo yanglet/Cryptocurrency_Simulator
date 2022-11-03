@@ -24,14 +24,14 @@ public class RankingService {
     private final OrderItemRepository orderItemRepository;
 
     @Transactional(readOnly = true)
-    public List<RankingResponse> getRankings(){
+    public List<RankingResponse> getRankings() {
         return memberRepository.findAllFetchByRankings()
                 .stream()
                 .map(RankingResponse::new)
                 .collect(Collectors.toList());
     }
 
-    public void initRankings(){
+    public void initRankings() {
         List<CryptocurrencyDto> cryptocurrencies = cryptocurrencyRepository.findAll();
         List<Member> members = memberRepository.findAllFetchByRankings();
 
@@ -55,15 +55,15 @@ public class RankingService {
         }
 
         members.sort((o1, o2) -> {
-            if(o1.getRanking().getProfit() < o2.getRanking().getProfit()){
+            if (o1.getRanking().getProfit() < o2.getRanking().getProfit()) {
                 return 1;
-            }else if (o1.getRanking().getProfit() > o2.getRanking().getProfit()){
+            } else if (o1.getRanking().getProfit() > o2.getRanking().getProfit()) {
                 return -1;
             }
             return 0;
         });
 
-        for(int i=0; i<members.size(); i++){
+        for (int i = 0; i < members.size(); i++) {
             members.get(i).getRanking().changeRank(i + 1);
         }
     }

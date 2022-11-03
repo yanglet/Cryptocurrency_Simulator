@@ -28,7 +28,7 @@ public class PostService {
     private final UploadFileUtils uploadFileUtils;
     private final UploadFileRepository uploadFileRepository;
 
-    public List<PostDto> getPosts(){
+    public List<PostDto> getPosts() {
         List<UploadFile> uploadFiles = uploadFileRepository.findAllFetch();
 
         return postRepository.findAllFetch()
@@ -42,7 +42,7 @@ public class PostService {
                 .collect(Collectors.toList());
     }
 
-    public PostDto getPost(Long postId){
+    public PostDto getPost(Long postId) {
         Post post = postRepository.findByIdFetch(postId);
         return new PostDto(post, uploadFileRepository.findByPost(post));
     }
@@ -68,7 +68,7 @@ public class PostService {
 
         Post post = postRepository.findByIdFetch(postId);
 
-        if(post.getMember().getId() != member.getId()){
+        if (post.getMember().getId() != member.getId()) {
             throw new AccessDeniedException("access denied");
         }
 
@@ -81,18 +81,18 @@ public class PostService {
         return new PostDto(post, uploadFileRepository.findByPost(post));
     }
 
-    public void delete(Long postId, Member member){
+    public void delete(Long postId, Member member) {
         loginCheck(member);
 
         Post post = postRepository.findByIdFetch(postId);
 
-        if(post.getMember().getId() != member.getId()){
+        if (post.getMember().getId() != member.getId()) {
             throw new AccessDeniedException("access denied");
         }
 
         commentRepository.deleteAll(post.getComments());
 
-        if(uploadFileRepository.existsByPost(post)){
+        if (uploadFileRepository.existsByPost(post)) {
             uploadFileRepository.deleteAll(uploadFileRepository.findByPost(post));
         }
 
@@ -100,7 +100,7 @@ public class PostService {
     }
 
     private void loginCheck(Member member) {
-        if(member == null){
+        if (member == null) {
             throw new NotLoggedInException();
         }
     }

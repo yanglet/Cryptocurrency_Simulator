@@ -22,7 +22,7 @@ public class TestService {
     private final CandleRepository candleRepository;
     private final TestRepository testRepository;
 
-    public TestSaveResponse save(TestSaveRequest testSaveRequest){
+    public TestSaveResponse save(TestSaveRequest testSaveRequest) {
         Test test = Test.builder()
                 .price(testSaveRequest.getPrice())
                 .time(testSaveRequest.getTime())

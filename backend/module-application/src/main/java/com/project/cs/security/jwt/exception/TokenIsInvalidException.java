@@ -4,6 +4,6 @@ import com.project.cs.exception.ForbiddenException;
 
 public class TokenIsInvalidException extends ForbiddenException {
     public TokenIsInvalidException() {
-    super("Token is invalid");
-}
+        super("Token is invalid");
+    }
 }

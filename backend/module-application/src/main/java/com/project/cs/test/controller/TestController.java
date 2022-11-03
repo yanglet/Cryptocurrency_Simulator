@@ -22,15 +22,13 @@ public class TestController {
 
     @ApiOperation("비트코인 투자 테스트")
     @PostMapping
-    public ResponseEntity<TestResponse> test(@Validated @RequestBody TestRequest testRequest){
-        TestResponse testResponse = testService.test(testRequest);
-        return ResponseEntity.ok(testResponse);
+    public ResponseEntity<TestResponse> test(@Validated @RequestBody TestRequest testRequest) {
+        return ResponseEntity.ok(testService.test(testRequest));
     }
 
     @ApiOperation("비트코인 투자 테스트 정보 추가")
     @PostMapping("/test")
-    public ResponseEntity<TestSaveResponse> save(@Validated @RequestBody TestSaveRequest testSaveRequest){
-        TestSaveResponse testSaveResponse = testService.save(testSaveRequest);
-        return ResponseEntity.ok(testSaveResponse);
+    public ResponseEntity<TestSaveResponse> save(@Validated @RequestBody TestSaveRequest testSaveRequest) {
+        return ResponseEntity.ok(testService.save(testSaveRequest));
     }
 }

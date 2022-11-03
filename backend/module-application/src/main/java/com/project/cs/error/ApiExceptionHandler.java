@@ -32,98 +32,98 @@ public class ApiExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler
-    protected ErrorResult handleCommentNotFoundException(CommentNotFoundException e){
+    protected ErrorResult handleCommentNotFoundException(CommentNotFoundException e) {
         log.error("handleCommentNotFoundException", e);
         return new ErrorResult("400", "해당 댓글을 찾을 수 없습니다.");
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler
-    protected ErrorResult handleInsufficientBalanceException(InsufficientBalanceException e){
+    protected ErrorResult handleInsufficientBalanceException(InsufficientBalanceException e) {
         log.error("handleInsufficientBalanceException", e);
         return new ErrorResult("400", "보유 금액이 부족합니다.");
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler
-    protected ErrorResult handleInsufficientVolumeException(InsufficientVolumeException e){
+    protected ErrorResult handleInsufficientVolumeException(InsufficientVolumeException e) {
         log.error("handleInsufficientVolumeException", e);
         return new ErrorResult("400", "주문 수량이 보유 수량보다 많습니다.");
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler
-    protected ErrorResult handleOrderItemNotFoundException(OrderItemNotFoundException e){
+    protected ErrorResult handleOrderItemNotFoundException(OrderItemNotFoundException e) {
         log.error("handleOrderItemNotFoundException", e);
         return new ErrorResult("400", "해당 보유 자산을 찾을 수 없습니다.");
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler
-    protected ErrorResult handlePostNotFoundException(PostNotFoundException e){
+    protected ErrorResult handlePostNotFoundException(PostNotFoundException e) {
         log.error("handlePostNotFoundException", e);
         return new ErrorResult("400", "해당 게시글을 찾을 수 없습니다.");
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler
-    protected ErrorResult handleMemberDuplicateException(MemberDuplicateException e){
+    protected ErrorResult handleMemberDuplicateException(MemberDuplicateException e) {
         log.error("handleMemberDuplicateException", e);
         return new ErrorResult("400", "중복된 아이디입니다.");
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler
-    protected ErrorResult handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e){
+    protected ErrorResult handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
         log.error("MethodArgumentTypeMismatchException", e);
         return new ErrorResult("400", "Enum 타입 바인딩 오류입니다.");
     }
 
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler
-    protected ErrorResult handleNotLoggedInException(NotLoggedInException e){
+    protected ErrorResult handleNotLoggedInException(NotLoggedInException e) {
         log.error("handleNotLoggedInException", e);
         return new ErrorResult("403", "로그인 후 이용해주세요.");
     }
 
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler
-    protected ErrorResult handleForbiddenException(ForbiddenException e){
+    protected ErrorResult handleForbiddenException(ForbiddenException e) {
         log.error("handleForbiddenException", e);
         return new ErrorResult("403", "접근이 불가합니다.");
     }
 
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler
-    protected ErrorResult handleTokenHasExpiredException(TokenHasExpiredException e){
+    protected ErrorResult handleTokenHasExpiredException(TokenHasExpiredException e) {
         log.error("handleTokenHasExpiredException", e);
         return new ErrorResult("403", "토큰이 만료되었습니다.");
     }
 
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler
-    protected ErrorResult handleTokenIsInvalidException(TokenIsInvalidException e){
+    protected ErrorResult handleTokenIsInvalidException(TokenIsInvalidException e) {
         log.error("handleTokenIsInvalidException", e);
         return new ErrorResult("403", "토큰이 유효하지 않습니다.");
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler
-    protected ErrorResult handleNotFoundException(NotFoundException e){
+    protected ErrorResult handleNotFoundException(NotFoundException e) {
         log.error("handleForbiddenException", e);
         return new ErrorResult("404", "해당 요청에 대한 응답을 찾을 수 없습니다.");
     }
 
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     @ExceptionHandler
-    protected ErrorResult handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e){
+    protected ErrorResult handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
         log.error("handleHttpRequestMethodNotSupportedException", e);
         return new ErrorResult("405", "지원하지않는 Http Method 입니다.");
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler
-    protected ErrorResult handleException(Exception e){
+    protected ErrorResult handleException(Exception e) {
         log.error("handleException", e);
         return new ErrorResult("500", "서버 오류입니다.");
     }

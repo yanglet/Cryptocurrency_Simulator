@@ -24,7 +24,7 @@ public class OrderItemController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "사용자 인증을 위한 accessToken", paramType = "header", required = true),
     })
-    public ResponseEntity<Holdings> getOrders(@LoginMember Member member){
+    public ResponseEntity<Holdings> getOrders(@LoginMember Member member) {
         return ResponseEntity.ok(orderItemService.getOrderItems(member));
     }
 }

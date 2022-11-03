@@ -1,6 +1,5 @@
 package com.project.cs.comment.controller;
 
-import com.project.cs.comment.repository.CommentRepository;
 import com.project.cs.comment.request.CommentRequest;
 import com.project.cs.comment.response.CommentDto;
 import com.project.cs.comment.response.CommentResponse;
@@ -17,13 +16,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("v1/api/posts")
 public class CommentController {
-    private final CommentRepository commentRepository;
     private final CommentService commentService;
 
     @ApiOperation("댓글 작성")
@@ -33,9 +30,8 @@ public class CommentController {
     })
     public ResponseEntity<CommentResponse> comment(@PathVariable("post_id") Long postId,
                                                    @Validated @RequestBody CommentRequest commentRequest,
-                                                   @LoginMember Member member){
-        Long commentId = commentService.comment(postId, commentRequest, member);
-        return new ResponseEntity(new CommentResponse(commentId), HttpStatus.CREATED);
+                                                   @LoginMember Member member) {
+        return new ResponseEntity(commentService.comment(postId, commentRequest, member), HttpStatus.CREATED);
     }
 
     @ApiOperation("댓글 조회")
@@ -43,13 +39,8 @@ public class CommentController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "사용자 인증을 위한 accessToken", paramType = "header", required = true)
     })
-    public ResponseEntity<List<CommentDto>> getComments(@PathVariable("post_id") Long postId){
-        List<CommentDto> commentDtoList = commentRepository.findByPostId(postId)
-                .stream()
-                .map(c -> new CommentDto(c))
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(commentDtoList);
+    public ResponseEntity<List<CommentDto>> getComments(@PathVariable("post_id") Long postId) {
+        return ResponseEntity.ok(commentService.getComments(postId));
     }
 
     @ApiOperation("댓글 수정")
@@ -60,9 +51,8 @@ public class CommentController {
     public ResponseEntity<CommentResponse> update(@PathVariable("post_id") Long postId,
                                                   @PathVariable("comment_id") Long commentId,
                                                   @LoginMember Member member,
-                                                  @Validated @RequestBody CommentRequest commentRequest){
-        commentService.update(commentId, commentRequest, member);
-        return ResponseEntity.ok(new CommentResponse(commentId));
+                                                  @Validated @RequestBody CommentRequest commentRequest) {
+        return ResponseEntity.ok(commentService.update(commentId, commentRequest, member));
     }
 
     @ApiOperation("댓글 삭제")
@@ -73,7 +63,7 @@ public class CommentController {
     @ResponseStatus(HttpStatus.NON_AUTHORITATIVE_INFORMATION)
     public void delete(@PathVariable("post_id") Long postId,
                        @PathVariable("comment_id") Long commentId,
-                       @LoginMember Member member){
+                       @LoginMember Member member) {
         commentService.delete(postId, commentId, member);
     }
 }

@@ -12,7 +12,7 @@ import static com.project.cs.member.entity.QMember.member;
 import static com.project.cs.order.entity.QOrder.order;
 
 @RequiredArgsConstructor
-public class OrderRepositoryImpl implements OrderRepositoryCustom{
+public class OrderRepositoryImpl implements OrderRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override

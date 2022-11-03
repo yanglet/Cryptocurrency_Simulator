@@ -28,7 +28,7 @@ public class CandleController {
             @ApiImplicitParam(name = "market", value = "마켓 코드")
     })
     public ResponseEntity<List<MinuteCandleResponse>> getMinuteCandles(@PathVariable("unit") Integer unit,
-                                                                    @RequestParam("market") String market){
+                                                                       @RequestParam("market") String market) {
         return ResponseEntity.ok(candleRepository.findAllMinuteCandles(unit, market)
                 .stream()
                 .map(c -> new MinuteCandleResponse(c))
@@ -40,7 +40,7 @@ public class CandleController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "market", value = "마켓 코드")
     })
-    public ResponseEntity<List<DayCandleResponse>> getDayCandles(@RequestParam("market") String market){
+    public ResponseEntity<List<DayCandleResponse>> getDayCandles(@RequestParam("market") String market) {
         return ResponseEntity.ok(candleRepository.findAllDayCandles(market)
                 .stream()
                 .map(c -> new DayCandleResponse(c))
@@ -52,7 +52,7 @@ public class CandleController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "market", value = "마켓 코드")
     })
-    public ResponseEntity<List<WeekCandleResponse>> getWeekCandles(@RequestParam("market") String market){
+    public ResponseEntity<List<WeekCandleResponse>> getWeekCandles(@RequestParam("market") String market) {
         return ResponseEntity.ok(candleRepository.findAllWeekCandles(market)
                 .stream()
                 .map(c -> new WeekCandleResponse(c))
@@ -64,7 +64,7 @@ public class CandleController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "market", value = "마켓 코드")
     })
-    public ResponseEntity<List<MonthCandleResponse>> getMonthCandles(@RequestParam("market") String market){
+    public ResponseEntity<List<MonthCandleResponse>> getMonthCandles(@RequestParam("market") String market) {
         return ResponseEntity.ok(candleRepository.findAllMonthCandles(market)
                 .stream()
                 .map(c -> new MonthCandleResponse(c))

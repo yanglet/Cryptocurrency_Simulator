@@ -15,24 +15,24 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CandleRepository {
     private final UpbitFeignClient feignClient;
-    
-    public List<MinuteCandleDto> findAllMinuteCandles(Integer unit, String market){
+
+    public List<MinuteCandleDto> findAllMinuteCandles(Integer unit, String market) {
         return feignClient.getMinuteCandles(unit, market, 200);
     }
-    
-    public List<DayCandleDto> findAllDayCandles(String market){
+
+    public List<DayCandleDto> findAllDayCandles(String market) {
         return feignClient.getDayCandles(market, 200);
     }
-    
-    public List<WeekCandleDto> findAllWeekCandles(String market){
+
+    public List<WeekCandleDto> findAllWeekCandles(String market) {
         return feignClient.getWeekCandles(market, 200);
     }
-    
-    public List<MonthCandleDto> findAllMonthCandles(String market){
+
+    public List<MonthCandleDto> findAllMonthCandles(String market) {
         return feignClient.getMonthCandles(market, 200);
     }
 
-    public DayCandleDto findByDay(String market, LocalDateTime time){
+    public DayCandleDto findByDay(String market, LocalDateTime time) {
         return feignClient.getDayCandle(market, time).get(0);
     }
 }

@@ -17,7 +17,7 @@ public class PrincipalDetails implements UserDetails {
         this.member = member;
     }
 
-    public static PrincipalDetails of(Member member){
+    public static PrincipalDetails of(Member member) {
         return new PrincipalDetails(member);
     }
 
