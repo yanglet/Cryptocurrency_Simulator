@@ -1,29 +1,5 @@
 import React from 'react';
 
-const datas = [
-    {
-        id:1,
-        rank: 1,
-        email: "tpdls@gmail.com",
-        name: "세인",
-        profit: "+49.67"
-    }, 
-    {
-        id:2,
-        rank: 2,
-        email: "tpdls@gmail.com",
-        name: "현",
-        profit: "+39.67"
-    }, 
-    {
-        id:3,
-        rank: 3,
-        email: "tpdls@gmail.com",
-        name: "세",
-        profit: "-19.67"
-    }
-]
-
 function RankingList({content}) {
     return (
         <div className='py-11 px-9 '>
