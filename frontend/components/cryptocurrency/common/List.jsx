@@ -1,7 +1,7 @@
 import React from 'react';
 import Tbody from './Tbody';
 
-function List({ listName , content, tickerId, setTickerId}) {
+function List({ listName , content, setTickerId}) {
     return (
         <div className="">
         <div className="bg-white border-x border-gray-300 overflow-y-scroll overflow-hidden sm:h-[73vw] 2xl:h-[51.3vw]">
@@ -20,7 +20,7 @@ function List({ listName , content, tickerId, setTickerId}) {
               {/* 코인명 | 현재가 | 전일대비 | 거래대금 */}
               {content &&
                 content.map((item) => (
-                 <Tbody item={item} setTickerId={setTickerId} />
+                 <Tbody key={item.id} item={item} setTickerId={setTickerId} />
                 ))}
             </tbody>
           </table>
