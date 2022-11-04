@@ -53,7 +53,7 @@ export const CalculationProvider = ({children}) => {
     }, [balance, purchaseAmount, valuationAmount, valuationRate]);
 
    
-    const value = useMemo(() => ({ purchaseAmount, valuationAmount,valuationRate,valuationLoss,holdings,balance }), [purchaseAmount, valuationAmount,valuationRate,valuationLoss,holdings,balance, content ]);
+    const value = useMemo(() => ({ purchaseAmount, valuationAmount,valuationRate,valuationLoss,holdings,balance }), [purchaseAmount, valuationAmount, valuationRate, valuationLoss, holdings, balance]);
 
     return(
         <CalculationContext.Provider value={value}>
