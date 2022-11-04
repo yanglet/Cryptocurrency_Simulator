@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import UserService from "../../services/user.service";
+import { useContext } from "react";
+import { MembersContext } from "../../contexts/Member";
 
 function UserProfile(props) {
-  const [content, setContent] = useState([]);
+  const content = useContext(MembersContext)
   const [rank, setRank] = useState("");
   const [profit, setProfit] = useState("");
 
@@ -23,17 +24,6 @@ function UserProfile(props) {
       }
     });
   }, [entries]);
-
-  useEffect(() => {
-    UserService.getMemberDetail().then(
-      (response) => {
-        setContent(response.data);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }, []);
 
   return (
     <div>
