@@ -8,13 +8,8 @@ import Image from "next/image";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-const settings = {
-  dots: true,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-};
+import { settings } from "../setting"
+
 function deletePost(id) {
   console.log("id", id);
   axios
@@ -23,7 +18,7 @@ function deletePost(id) {
     })
     .then(function (response) {
       alert("게시글 삭제");
-      Router.push('/community')
+      Router.push("/community");
     })
     .catch((err) => {
       console.log(err);
@@ -41,7 +36,7 @@ function PostDetail({ content }) {
         <p className="px-4 border-r-2 ">{content.name}</p>
         <p className="px-4 border-r-2 ">{content.createTime}</p>
       </div>
-      {content.uploadFiles &&
+      {content.uploadFiles && (
         <Slider {...settings}>
           {content.uploadFiles.map((item) => (
             <div className="my-auto" key={item.id}>
@@ -53,37 +48,39 @@ function PostDetail({ content }) {
               />
             </div>
           ))}
-          </Slider>
-  }
-    
+        </Slider>
+      )}
+
       {/* 내용 */}
       <div className=" h-72">
         <p className="px-4 py-24">{content.content}</p>
       </div>
       <div className="flex justify-between text-sm">
         <div className="flex justify-start pt-4 pb-32">
-            <Btn
+          <Btn
             src={`/community/edit/${content.id}`}
             color="bg-gray-100 rounded-xl px-2 py-2 mr-2"
             value="수정"
-          />    
-            <button 
-            className="bg-gray-100 rounded-xl px-2 py-2 mr-2"
-              onClick={() => {
-                deletePost(content.id);
-              }}
-            >
-              삭제
-            </button>
+          />
+          <button
+            className="bg-gray-100 rounded-xl px-2 py-2 mr-2 font-semibold"
+            onClick={() => {
+              deletePost(content.id);
+            }}
+          >
+            삭제
+          </button>
         </div>
         {/* 목록 이전글 다음글  */}
         <div className="flex justify-end pt-4 pb-32">
-          <Btn src="/community" color="bg-gray-100 rounded-xl px-2 py-2 mr-2 cursor-pointer" value="목록" />
+          <Btn
+            src="/community"
+            color="bg-gray-100 rounded-xl px-2 py-2 mr-2 cursor-pointer"
+            value="목록"
+          />
         </div>
       </div>
-      <div>
-       
-      </div>
+      <div></div>
     </div>
   );
 }

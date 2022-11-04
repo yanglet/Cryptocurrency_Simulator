@@ -5,7 +5,6 @@ import RankingList from '../components/RankingList';
 
 function RankingContainer(props) {
     const content = useContext(RankingContext)
-    console.log(content)
     return (
         <div>
             <RankingList content={content} />

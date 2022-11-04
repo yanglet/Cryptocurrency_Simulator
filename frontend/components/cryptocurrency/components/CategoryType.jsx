@@ -17,12 +17,6 @@ function CategoryType({categoryName, setCategoryName }) {
           );
         })}
       </div>
-      {/* <TableType
-        categoryName={categoryName}
-        params={params}
-        tickerId={tickerId}
-        setTickerId={setTickerId}
-      /> */}
     </div>
   );
 }

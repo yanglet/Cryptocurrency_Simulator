@@ -11,14 +11,25 @@ const register = (balance, email, name, password) => {
 } 
 
 const login = async (email, password) => {
-  const response = await axios.post(API_URL + "login", {
-    email,
-    password,
-  });
-  if (response.data.accessToken) {
-    localStorage.setItem("user", JSON.stringify(response.data));
+  try {
+    const response = await axios.post(API_URL + "login", {
+      email,
+      password,
+    });
+    if (response.data.accessToken) {
+      localStorage.setItem("user", JSON.stringify(response.data));
+      return response.data;
+    } 
+  } catch (err) {
+    if(err.data.statusCode === 403){
+      console.log("토큰 만료")
+      localStorage.removeItem("user");
+      return err.data.statusCode;
+
+
+    }
   }
-  return response.data;
+ 
 };
 
 const logOut = () => {
@@ -28,7 +39,12 @@ const logOut = () => {
 };
 
 const getCurrentUser = () => {
-    return JSON.parse(localStorage.getItem("user"));
+   
+ 
+      return JSON.parse(localStorage.getItem("user"));
+
+
+    
 };
 
 

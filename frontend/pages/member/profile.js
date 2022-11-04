@@ -1,6 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import UserProfile from "../../components/User/UserProfile";
+import { MembersProvider } from "../../contexts/Member";
 
 function profile(props) {
   return (
@@ -14,7 +15,10 @@ function profile(props) {
         <div className="text-lg mb-4 pb-2 border-b-2 text-gray-600 font-bold">
           마이페이지
         </div>
-        <UserProfile />
+        <MembersProvider>
+          <UserProfile />
+        </MembersProvider>
+       
       </div>
     </div>
   );

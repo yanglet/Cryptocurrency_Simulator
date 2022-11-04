@@ -22,8 +22,6 @@ function Chart({ params, day, month, week }) {
     setMinutes(e.target.value);
   }
 
-  // console.log("옵션", option);
-
   function handleClick(option) {
     setOption(option);
   }
@@ -64,8 +62,6 @@ function Chart({ params, day, month, week }) {
       setData(temp);
     }
   }, [type]);
-
-  // console.log("data", data);
 
   return (
     <div id="chart" className="border-b">

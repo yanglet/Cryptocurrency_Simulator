@@ -5,7 +5,6 @@ import List from "../components/List";
 function CommentContainers({ id }) {
   const content = useContext(CommentsContext);
   const [selectedCommentIndex, setSelectedCommentIndex] = useState([])
-  console.log("id", id);
 
   return (
     <div>

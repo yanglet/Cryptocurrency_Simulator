@@ -4,7 +4,6 @@ import Holding from '../components/Holding';
 
 function HoldingContainer({tickerId, setTickerId}) {
     const content = useContext(BalanceContext)
-    console.log("content", content)
     return (
         <div>
             { content && 

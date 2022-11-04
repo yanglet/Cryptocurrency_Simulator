@@ -1,19 +1,12 @@
 import { useRouter } from "next/router";
-import React, { useEffect, useRef, useState, useCallback } from "react";
-import { BsPlusSquare } from "react-icons/bs";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import authHeader from "../../../services/auth-header";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Image from "next/image";
-const settings = {
-  dots: true,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-};
+import { settings } from "../setting"
 
 function PostEdit({ value }) {
   const router = useRouter();

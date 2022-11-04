@@ -4,10 +4,8 @@ import PostDetail from '../components/PostDetail';
 
 function PostDetailContainers({id}) {
     const content = useContext(PostDetailContext)
-    console.log(content)
     return (
-        <PostDetail content={content} id={id} />
-        
+        <PostDetail content={content} id={id} />  
     );
 }
 
