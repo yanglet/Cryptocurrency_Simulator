@@ -14,7 +14,6 @@ export const CalculationContext = createContext({
     purchaseAmount: () => {},
     valuationRate: () => {},
 });
-
 export const CalculationProvider = ({children}) => {
     const [content, setContent] = useState([]);
     const [balance, setBalance] = useState([])
@@ -34,9 +33,6 @@ export const CalculationProvider = ({children}) => {
             setContent(result.data.orderItems)
         })
     }, [setContent, setBalance]);   
-
-    // console.log(balance)
-    // console.log(data && data[7].trade_price, data && data[16].trade_price, data && data[15].trade_price) 
 
     useEffect(() => {
         // 총 매수 금액
@@ -58,7 +54,6 @@ export const CalculationProvider = ({children}) => {
 
    
     const value = useMemo(() => ({ purchaseAmount, valuationAmount,valuationRate,valuationLoss,holdings,balance }), [purchaseAmount, valuationAmount,valuationRate,valuationLoss,holdings,balance, content ]);
-    // console.log("매수금액", purchaseAmount, "총평가금액", valuationAmount, "총평가수익률", valuationRate, "총평가손익", valuationLoss, "총 보유자산", holdings)
 
     return(
         <CalculationContext.Provider value={value}>

@@ -6,10 +6,7 @@ import LikeContainer from "../../Like/containers/LikeContainer";
 function Information({ content, tickerId, params }) {
   const [color, setColor] = useState("");
   const [icon, setIcon] = useState();
-
-  console.log(tickerId)
   const id = `${tickerId}` - 1;
-  console.log("id", id);
 
   useEffect(() => {
     {
