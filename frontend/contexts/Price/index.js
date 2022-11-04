@@ -14,12 +14,9 @@ export const PriceProvider = ({ children }) => {
     useEffect(() => { 
       axios.get(`${CRYPTOCURRENCY.CRYPTOCURRENCY}`)
       .then(function (result) {
-        console.log("ccc", result.data)
         setCrytocurrencyData(result.data)
       })
     }, []);
-
-    console.log("cccc", cryptocurrencyData)
 
   return (
     <PriceContext.Provider value={cryptocurrencyData}>

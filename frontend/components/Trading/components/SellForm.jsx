@@ -6,7 +6,6 @@ import { useContext } from "react";
 import { BalanceContext } from "../../../contexts/Balance";
 function SellForm({
   tickerId,
-  balance,
   type,
   content,
   tradingType,
@@ -25,13 +24,10 @@ function SellForm({
   const [crytocurrencyData, setCrytocurrencyData] = useState("")
   const id = `${tickerId}` - 1;
 
-
+  // id에 해당하는 가상화폐 정보만 crytocurrenctyData에 data ㄴㄷㅅ
   useEffect(() => {
     { content && setCrytocurrencyData(content[id])}
 }, [content, id]);
-
-  console.log("1111", content)
-
 
   const handleChange = (event) => {
     console.log(event.target.value);
@@ -54,6 +50,7 @@ function SellForm({
     setIsTotalPriceValue(true);
   }, []);
 
+  // 주문 가격 / 주문 수량 계산 
   useEffect(() => {
     if (isVolumeValue && isTotalPriceValue === false) {
       setTotalPrice(price * volume);
@@ -63,11 +60,10 @@ function SellForm({
     }
   }, [isTotalPriceValue, isVolumeValue, price, totalPrice, volume]);
 
+  // 가상화폐의 가격 price에 data set
   useEffect(() => {
     { crytocurrencyData && setPrice(`${crytocurrencyData.trade_price}`) }
   }, [crytocurrencyData]);
-
- // console.log("cccc", crytocurrencyData);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -110,12 +106,8 @@ function SellForm({
     })
     return setCoin
   }
-    
+ 
   }, [crytocurrencyData, member, member.orderItems]);
-
-  console.log("coin", member[0].orderItems)
-  
-  // console.log("마켓", content.market && content.market.slice(-3));
 
   return (
     <div className=" ">

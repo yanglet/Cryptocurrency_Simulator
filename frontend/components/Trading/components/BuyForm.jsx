@@ -20,6 +20,7 @@ function BuyForm({
   const [data, setData] = useState("")
   const id = `${tickerId}` - 1;
 
+ // id에 해당하는 가상화폐 정보만 crytocurrenctyData에 data ㄴㄷㅅ
   useEffect(() => {
     { content && setData(content[id])}
 }, [content, id]);
@@ -47,9 +48,7 @@ function BuyForm({
     setIsTotalPriceValue(true);
   }, []);
 
-  console.log("수량", isVolumeValue);
-  console.log("가격", isTotalPriceValue);
-
+  // 주문수량, 주문가격 계산 
   useEffect(() => {
     if (isVolumeValue && isTotalPriceValue === false) {
       setTotalPrice((price * volume));
@@ -60,6 +59,7 @@ function BuyForm({
   }, [isTotalPriceValue, isVolumeValue, price, totalPrice, volume]);
   console.log("type", typeof(volume))
 
+  // 가상화폐의 가격 price에 data set
   useEffect(() => {
     { data && setPrice(`${data.trade_price}`);} 
   }, [data]);

@@ -1,14 +1,15 @@
-import React, { useState, useEffect, useContext } from "react";
-import { useCallback } from "react";
+import React, { useState, useContext } from "react";
 import { CalculationContext } from "../../../contexts/Balance/calculation";
 
-function numberFormat(inputNumber) {
-  return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
 function Balance() {
-  const { purchaseAmount, valuationAmount,valuationRate,valuationLoss,holdings,balance } = useContext(CalculationContext);
-  const [color, setColor] = useState([]);
+  const {
+    purchaseAmount,
+    valuationAmount,
+    valuationRate,
+    valuationLoss,
+    holdings,
+    balance,
+  } = useContext(CalculationContext);
 
   return (
     <div className="px-9 py-11 border-b">
@@ -16,11 +17,13 @@ function Balance() {
         <div className="text-lg  grid grid-cols-2 w-96">
           <div className=" text-gray-500">보유 KRW</div>
           <div>{balance.toLocaleString()} KRW</div>
-        
         </div>
         <div className="text-lg grid grid-cols-2 w-96">
           <div className=" text-gray-500">총 보유자산 KRW</div>
-          <div>{holdings.toLocaleString(undefined, { maximumFractionDigits: 0})} KRW</div>
+          <div>
+            {holdings.toLocaleString(undefined, { maximumFractionDigits: 0 })}{" "}
+            KRW
+          </div>
         </div>
       </div>
       <div className="gird grid-cols-2 text-center pt-4">
@@ -31,22 +34,37 @@ function Balance() {
           </div>
           <div className="grid grid-cols-2 w-96">
             <div className=" text-gray-500 pr-12">총 평가손익</div>
-            <div className={ valuationLoss > 0 ? "text-red-600" : "text-blue-600" }>{valuationLoss.toLocaleString(undefined, { maximumFractionDigits: 0})} KRW</div>
+            <div
+              className={valuationLoss > 0 ? "text-red-600" : "text-blue-600"}
+            >
+              {valuationLoss.toLocaleString(undefined, {
+                maximumFractionDigits: 0,
+              })}{" "}
+              KRW
+            </div>
           </div>
         </div>
 
         <div className="grid grid-cols-2 py-2">
           <div className="grid grid-cols-2 w-96">
             <div className=" text-gray-500">총 평가금액</div>
-            <div>{valuationAmount.toLocaleString(undefined, { maximumFractionDigits: 0})} KRW</div>
+            <div>
+              {valuationAmount.toLocaleString(undefined, {
+                maximumFractionDigits: 0,
+              })}{" "}
+              KRW
+            </div>
           </div>
           <div className="grid grid-cols-2 w-96">
             <div className=" text-gray-500 pr-9">총 평가수익률</div>
 
-            <div className={ valuationLoss > 0 ? "text-red-600" : "text-blue-600" }>{Number(valuationRate).toFixed(2)}%</div>
-
+            <div
+              className={valuationLoss > 0 ? "text-red-600" : "text-blue-600"}
+            >
+              {Number(valuationRate).toFixed(2)}%
+            </div>
           </div>
-        </div> 
+        </div>
       </div>
     </div>
   );

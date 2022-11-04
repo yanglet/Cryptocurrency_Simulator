@@ -1,6 +1,6 @@
 import React from "react";
 import { useContext } from "react";
-import { BalanceContext, BalanceProvider } from "../../../contexts/Balance";
+import { BalanceContext } from "../../../contexts/Balance";
 import { CalculationProvider } from "../../../contexts/Balance/calculation";
 import Balance from "../components/Balance";
 import List from "../components/List";

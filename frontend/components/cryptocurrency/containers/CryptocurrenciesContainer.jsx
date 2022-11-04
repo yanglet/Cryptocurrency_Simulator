@@ -3,9 +3,8 @@ import { useContext } from 'react';
 import { CryptocurrencyContext } from '../../../contexts/Cryptocurrency';
 import Cryptocurrency from '../components';
 
-function CryptocurrenciesContainer({ setMarket, params, tickerId, setTickerId, setKoreanName, setEnglishName}) {
+function CryptocurrenciesContainer({ setMarket, tickerId, setTickerId, setKoreanName, setEnglishName}) {
     const content = useContext(CryptocurrencyContext);
-    console.log(content)
     
     return (
         <div>

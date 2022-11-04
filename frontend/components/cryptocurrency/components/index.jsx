@@ -9,10 +9,6 @@ function Cryptocurrency({ setEnglishName, setKoreanName, content, setTickerId, t
         setTickerId={setTickerId}
         content={content}
         listName={[
-          // {
-          //   id:0,
-          //   title: "",
-          // },
           {
             id: 1,
             title: "코인명",

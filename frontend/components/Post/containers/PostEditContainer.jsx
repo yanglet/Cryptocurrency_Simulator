@@ -4,7 +4,6 @@ import PostEdit from '../components/PostEdit';
 
 function PostEditContainer(props) {
     const content = useContext(PostDetailContext)
-    console.log(content)
     return (
         <div>
             <PostEdit value={content} />
