@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { useCallback } from "react";
 import { CalculationContext } from "../../../contexts/Balance/calculation";
 
 function numberFormat(inputNumber) {
@@ -8,16 +9,6 @@ function numberFormat(inputNumber) {
 function Balance() {
   const { purchaseAmount, valuationAmount,valuationRate,valuationLoss,holdings,balance } = useContext(CalculationContext);
   const [color, setColor] = useState([]);
-
-  useEffect(() => {
-    if(valuationRate > 0){
-      setColor("text-red-600")
-    } else if(valuationRate < 0) {
-      setColor("text-blue-600")
-    } else if(valuationRate == 0){
-      setColor("text-black")
-    }
-  }, [valuationRate])
 
   return (
     <div className="px-9 py-11 border-b">
@@ -35,25 +26,24 @@ function Balance() {
       <div className="gird grid-cols-2 text-center pt-4">
         <div className=" grid grid-cols-2">
           <div className="grid grid-cols-2 w-96">
-            <div className=" text-gray-500">총매수금액</div>
+            <div className=" text-gray-500">총 매수금액</div>
             <div>{purchaseAmount.toLocaleString()} KRW</div>
           </div>
           <div className="grid grid-cols-2 w-96">
-            <div className=" text-gray-500 pr-12">총평가손익</div>
-            {/* valuationLoss.toLocaleString(undefined, { maximumFractionDigits: 0}) */}
-            <div>{valuationLoss.toLocaleString(undefined, { maximumFractionDigits: 0})} KRW</div>
+            <div className=" text-gray-500 pr-12">총 평가손익</div>
+            <div className={ valuationLoss > 0 ? "text-red-600" : "text-blue-600" }>{valuationLoss.toLocaleString(undefined, { maximumFractionDigits: 0})} KRW</div>
           </div>
         </div>
 
         <div className="grid grid-cols-2 py-2">
           <div className="grid grid-cols-2 w-96">
-            <div className=" text-gray-500">총평가금액</div>
+            <div className=" text-gray-500">총 평가금액</div>
             <div>{valuationAmount.toLocaleString(undefined, { maximumFractionDigits: 0})} KRW</div>
           </div>
           <div className="grid grid-cols-2 w-96">
-            <div className=" text-gray-500 pr-9">총평가수익률</div>
+            <div className=" text-gray-500 pr-9">총 평가수익률</div>
 
-            <div className={color}>{Number(valuationRate).toFixed(2)}%</div>
+            <div className={ valuationLoss > 0 ? "text-red-600" : "text-blue-600" }>{Number(valuationRate).toFixed(2)}%</div>
 
           </div>
         </div> 

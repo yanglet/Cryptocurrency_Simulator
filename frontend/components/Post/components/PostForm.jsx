@@ -120,17 +120,17 @@ function PostForm({ email }) {
           placeholder="자유롭게 글을 작성해보세요 : ) "
         />
       </div>
-      <div className="flex justify-end">
+      <div className="flex justify-end my-4">
         {/* router이용하여 뒤로가기  */}
         <button
           onClick={() => router.back()}
-          className="bg-gray-100 rounded-lg py-1 px-2 mr-2 text-sm"
+          className="bg-gray-100 rounded-lg py-1 px-2 mr-2 text-sm font-semibold"
           type="submit"
         >
           취소
         </button>
         <button
-          className="bg-blue-500 text-white rounded-lg py-1 px-2 mr-2 text-sm"
+          className="bg-blue-500 text-white rounded-lg py-1 px-2 mr-2 text-sm font-semibold"
           type="submit"
         >
           확인
