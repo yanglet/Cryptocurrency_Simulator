@@ -7,15 +7,9 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Image from "next/image";
-const settings = {
-  dots: true,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-};
+import { settings } from "../setting"
 
-function PostForm({ email }) {
+function PostForm() {
   const router = useRouter();
   const [content, onChangeContent] = useInput("");
   const [title, onChangeTitle] = useInput("");
