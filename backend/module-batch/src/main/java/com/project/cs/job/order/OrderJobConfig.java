@@ -32,7 +32,7 @@ public class OrderJobConfig {
     private final EntityManagerFactory entityManagerFactory;
     private final CryptocurrencyRepository cryptocurrencyRepository;
     private final OrderService orderService;
-    private final int chunkSize = 100;
+    private final int chunkSize = 1000;
 
     @Bean
     public Job OrderItemWriterJob() {
