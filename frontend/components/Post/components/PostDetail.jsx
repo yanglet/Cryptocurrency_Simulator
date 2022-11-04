@@ -68,7 +68,7 @@ function PostDetail({ content }) {
             value="수정"
           />    
             <button 
-            className="bg-gray-100 rounded-xl px-2 py-2 mr-2"
+            className="bg-gray-100 rounded-xl px-2 py-2 mr-2 font-semibold"
               onClick={() => {
                 deletePost(content.id);
               }}
