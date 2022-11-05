@@ -16,7 +16,7 @@ function Balance() {
       <div className="grid grid-cols-2 text-center border-b pb-11">
         <div className="text-lg  grid grid-cols-2 w-96">
           <div className=" text-gray-500">보유 KRW</div>
-          <div>{balance.toLocaleString()} KRW</div>
+          <div>{balance.toLocaleString(undefined, { maximumFractionDigits: 0 })} KRW</div>
         </div>
         <div className="text-lg grid grid-cols-2 w-96">
           <div className=" text-gray-500">총 보유자산 KRW</div>
