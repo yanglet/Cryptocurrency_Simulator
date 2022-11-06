@@ -30,7 +30,7 @@ function Balance() {
         <div className=" grid grid-cols-2">
           <div className="grid grid-cols-2 w-96">
             <div className=" text-gray-500">총 매수금액</div>
-            <div>{purchaseAmount.toLocaleString()} KRW</div>
+            <div>{purchaseAmount.toLocaleString(undefined, { maximumFractionDigits: 0 })} KRW</div>
           </div>
           <div className="grid grid-cols-2 w-96">
             <div className=" text-gray-500 pr-12">총 평가손익</div>

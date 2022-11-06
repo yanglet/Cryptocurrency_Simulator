@@ -22,7 +22,7 @@ function List({ content, data }) {
               <td>
                 {item.volume} {item.market.slice(-3)}
               </td>
-              <td>{Number(item.price).toLocaleString()} KRW</td>
+              <td>{Number(item.price).toLocaleString(undefined, { maximumFractionDigits: 0 })} KRW</td>
               {/* profit */}
               <td
                 className={
