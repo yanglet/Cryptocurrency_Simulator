@@ -136,7 +136,7 @@ function BuyForm({
               <p className="font-bold text-xl">
                 {isNaN(Number(balance)) === true
                   ? 0
-                  : Number(balance).toLocaleString()}
+                  : Number(balance).toLocaleString(undefined, { maximumFractionDigits: 0 })}
               </p>
               <p className="text-sm ml-3 my-auto text-gray-600">KRW</p>
             </div>
