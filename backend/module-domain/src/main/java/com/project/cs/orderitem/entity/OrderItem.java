@@ -52,6 +52,7 @@ public class OrderItem extends BaseEntity {
         BigDecimal b1 = new BigDecimal(this.price).multiply(BigDecimal.valueOf(this.volume));
         BigDecimal b2 = new BigDecimal(price).multiply(BigDecimal.valueOf(volume));
         BigDecimal add = b1.add(b2);
+        BigDecimal sub = b1.subtract(b2);
         double volAsk = this.volume - volume;
         double volBid = this.volume + volume;
         if(TYPE_ASK.equals(type)){ // 매도
@@ -59,7 +60,7 @@ public class OrderItem extends BaseEntity {
                 throw new IllegalArgumentException();
             }
             this.volume = volAsk;
-            this.price = String.valueOf(add.divide(BigDecimal.valueOf(volAsk), 2, BigDecimal.ROUND_CEILING));
+            this.price = String.valueOf(sub.divide(BigDecimal.valueOf(volAsk), 2, BigDecimal.ROUND_CEILING));
         }else if(TYPE_BID.equals(type)){ // 매수
             this.volume = volBid;
             this.price = String.valueOf(add.divide(BigDecimal.valueOf(volBid), 2, BigDecimal.ROUND_CEILING));
