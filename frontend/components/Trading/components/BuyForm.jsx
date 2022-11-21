@@ -23,7 +23,7 @@ function BuyForm({
   const [isVolumeValue, setIsVolumeValue] = useState(false);
   const [isTotalPriceValue, setIsTotalPriceValue] = useState(false);
   const [data, setData] = useState("");
-  const [range, setRange] = useState([MIN, MAX]);
+  const [range, setRange] = useState([0,0]);
 
   const id = `${tickerId}` - 1;
 
