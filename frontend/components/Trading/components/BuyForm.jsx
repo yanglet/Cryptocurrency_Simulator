@@ -1,7 +1,12 @@
 import React, { useCallback, useState, useEffect } from "react";
 import axios from "axios";
-import { ORDER } from "../../../pages/config"
+import { ORDER } from "../../../pages/config";
 import authHeader from "../../../services/auth-header";
+import RangeSlider from "./RangeSlider";
+
+const MIN = -100;
+const MAX = 100;
+
 function BuyForm({
   balance,
   type,
@@ -9,7 +14,7 @@ function BuyForm({
   tradingType,
   tradingPrice,
   btnColor,
-  tickerId
+  tickerId,
 }) {
   const [price, setPrice] = useState("");
   const [ordType, setOrdType] = useState("limit"); // 기본: 지정가
@@ -17,15 +22,23 @@ function BuyForm({
   const [totalPrice, setTotalPrice] = useState("");
   const [isVolumeValue, setIsVolumeValue] = useState(false);
   const [isTotalPriceValue, setIsTotalPriceValue] = useState(false);
-  const [data, setData] = useState("")
+  const [data, setData] = useState("");
+  const [range, setRange] = useState([MIN, MAX]);
+
   const id = `${tickerId}` - 1;
 
- // id에 해당하는 가상화폐 정보만 crytocurrenctyData에 data ㄴㄷㅅ
+  // id에 해당하는 가상화폐 정보만 crytocurrenctyData에 data ㄴㄷㅅ
   useEffect(() => {
-    { content && setData(content[id])}
-}, [content, id]);
-  console.log("1111", data)
+    {
+      content && setData(content[id]);
+    }
+  }, [content, id]);
+  console.log("1111", data);
 
+  const onChangeRange = (e) => {
+    console.log("range", e.target.value);
+    setRange(e.target.value);
+  };
 
   const handleChange = (event) => {
     console.log(event.target.value);
@@ -33,35 +46,37 @@ function BuyForm({
   };
 
   const onChangePrice = useCallback((e) => {
-    setPrice((e.target.value));
+    setPrice(e.target.value);
   }, []);
 
   const onChangeVolume = useCallback((e) => {
-    setVolume((e.target.value));
+    setVolume(e.target.value);
     setIsVolumeValue(true);
     setIsTotalPriceValue(false);
   }, []);
 
   const onChangeTotalPrice = useCallback((e) => {
     setIsVolumeValue(false);
-    setTotalPrice((e.target.value));
+    setTotalPrice(e.target.value);
     setIsTotalPriceValue(true);
   }, []);
 
-  // 주문수량, 주문가격 계산 
+  // 주문수량, 주문가격 계산
   useEffect(() => {
     if (isVolumeValue && isTotalPriceValue === false) {
-      setTotalPrice((price * volume));
+      setTotalPrice(price * volume);
     }
     if (isTotalPriceValue && isVolumeValue === false) {
-      setVolume((totalPrice / price))
+      setVolume(totalPrice / price);
     }
   }, [isTotalPriceValue, isVolumeValue, price, totalPrice, volume]);
-  console.log("type", typeof(volume))
+  console.log("type", typeof volume);
 
   // 가상화폐의 가격 price에 data set
   useEffect(() => {
-    { data && setPrice(`${data.trade_price}`);} 
+    {
+      data && setPrice(`${data.trade_price}`);
+    }
   }, [data]);
 
   const onSubmit = async (e) => {
@@ -78,6 +93,7 @@ function BuyForm({
             price,
             type: type,
             volume,
+            range,
           },
           {
             headers: authHeader(),
@@ -100,7 +116,10 @@ function BuyForm({
     <div className=" ">
       <div className="pt-2 px-4 border-r border-t">
         <div className="font-bold">{tradingType}</div>
-        <form className="mt-9 h-96 font-semibold text-gray-600" onSubmit={onSubmit}>
+        <form
+          className="pb-9 mt-9 font-semibold text-gray-600"
+          onSubmit={onSubmit}
+        >
           {/* 주문구분, 주문가능, 매수가격(KRW), 주문수량(GMT), 주문총액(KRW) */}
           <div className="flex justify-between">
             <label className="my-auto">주문구분</label>
@@ -136,7 +155,9 @@ function BuyForm({
               <p className="font-bold text-xl">
                 {isNaN(Number(balance)) === true
                   ? 0
-                  : Number(balance).toLocaleString(undefined, { maximumFractionDigits: 0 })}
+                  : Number(balance).toLocaleString(undefined, {
+                      maximumFractionDigits: 0,
+                    })}
               </p>
               <p className="text-sm ml-3 my-auto text-gray-600">KRW</p>
             </div>
@@ -156,7 +177,7 @@ function BuyForm({
                 <label className="my-auto">주문수량</label>
                 <input
                   className="border rounded-lg w-1/2 h-9 text-right"
-                  value={volume} 
+                  value={volume}
                   onChange={onChangeVolume}
                 />
               </div>
@@ -166,6 +187,16 @@ function BuyForm({
                   className="border rounded-lg w-1/2 h-9 text-right"
                   value={totalPrice}
                   onChange={onChangeTotalPrice}
+                />
+              </div>
+              <div className="flex justify-between mt-6">
+                <label className="my-auto">목표 수익률</label>
+                <RangeSlider
+                  range={range}
+                  setRange={setRange}
+                  onChangeRange={onChangeRange}
+                  MIN={MIN}
+                  MAX={MAX}
                 />
               </div>
               <div className="mt-14 text-center">
@@ -181,6 +212,16 @@ function BuyForm({
                   className="border rounded-lg w-1/2 h-9 text-right"
                   value={totalPrice}
                   onChange={onChangeTotalPrice}
+                />
+              </div>
+              <div className="flex justify-between mt-6">
+                <label className="my-auto">목표 수익률</label>
+                <RangeSlider
+                  range={range}
+                  setRange={setRange}
+                  onChangeRange={onChangeRange}
+                  MIN={MIN}
+                  MAX={MAX}
                 />
               </div>
               <div className="mt-44 text-center">
