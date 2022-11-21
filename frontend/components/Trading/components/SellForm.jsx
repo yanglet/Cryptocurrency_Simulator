@@ -85,7 +85,8 @@ function SellForm({
           }
         )
         .then(
-          () => {
+          (response) => {
+            console.log(response)
             alert("주문 완료! ");
           },
           (error) => {
@@ -111,9 +112,9 @@ function SellForm({
 
   return (
     <div className=" ">
-      <div className="pt-2 px-4 border-r border-t">
+      <div className="pb-9 pt-2 px-4 border-r border-t">
         <div className="font-bold">{tradingType}</div>
-        <form className="font-semibold mt-9 h-96 text-gray-600" onSubmit={onSubmit}>
+        <form className="font-semibold mt-9  text-gray-600" onSubmit={onSubmit}>
           {/* 주문구분, 주문가능, 매수가격(KRW), 주문수량(GMT), 주문총액(KRW) */}
           <div className="flex justify-between">
             <label className="my-auto ">주문구분</label>
@@ -183,7 +184,7 @@ function SellForm({
                   onChange={onChangeTotalPrice}
                 />
               </div>
-              <div className="mt-14 text-center">
+              <div className="mt-28 text-center">
                 <button className={btnColor}>{tradingType}</button>
               </div>
             </div>
@@ -198,7 +199,7 @@ function SellForm({
                   onChange={onChangeVolume}
                 />
               </div>
-              <div className="mt-44 text-center">
+              <div className="mt-60 text-center">
                 <button className={btnColor}>{tradingType}</button>
               </div>
             </div>
