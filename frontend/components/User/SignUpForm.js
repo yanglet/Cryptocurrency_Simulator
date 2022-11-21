@@ -14,10 +14,10 @@ function SignUpForm(props) {
 
   const handleBotYn = (e) => {
     if (e.target.checked) {
-      setBotYn("y");
+      setBotYn("Y");
       console.log(botYn);
     } else {
-      setBotYn("n");
+      setBotYn("N");
       console.log(botYn);
     }
   };
