@@ -50,6 +50,7 @@ public class MemberService {
                 .name(signUpRequest.getName())
                 .balance(signUpRequest.getBalance())
                 .role("ROLE_USER")
+                .botYn(signUpRequest.getBotYn().equals("Y"))
                 .ranking(ranking)
                 .build();
 

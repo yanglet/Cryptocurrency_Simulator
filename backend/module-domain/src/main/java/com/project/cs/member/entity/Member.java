@@ -1,5 +1,6 @@
 package com.project.cs.member.entity;
 
+import com.project.cs.common.converter.BooleanToYnConverter;
 import com.project.cs.common.entity.BaseEntity;
 import com.project.cs.ranking.entity.Ranking;
 import lombok.AccessLevel;
@@ -22,18 +23,21 @@ public class Member extends BaseEntity {
     private String name;
     private BigDecimal balance; // 주문가능 금액 (보유 금액)
     private String role;
+    @Convert(converter = BooleanToYnConverter.class)
+    private boolean botYn;
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ranking_id")
     private Ranking ranking;
 
     @Builder
-    public Member(String email, String password, String name, BigDecimal balance, Ranking ranking, String role) {
+    public Member(String email, String password, String name, BigDecimal balance, boolean botYn, Ranking ranking, String role) {
         this.email = email;
         this.password = password;
         this.name = name;
         this.balance = balance;
         this.ranking = ranking;
         this.role = role;
+        this.botYn = botYn;
     }
 
     public void buy(String price, Double volume){

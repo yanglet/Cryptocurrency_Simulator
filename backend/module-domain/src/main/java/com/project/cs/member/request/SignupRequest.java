@@ -31,4 +31,5 @@ public class SignupRequest {
     @Min(value = 10000)
     @ApiParam(value = "보유 금액")
     private BigDecimal balance;
+    private String botYn;
 }
