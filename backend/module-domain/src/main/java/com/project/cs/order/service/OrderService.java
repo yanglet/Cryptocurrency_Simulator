@@ -121,6 +121,7 @@ public class OrderService {
     // 주문 저장
     public Order saveOrder(OrderRequest orderRequest, Member member) {
         boolean noticeYn = !ORDER_TYPE_LIMIT.equals(orderRequest.getOrdType()); // 시장가 거래는 알림없음
+        boolean targetYn = rangeCheck(orderRequest.getRange());
 
         Order order = Order.builder()
                 .koreanName(orderRequest.getKoreanName())
@@ -132,6 +133,9 @@ public class OrderService {
                 .price(orderRequest.getPrice())
                 .volume(orderRequest.getVolume())
                 .noticeYn(noticeYn)
+                .targetYn(targetYn)
+                .lowerBound(targetYn ? orderRequest.getRange().get(0) : 0)
+                .upperBound(targetYn ? orderRequest.getRange().get(1) : 0)
                 .member(member)
                 .build();
 
@@ -187,6 +191,21 @@ public class OrderService {
     }
 
     /**
+     * 목표 수익률에 따른 주문 체결 ( 무조건 시장가 매도만 체결 )
+     *
+     * 배치에서 orderItem.order.targetYn 이 Y인 애들을 불러와서
+     * 목표 수익률에 해당하는 price랑 현재가가 일치한다면 이 함수 호출
+     */
+    public void completeSecondOrder(OrderItem orderItem, double price, String type) {
+        entityManager.detach(orderItem);
+        OrderItem fetchOrderItem = orderItemRepository.findByIdFetch(orderItem.getId());
+
+        fetchOrderItem.getMember().sell(String.valueOf(price), orderItem.getVolume());
+
+        orderItemRepository.delete(orderItem);
+    }
+
+    /**
      * - 주문 취소 -
      *
      * -> status 를 취소로 바꿈 & 지정가 매수 주문이었다면 돈을 다시 돌려줘야함
@@ -223,6 +242,38 @@ public class OrderService {
                 .stream()
                 .map(OrderDto::new)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * orderItem 에 목표 수익률을 체크 했는지 안했는지 type 추가
+     * orderItem 에 목표 수익률 두개 upperBound, lowerBound 추가
+     * type으로 목표 수익률을 체크한 orderItem 이라면 배치 추가
+     * -> 현재가랑 매수 가격이랑 비교해서
+     * -> upperBound, lowerBound 의 %에 해당하는 price 인지 확인해서 시장가 매도하는 job
+     *
+     * 근데 그 이전에 order 가 체결될 때 orderItem이 생성되므로
+     * order 도 이에 대한 상태 추가가 필요함.
+     *
+     * 아니지 orderItem에 order가 들어있으니까 order에만 상태 추가하면 될듯 ?
+     *
+     * 결과적으로 orderItem 에 upperBound, lowerBound 추가하고
+     * order에 목표 수익률 체크했는지에 대한 상태 추가하고
+     * orderItem ( order 가 fetch join 된 )를 돌리면서
+     * ( orderItem의 order가 목표수익률 체크했는지 보려고 fetch join )
+     * 가격이 맞을 때 시장가 매수 때려주는 job만 있으면 된다?
+     */
+
+    private boolean rangeCheck(List<Integer> range) {
+        if(range.isEmpty() || range.get(0) > 0 || range.get(1) < 0){
+            return false;
+        }
+
+        return true;
+    }
+
+    private String getOrderPrice(String price, Integer profit) {
+        Integer result = Integer.valueOf(price) + Integer.valueOf(price) * profit / 100;
+        return String.valueOf(result);
     }
 
     private void loginCheck(Member member) {

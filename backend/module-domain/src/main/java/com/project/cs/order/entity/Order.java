@@ -34,12 +34,16 @@ public class Order extends BaseEntity {
     private Double volume; // 수량
     @Convert(converter = BooleanToYnConverter.class)
     private boolean noticeYn; // 체결됐을 때 주문의 알림 여부
+    @Convert(converter = BooleanToYnConverter.class)
+    private boolean targetYn; // 목표 수익률이 있는지
+    private Integer upperBound;
+    private Integer lowerBound;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
     @Builder
-    public Order(String koreanName, String englishName, String market, String type, String ordType, String status, String price, Double volume, boolean noticeYn, Member member) {
+    public Order(String koreanName, String englishName, String market, String type, String ordType, String status, String price, Double volume, boolean noticeYn, boolean targetYn, Integer upperBound, Integer lowerBound, Member member) {
         this.koreanName = koreanName;
         this.englishName = englishName;
         this.market = market;
@@ -49,6 +53,9 @@ public class Order extends BaseEntity {
         this.price = price;
         this.volume = volume;
         this.noticeYn = noticeYn;
+        this.targetYn = targetYn;
+        this.upperBound = upperBound;
+        this.lowerBound = lowerBound;
         this.member = member;
     }
 
@@ -58,5 +65,9 @@ public class Order extends BaseEntity {
 
     public void changeNoticeYn(){
         this.noticeYn = !this.noticeYn;
+    }
+
+    public void changeTargetYn(){
+        this.targetYn = !this.targetYn;
     }
 }
