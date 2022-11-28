@@ -170,7 +170,7 @@ public class OrderService {
             OrderItem orderItem = orderItemRepository.findByMemberAndMarket(order.getMember(), order.getMarket());
 
             if (orderItem.getVolume() - order.getVolume() > 0) {
-                orderItem.change(order.getType(), order.getVolume(), order.getPrice());
+                orderItem.change(order.getType(), order.getVolume(), order.getPrice(), fetchOrder);
                 return;
             }
 
@@ -182,7 +182,7 @@ public class OrderService {
 
             if (orderItemRepository.existsByMemberAndMarket(order.getMember(), order.getMarket())) {
                 orderItemRepository.findByMemberAndMarket(order.getMember(), order.getMarket())
-                        .change(order.getType(), order.getVolume(), order.getPrice());
+                        .change(order.getType(), order.getVolume(), order.getPrice(), fetchOrder);
                 return;
             }
 
@@ -199,6 +199,24 @@ public class OrderService {
     public void completeSecondOrder(OrderItem orderItem, double price, String type) {
         entityManager.detach(orderItem);
         OrderItem fetchOrderItem = orderItemRepository.findByIdFetch(orderItem.getId());
+
+        Order order = Order.builder()
+                .koreanName(fetchOrderItem.getKoreanName())
+                .englishName(fetchOrderItem.getEnglishName())
+                .market(fetchOrderItem.getMarket())
+                .type(TYPE_ASK)
+                .ordType(ORDER_TYPE_MARKET)
+                .status(ORDER_STATUS_COMPLETE)
+                .price(String.valueOf(price))
+                .volume(fetchOrderItem.getVolume())
+                .noticeYn(true)
+                .targetYn(false)
+                .lowerBound(0)
+                .upperBound(0)
+                .member(fetchOrderItem.getMember())
+                .build();
+
+        orderRepository.save(order);
 
         fetchOrderItem.getMember().sell(String.valueOf(price), orderItem.getVolume());
 

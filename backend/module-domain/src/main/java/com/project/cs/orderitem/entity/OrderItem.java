@@ -48,7 +48,7 @@ public class OrderItem extends BaseEntity {
         this.order = order;
     }
 
-    public void change(String type, Double volume, String price){
+    public void change(String type, Double volume, String price, Order order){
         BigDecimal b1 = new BigDecimal(this.price).multiply(BigDecimal.valueOf(this.volume));
         BigDecimal b2 = new BigDecimal(price).multiply(BigDecimal.valueOf(volume));
         BigDecimal add = b1.add(b2);
@@ -65,5 +65,6 @@ public class OrderItem extends BaseEntity {
             this.volume = volBid;
             this.price = String.valueOf(add.divide(BigDecimal.valueOf(volBid), 2, BigDecimal.ROUND_CEILING));
         }
+        this.order = order;
     }
 }
